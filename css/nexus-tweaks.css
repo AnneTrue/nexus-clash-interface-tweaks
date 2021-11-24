@@ -1,0 +1,44 @@
+/* General & Message History Styling */
+.libNoWrap { white-space: nowrap ! important; }
+.libHide { display: none ! important; }
+.libPetHit { font-size: smaller; color: lightcoral ! important; padding-left: 4em; }
+.libPetHitMe { font-size: smaller; color: red ! important; padding-left: 4em; }
+.libPetKill { font-size: smaller; color: crimson; padding-left: 4em; }
+.libPetMiss { font-size: smaller; color: #CAA083; padding-left: 4em; }
+.libPetHealOthers { font-size: smaller; color: #5050aa; padding-left: 4em; }
+.libPetHealMe { font-size: smaller; color: #0808aa; padding-left: 4em; }
+.libPetRejuv { font-size: smaller; color: #aa50aa; padding-left: 4em; }
+.libPetDespawn { font-size: smaller; color: #ff8000; padding-left: 4em;}
+.libAttackHit { color: red ! important; }
+.libAttackMiss { color: deeppink; }
+.libAttacked { color: red; font-weight: 600; }
+.libAttackedbyEnvironment { color: red; font-weight: 100; }
+.libHealed { color: #0808aa; }
+.libAchievement { font-size: smaller; padding-left: 4em; }
+.libAchievementColour { color: #aa0000; }
+.libSpeech { color: dodgerblue; }
+.libEmote{ color: darkblue; }
+.libReceiveItem{ color: #ff8040; }
+.libCraft{ color: #8d4f9d; }
+.libSearchNothing{ color: #8c8c55; }
+.libSearchSuccess{ color: #8c8c00; }
+.libShadows{ color: #dd0101; font-weight: bold; }
+.libLights{ color: dodgerblue; }
+.libLightsOff{ color: #bf4020; }
+.libFaded { color: red; }
+.libKill { color: red; font-weight: 600; }
+.libGave { color: #bf4020; }
+.libSummon { color: red ! important; }
+.libFort { color: #9900ff; font-size: smaller; }
+.libGood { color: #11dd11; }
+.libBad { color: #dd1111; }
+.libLink {
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+.libUnknown {}
