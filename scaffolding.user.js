@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks Scaffolding
-// @version     1.0
+// @version     1.1
 // @description Scaffolding and API for nexus-tweaks
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -183,7 +183,7 @@ function NexusTweaksScaffolding() {
       await createSettingsRow(temptable, nexusTweaksMod);
       const settingElements = await nexusTweaksMod.getSettingElements();
       for (const setElem of settingElements) {
-        await addToRow(nexusTweakMod.id, setElem);
+        await addToRow(nexusTweaksMod.id, setElem);
       }
     }
   }
@@ -198,24 +198,25 @@ function NexusTweaksScaffolding() {
     // wait for module registration promises
     await Promise.all(this.promises);
 
-    for (const nexusTweakMod of this.modules) {
-      if (await nexusTweakMod.isEnabled() !== true) { continue; }
+    for (const nexusTweaksMod of this.modules) {
+      if (await nexusTweaksMod.isEnabled() !== true) { continue; }
       try {
-        this.debug(`Running (sync) module [${nexusTweakMod.name}]`);
-        await nexusTweakMod.runSync();
+        this.debug(`Running (sync) module [${nexusTweaksMod.name}]`);
+        await nexusTweaksMod.runSync();
       } catch (err) {
-        this.error(`Error while (sync) running ${nexusTweakMod.name}: ${err.message}`);
+        this.error(`Error while (sync) running ${nexusTweaksMod.name}: ${err.message}`);
       }
     }
 
     await createSettingsPane();
 
-    const mapRunAsync = async (nexusTweakMod) => {
-      if (!await nexusTweakMod.isEnabled()) { return; }
+    const mapRunAsync = async (nexusTweaksMod) => {
+      if (!await nexusTweaksMod.isEnabled()) { return; }
       try {
-        await nexusTweakMod.runAsync();
+        this.debug(`Running (async) module [${nexusTweaksMod.name}]`);
+        await nexusTweaksMod.runAsync();
       } catch (err) {
-        this.error(`Error while (async) running ${nexusTweakMod.name}: ${err.message}`);
+        this.error(`Error while (async) running ${nexusTweaksMod.name}: ${err.message}`);
       }
     }
     const asyncPromises = this.modules.map(mapRunAsync);
