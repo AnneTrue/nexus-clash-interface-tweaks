@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.0
+// @version     1.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -24,7 +24,7 @@ const myPromise = nexusTweaks.registerPromise(); // script-file promise
 const promiseList = []; // individual module promises
 
 
-//#############################################################################
+//##############################################################################
 // Generic functions
 
 // returns number of char c in x
@@ -33,7 +33,7 @@ function timesCharExist(x, c){
 }
 
 
-//#############################################################################
+//##############################################################################
 promiseList.push((async () => {
   const mod = await nexusTweaks.registerModule(
     'messagestyle',
@@ -240,6 +240,115 @@ promiseList.push((async () => {
   );
 })());
 
+
+//##############################################################################
+promiseList.push((async () => {
+  const mod = await nexusTweaks.registerModule(
+    'inventoryTweaks',
+    'Inventory Tweaks',
+    'local',
+    'Inventory functions such as hiding weightless items and contextual buttons.',
+  );
+  const hideClass = 'nexusTweaksHideWeightless';
+
+  const getInventoryTableBody = () => {
+    const invTBodyResult = document.evaluate(
+      "//b[starts-with(.,'INVENTORY')]/../../../..",
+      document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
+     );
+     if (invTBodyResult.snapshotLength === 1) {
+       return invTBodyResult.snapshotItem(0);
+     } else {
+       mod.debug('No inventory table body found, or too many found.');
+       return null;
+     }
+  }
+
+  const getInventoryTableHead = (invTBody) => {
+    if (invTBody === null) { return null; }
+    const invHeadResult = document.evaluate(
+      "//th[starts-with(.,'Item')]",
+      invTBody, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
+    );
+    if (invHeadResult.snapshotLength === 1) {
+      return invHeadResult.snapshotItem(0);
+    } else {
+      mod.debug('No inventory table head found, or too many found.');
+      return null;
+    }
+  }
+
+  const inventoryToggle = (e) => {
+    const button = e.target;
+    let action = null;
+    if (button.value === 'Show') {
+      button.value = 'Hide';
+      action = 'table-row';
+    } else if (button.value === 'Hide') {
+      button.value = 'Show';
+      action = 'none';
+    }
+    mod.setSetting('inventory-toggle-hide', action);
+    const elements = document.getElementsByClassName(hideClass);
+    for (const element of elements) {
+      element.style.display = action;
+    }
+  }
+
+  const hideWeightless = async (mod) => {
+    const disabled = await mod.getSetting('always-show-weightless');
+    if (disabled === true) { return; }
+    const invTBody = getInventoryTableBody();
+    const invTHead = getInventoryTableHead(invTBody);
+    if (invTHead === null) { return; }
+    let hideState = 'table-row';
+    if (await mod.getSetting('inventory-toggle-hide') !== 'table-row') {
+      hideState = 'none';
+    }
+    // Create and add the show/hide button at the top of inventory
+    const hideButton = document.createElement('input');
+    hideButton.type = 'submit';
+    hideButton.className = 'item_use';
+    if (hideState === 'none') {
+      hideButton.value = 'Show';
+    } else {
+      hideButton.value = 'Hide';
+    }
+    hideButton.addEventListener('click', inventoryToggle, false);
+    invTHead.nextElementSibling.appendChild(hideButton);
+    // Now actually hide all weightless items
+    for (const child of invTBody.children) {
+      if (child.children[3] && child.children[3].textContent === '0') {
+        // We want weightless items that can be manabitten to show up always
+        const manabiteMissing = document.evaluate(
+          "input[@value='Manabite']",
+          child.children[1], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
+        ).snapshotLength === 0
+        if (manabiteMissing) {
+          child.className = hideClass;
+          child.style.display = hideState;
+        }
+      }
+    }
+  }
+
+  await mod.registerSetting(
+    'checkbox',
+    'always-show-weightless',
+    'Always Show Weightless Items',
+    'Not recommended to enable. Always displays weightless items, instead of hiding them.',
+    null,
+  )
+
+  await mod.registerMethod(
+    'async',
+    hideWeightless
+  );
+})());
+
+
+//##############################################################################
+// Must be last executed step, as this unlocks nexusTweaks to run
 (async () => {
   nexusTweaks.addGlobalStyle(await GM.getResourceUrl('nexusTweaksCSS'));
   await Promise.all(promiseList);
