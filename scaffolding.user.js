@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks Scaffolding
-// @version     1.1
+// @version     1.1.1
 // @description Scaffolding and API for nexus-tweaks
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True

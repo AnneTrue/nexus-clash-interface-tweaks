@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.1
+// @version     1.1.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -42,7 +42,7 @@ promiseList.push((async () => {
     'Adds styling to the message history to improve ease of reading. Includes combat actions, searches, speech, and more. Runs in both in-game and the character profile\'s week log',
   );
 
-  const pfx = '^[ ]?- (?:\\(\\d+ times\\) )?'; // message prefix
+  const pfx = '^- (?:\\(\\d+ times\\) )?'; // message prefix
   const globalMatches = [
     { // fix the a(n) text based on vowels
       msg: /( a)(\((n)\)( [AEIOUaeiou])|\(n\)( [^AEIOUaeiou]))/g,
@@ -321,10 +321,15 @@ promiseList.push((async () => {
       if (child.children[3] && child.children[3].textContent === '0') {
         // We want weightless items that can be manabitten to show up always
         const manabiteMissing = document.evaluate(
-          "input[@value='Manabite']",
+          ".//input[@class='item_use' and starts-with(@value, 'Manabite')]",
           child.children[1], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
         ).snapshotLength === 0
-        if (manabiteMissing) {
+        // We also want to unconditionally display worn items
+        const removeMissing = document.evaluate(
+          ".//input[@class='item_use' and starts-with(@value, 'Remove')]",
+          child.children[1], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
+        ).snapshotLength === 0
+        if (manabiteMissing && removeMissing) {
           child.className = hideClass;
           child.style.display = hideState;
         }

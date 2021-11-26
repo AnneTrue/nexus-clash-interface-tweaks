@@ -24,4 +24,4 @@ A local module that improves the inventory interface.
 
 By default, it hides weightless items in the inventory and adds a toggle button to the top of the pane to show/hide them.
 
-Items that can be manabitten will be displayed regardless of weight.
+Items that can be manabitten will be displayed regardless of weight, as will worn clothing items.
