@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.4.0
+// @version     1.4.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -345,7 +345,7 @@ promiseList.push((async () => {
     const itemSpan = document.createElement('span');
     itemSpan.className = 'libLights';
     itemSpan.textContent = `There are ${countItemsToPickup} items to pickup, ${countItemsToShoot} of which are targets.`;
-    skyDescResult.snapshotItem(0).insertAdjacentElement('afterend', span);
+    skyDescResult.snapshotItem(0).insertAdjacentElement('afterend', itemSpan);
   }
 
   await mod.registerMethod(
