@@ -24,6 +24,9 @@ A global module that prevents you from accidentally sending empty messages via b
 
 It disables the Say/Bullhorn buttons if the associated input field is empty.
 
+## Global Description Highlights
+A global module that highlights building light status in the description, and displays how many items are available for pickup/target shooting.
+
 ## Inventory Tweaks
 A local module that improves the inventory interface.
 
