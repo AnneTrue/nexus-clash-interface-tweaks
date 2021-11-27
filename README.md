@@ -40,10 +40,23 @@ If a character is at full health (or full magic with Sense Magic), then their re
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the Nexus forum thread with ideas, contact AnneTrue on discord, and more.
 
-Expect pull requests to be code reviewed or taken over and adapated to the codebase.
+Expect pull requests to be code reviewed, or taken over and adapted to the codebase.
+
+Refer to the checklist for release to understand current practices for committing code.
 
 ## Checklist for Release
 * Script version bumped (and in sync) between both scaffolding.user.js and nexus-tweaks.user.js
+
 * Major release bumps e.g. 1.x.x -> 2.x.x for scaffolding changes, minor release bumps for new modules/removed modules, point releases for fixes and tweaks within a module
+
 * README.md updated to include feature details (if applicable)
-* One standalone commit per feature/fix
+
+* One standalone commit per feature/fix. Don't make changes that depend on prior commits when it can be avoided
+
+* One pull request per feature/fix, please don't try to combine several different changes into one PR as it makes it more difficult to review
+
+* Short summary on the first line of commit message (<50 characters)
+
+* Commit message describes which module is affected
+
+* Rebase and merge PRs, or squash and merge
