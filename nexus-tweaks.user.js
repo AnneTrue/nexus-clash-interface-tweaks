@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.4.1
+// @version     1.4.2
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -295,7 +295,7 @@ promiseList.push((async () => {
 
   const buildingLights = async (mod) => {
     const lightSpanResult = document.evaluate(
-      "//span[@class='building_lights']",
+      "//span[@class='building_lights' or @class='neighborhood_lights']",
       document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
     );
     if (lightSpanResult.snapshotLength !== 1) {
