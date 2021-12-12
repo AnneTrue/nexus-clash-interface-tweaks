@@ -30,7 +30,10 @@ A global module that highlights building light status in the description, and di
 ## Inventory Tweaks
 A local module that improves the inventory interface.
 
-By default, it hides weightless items in the inventory and adds a toggle button to the top of the pane to show/hide them.
+By default, the module adds a contextual use button to the inventory rows.
+This button can be used to give an item, store an item in a footlocker, or store in a safe, depending on the selected option at the top of the inventory.
+
+By default, the module also hides weightless items in the inventory and adds a toggle button to the top of the pane to show/hide them.
 
 Items that can be manabitten will be displayed regardless of weight, as will worn clothing items.
 
