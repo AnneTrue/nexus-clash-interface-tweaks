@@ -42,6 +42,16 @@ A local module that reduces visual clutter for characters in the area and makes 
 
 If a character is at full health (or full magic with Sense Magic), then their resource bar is thinner.
 
+## Character List Tweaks
+A local module that reworks the character list section.
+
+### Thalanor's Visual Character List
+Replaces the textual character list with a two-column table sorted by allegiance and health.
+Shows a proportional health and magic bar when the appropriate skills are available.
+
+Characters taking damage since the last refresh will show a corresponding health bar animation to quickly notice combat actions in the area.
+Characters entering or reentering a location will be labeled with a "NEW" status tag to more easily notice them within a highly populated area.
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the Nexus forum thread with ideas, contact AnneTrue on discord, and more.

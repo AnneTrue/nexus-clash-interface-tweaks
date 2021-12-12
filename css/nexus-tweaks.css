@@ -42,3 +42,254 @@
   display: inline;
 }
 .libUnknown {}
+
+
+/* Thalanor's Visual Character Table */
+
+.char-div {
+  float: left;
+  padding: 0px;
+  margin: 2px 2px 2px 6px;
+  height: 15px;
+  width: 370px;
+  font-weight: bold;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  background: rgba(204,204,204,1);
+  background: linear-gradient(0deg, rgba(204,204,204,1) 0%, rgba(230,230,230,1) 100%);
+}
+
+.char-div-element {
+  padding: 0px;
+  margin: 0px;
+  height: 15px;
+  position: absolute;
+  top: 0px;
+}
+
+.level-div {
+  text-align: center;
+  vertical-align: middle;
+  width: 24px;
+  border-right: 1px solid white;
+  left: 0;
+}
+
+.level-div a {
+  text-decoration: none;
+}
+
+.name-div {
+  text-align: center;
+  vertical-align: middle;
+  width: 159px;
+  border-right: 1px solid white;
+  left: 25px;
+  cursor: pointer;
+}
+
+.status-images {
+  padding: 0px;
+  margin: 0px;
+  height: 14px;
+  float: right;
+}
+
+.bar-segments-div {
+  top: 2px;
+  height: 11px;
+  width: 1px;
+  left: 188px;
+  background-color: #000000;
+  z-index: 45;
+  pointer-events: none;
+}
+
+.hp-div {
+  top: 2px;
+  height: 9px;
+  left: 188px;
+}
+
+.hp-div-max {
+  z-index: 10;
+  width: 50px;
+  background: #000000;
+  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(92,92,92,1) 100%);
+  border: 1px solid black;
+}
+
+.hp-div-current {
+  z-index: 30;
+  width: 50px;
+  background-color: #ff0000;
+  border: 1px solid black;
+}
+
+@keyframes hurtAnimation {
+  0%{ opacity: 1; background-color: #ffffff}
+  10%{ opacity: 1; background-color: #ff0000}
+  20%{ opacity: 1; background-color: #ffffff}
+  30%{ opacity: 1; background-color: #ff0000}
+  40%{ opacity: 1; background-color: #ffffff}
+  50%{ opacity: 1; background-color: #ff0000}
+  60%{ opacity: 1; background-color: #ffffff}
+  100%{ opacity: 0;}
+}
+
+.hp-div-hurt {
+  z-index: 40;
+  top: 3px;
+  background-color: #ffffff;
+  animation-name: hurtAnimation;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+  border: 0px;
+}
+
+@keyframes healAnimation {
+  0%{ opacity: 0;}
+  50%{ opacity: 1;}
+  100%{ opacity: 0;}
+}
+
+.hp-div-heal {
+  z-index: 40;
+  top: 3px;
+  background-color: #ffffff;
+  animation-name: healAnimation;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+  border: 0px;
+}
+
+.hp-full {
+  background: #00ff00;
+  background: linear-gradient(0deg, #00aa00 0%, #00ff00 100%);
+}
+
+.hp-injured {
+  background: #ffff00;
+  background: linear-gradient(0deg, #aaaa00 0%, #ffff00 100%);
+}
+
+.hp-serious {
+  background: #ff7700;
+  background: linear-gradient(0deg, #aa4400 0%, #ff7700 100%);
+}
+
+.hp-critical {
+  background: #ff0000;
+  background: linear-gradient(0deg, #aa0000 0%, #ff0000 100%);
+}
+
+.mp-div {
+  top: 8px;
+  height: 3px;
+  left: 188px;
+}
+
+.mp-div-max {
+  z-index: 50;
+  width: 20px;
+  background-color: #004499;
+  border: 1px solid black;
+}
+
+.mp-div-current {
+  z-index: 60;
+  width: 20px;
+  background: #0099ff;
+  background: linear-gradient(0deg, rgba(0,128,255,1) 0%, rgba(0,187,255,1) 100%);
+  border: 1px solid black;
+}
+
+.politics-faction {
+  color: #660066;
+  background: #ffbbff;
+  background: linear-gradient(0deg, rgba(255,195,255,1) 0%, rgba(255,195,255,0) 100%);
+}
+
+.politics-ally {
+  color: #004400;
+  background: #bbffbb;
+  background: linear-gradient(0deg, rgba(180,240,180,1) 0%, rgba(180,240,180,0) 100%);
+}
+
+.politics-friendly {
+  color: #003366;
+  background: #bbddff;
+  background: linear-gradient(0deg, rgba(160,230,255,1) 0%, rgba(160,230,255,0) 100%);
+}
+
+.politics-neutral {
+  color: #000000;
+}
+
+.politics-hostile {
+  color: #663300;
+  background: #ffddbb;
+  background: linear-gradient(0deg, rgba(255,230,160,1) 0%, rgba(255,230,160,0) 100%);
+}
+
+.politics-enemy {
+  color: #660000;
+  background: #ffbbbb;
+  background: linear-gradient(0deg, rgba(255,195,195,1) 0%, rgba(255,195,195,0) 100%);
+}
+
+.status-tag {
+  height: 15px;
+  margin: 0px;
+  padding-left: 2px;
+  padding-right: 2px;
+  z-index: 100;
+  float: right;
+  border-left: 1px solid white;
+  vertical-align: middle;
+  color: black;
+}
+
+@keyframes newTargetFlashAnimation {
+  0%{ background-color: rgba(255,200,0,0);}
+  50%{ background-color: rgba(255,200,0,1);}
+  100%{ background-color: rgba(255,200,0,0);}
+}
+
+.status-tag-standard {
+  background-color: #cccccc;
+}
+
+.status-tag-new {
+  animation-name: newTargetFlashAnimation;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+  animation-iteration-count:infinite;
+}
+
+.status-tag-ev {
+  background: rgba(0,0,0,1);
+  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(153,153,153,1) 100%);
+  color: white;
+}
+
+.status-tag-nt {
+  background: rgba(153,153,153,1);
+  background: linear-gradient(0deg, rgba(153,153,153,1) 0%, rgba(204,204,204,1) 100%);
+}
+
+.status-tag-gd {
+  background: rgba(255,255,255,1);
+  background: linear-gradient(0deg, rgba(204,204,204,1) 0%, rgba(255,255,255,1) 100%);
+}
+
+.status-tag-positive {
+  background: rgba(255,255,255,1);
+  background: linear-gradient(0deg, rgba(153,204,255,1) 0%, rgba(153,204,255,0) 100%);
+}
+
+.status-tag-negative {
+  background: rgba(255,153,153,1);
+  background: linear-gradient(0deg, rgba(255,153,153,1) 0%, rgba(255,153,153,0) 100%);
+}
