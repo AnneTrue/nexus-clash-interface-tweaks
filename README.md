@@ -58,6 +58,8 @@ Refer to the checklist for release to understand current practices for committin
 
 * One pull request per feature/fix, please don't try to combine several different changes into one PR as it makes it more difficult to review
 
+* Pull request against "main" branch
+
 * Short summary on the first line of commit message (<50 characters)
 
 * Commit message describes which module is affected
