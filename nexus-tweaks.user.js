@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.6.1
+// @version     1.6.2
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -325,7 +325,7 @@ promiseList.push((async () => {
       if (round9to10 && value % 10 === 9) {
         effectiveValue++;
       }
-      return effectiveValue + Math.floor((effectiveValue-1)/10);
+      return effectiveValue + Math.max(0, Math.floor((effectiveValue-1)/10));
     };
     const previousHpOffset = getPixelOffset(person.previousHp);
     const currentHpOffset = getPixelOffset(person.currentHp);
