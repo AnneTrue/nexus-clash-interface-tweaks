@@ -170,8 +170,8 @@
 }
 
 .hp-injured {
-  background: #ffff00;
-  background: linear-gradient(0deg, #aaaa00 0%, #ffff00 100%);
+  background: #ffee00;
+  background: linear-gradient(0deg, #aaaa00 0%, #ffee00 100%);
 }
 
 .hp-serious {

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.6.2
+// @version     1.6.3
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -330,13 +330,14 @@ promiseList.push((async () => {
     const previousHpOffset = getPixelOffset(person.previousHp);
     const currentHpOffset = getPixelOffset(person.currentHp);
     const maxHpOffset = getPixelOffset(person.maxHp);
+    const levelOrRank = person.rank ? person.rank : person.level;
 
     // create html for character
     let resultHtml = `
       <div class="char-div">
         <div class="char-div-element level-div">
           <a href="https://nexusclash.com/clash.php?op=character&id=${person.id}"
-           target="_blank">${person.level}</a>
+           target="_blank">${levelOrRank}</a>
         </div>
         <div class="char-div-element name-div politics-${person.politics}" 
         onclick="SelectItem(\'target_id\',\'${person.id}\')">
