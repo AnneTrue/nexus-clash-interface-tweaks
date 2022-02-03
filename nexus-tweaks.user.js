@@ -1145,6 +1145,135 @@ promiseList.push((async () => {
 
 
 //##############################################################################
+promiseList.push((async () => {
+    const mod = await nexusTweaks.registerModule(
+        'inventorySort',
+        'Inventory Sorter',
+        'local',
+        'Sort and Categorize Inventory Items.',
+    );
+
+    const matchAny = (string, matchArray) => {
+        for (const m of matchArray) {
+            if (string.includes(m)) return true;
+        }
+        return false;
+    }
+
+    const sortInventory = (mod) => {
+        const inv = document.getElementById('inventory')
+        if (!inv) return;
+        const itable = inv.querySelector('tbody')
+
+        const categories = {
+            Armor: [
+                'Chainmail Shirt', 'Fireman\'s Jacket', 'Leather Cuirass', 'Leather Jacket', 'Plate Cuirass',
+                'Suit of Gothic Plate', 'Suit of Light Body Armor', 'Suit of Military Encounter Armor',
+                'Suit of Police Riot Armor', 'Suit of Rusty Armor'
+            ],
+            Weapons: [
+                'Axe', 'Baseball Bat', 'Battleaxe', 'Blackened Gauntlet', 'Broken Bottle', 'Bullwhip', 'Carving Knife',
+                'Cat of Nine Tails', 'Cavalry Saber', 'Chainsaw', 'Chaos Shard', 'Chunk of Cobblestone', 'Compound Bow',
+                'Concussion Grenade', 'Crowbar', 'Cutlass', 'Dagger', 'Double-Barrelled Shotgun', 'Fishing Pole', 'Fist',
+                'Flamethrower', 'Flaming Pitchfork', 'Flaming Sword', 'Flintlock Pistol', 'Flintlock Rifle', 'Fragmentation Grenade',
+                'Frozen Gauntlet', 'Frying Pan', 'Golf Club', 'Greater Rod of Doom', 'Greater Rod of Flame', 'Greater Rod of Frost',
+                'Greater Rod of Lightning', 'Harpoon', 'Harpoon Gun', 'Hatchet', 'Icy Blade', 'Katar', 'Kick', 'Length of Chain',
+                'Long Bow', 'Long Rifle', 'Marrakunian Soul Cannon', 'Melee Weapons', 'Pipewrench', 'Pistol', 'Pitchfork',
+                'Poison Pistol', 'Poison Ring', 'Pump Action Shotgun', 'Quarterstaff', 'Ranged Weapons', 'Rapier', 'Rifle', 'Rock',
+                'Rod of Doom', 'Rod of Flame', 'Rod of Frost', 'Rod of Lightning', 'Rod of Wonder', 'Rotten Crossbow', 'Runesword',
+                'Rusty Flail', 'Saber', 'Set of Brass Knuckles', 'Set of Spiked Knuckles', 'Shock Sphere', 'Short Bow', 'Sledgehammer',
+                'Sling', 'Small Cannon', 'Spear', 'Spellgems', 'Sub-Machine Gun', 'Sword', 'Tarnished Sword', 'Taser', 'Throwing Knife',
+                'Tire Iron', 'Torch', 'Trident', 'Truncheon', 'Virtuecaster', 'Warhammer', 'White Phosphorus Grenade', 'Wooden Club'
+            ],
+            Potions: ['Potion'],
+            'Spell Gems': ['Small Gem'],
+            'Alchemy Components' : [
+                'Bottle of Holy Water','Bottle of Paradise Water','Chunk of Stygian Iron','Femur',
+                'Handful of Grave Dirt','Humerus','Piece of Stygian Coal','Rose','Skull','Handful of Horehound',
+                'Batch of Mushrooms','Bunch of Daisies','Bunch of Paradise Lilies','Chunk of Ivory','Lead Brick',
+                'Patch of Lichen','Patch of Moss','Chunk of Coral','Silver Ingot','Gold Ingot',
+                'Chunk of Brimstone','Pinch of Saltpeter','Handful of Clover','Bunch of Lilies','Chunk of Onyx',
+                'Spool of Copper Wire','Sprig of Nightshade','Chunk of Celestial Bronze','Piece of Amber',
+                'Nacre Shell','Mandrake Root','Sprig of Holly','Handful of Red Clay'
+            ],
+            'Crafting Components': [
+                'Bag of Industrial Plastic', 'Batch of Leather', 'Chunk of Brass', 'Chunk of Iron',
+                'Chunk of Steel', 'Piece of Wood', 'Small Bottle of Gunpowder'
+            ],
+        }
+
+        // let divs = {}
+        // const prev = itable.children[3]
+        // for (const [cat, match] of Object.entries(categories)) {
+        //     divs[cat] = itable.insertBefore(document.createElement('tr'), prev)
+        //     divs[cat].appendChild(document.createElement('th'))
+        //     divs[cat].firstChild.textContent = cat
+        // }
+        // divs.others = itable.insertBefore(document.createElement('tr'), prev)
+        // divs.others.appendChild(document.createElement('th'))
+        // divs.others.firstChild.textContent = 'Others'
+
+        let content = {}
+        for (const cat of Object.keys(categories)) {
+            content[cat] = [document.createElement('tr')]
+            content[cat][0].appendChild(document.createElement('th'))
+            content[cat][0].firstChild.textContent = cat
+            content[cat][0].firstChild.colSpan = 6
+        }
+        content.Others = [document.createElement('tr')]
+        content.Others[0].appendChild(document.createElement('th'))
+        content.Others[0].firstChild.textContent = 'Others'
+        content.Others[0].firstChild.colSpan = 6
+        content.Worn = []
+
+        for (const item of Array.from(itable.children).slice(3 + Object.keys(categories).length + 1)) {
+            if (content.Worn.length == 0) {
+                if (item.querySelector('th')) {
+                    content.Worn.push(item)
+                    continue
+                }
+                let categorized = false
+                for (const [cat, match] of Object.entries(categories)) {
+                    if (matchAny(item.querySelector('span').textContent, match)) {
+                        content[cat].push(item)
+                        categorized = true
+                        continue
+                    }
+                }
+                if (!categorized) content.Others.push(item)
+            } else {
+                content.Worn.push(item)
+            }
+        }
+
+        const newItable = itable.cloneNode(false)
+        let head = []
+        for (let i = 0; i < 3; i++) head.push(itable.children[i])
+        inv.replaceChild(newItable, itable)
+
+        let nextBG = '#eeeeee'
+        function getNextBG(){ let ret = nextBG; nextBG = (nextBG == '#ffffff' ? '#eeeeee' : '#ffffff'); return ret; }
+        for (const tr of head) {
+            newItable.appendChild(tr)
+        }
+        for (const [cat, arr] of Object.entries(content)) {
+            if (arr.length > 1) {
+                for (const tr of arr) {
+                    newItable.appendChild(tr)
+                    newItable.lastChild.bgColor = getNextBG()
+                }
+            }
+        }
+    }
+
+    await mod.registerMethod(
+        'sync',
+        sortInventory
+    );
+})());
+
+
+//##############################################################################
 // Must be last executed step, as this unlocks nexusTweaks to run
 (async () => {
   nexusTweaks.addGlobalStyle(await GM.getResourceUrl('nexusTweaksCSS'));
