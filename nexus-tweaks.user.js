@@ -15,6 +15,7 @@
 // @grant       GM.setValue
 // @grant       GM.deleteValue
 // @grant       GM.getResourceUrl
+// @grant       GM.xmlHttpRequest
 // @require     scaffolding.user.js
 // @resource    scaffoldingCSS css/scaffolding.css
 // @resource    nexusTweaksCSS css/nexus-tweaks.css
@@ -1228,12 +1229,47 @@ promiseList.push((async () => {
         }
     }
 
-    const colorStatusPane = (mod) => {
+    function setTitle(status, wikiStatus) {
+        const effectHeader = wikiStatus.querySelector(`h2 > #${status.textContent.replace(' ', '_')}`).parentNode
+        let effectDesc = effectHeader
+        while (!effectDesc.textContent.includes('Effect:')) effectDesc = effectDesc.nextElementSibling
+        if (effectDesc.textContent == 'Effect:\n') {
+            effectDesc = effectDesc.nextElementSibling
+            status.title = 'Effect: ' + effectDesc.textContent.replace('\n', ' ')
+        } else {
+            status.title = effectDesc.textContent.replace('\n', ' ')
+        }
+    }
+
+    const colorStatusPane = async (mod) => {
         const charInfo = document.getElementById('CharacterInfo');
         if (!charInfo) return;
+        const enableXSS = true
+        let wikiPromise = null
+        if (await mod.getSetting('get-status-from-wiki')) {
+            wikiPromise = GM.xmlHttpRequest({
+                method: "GET",
+                url: "https://wiki.nexusclash.com/wiki/Status_Effect"
+            })
+        }
         const statusPane = charInfo.querySelector('tbody').lastChild;
-        for (const status of statusPane.firstChild.children) colorStatus(status);
+        for (const status of statusPane.firstChild.children) {
+            colorStatus(status);
+        }
+        if (enableXSS) {
+            const wikiStatus = (await wikiPromise).responseXML
+            for (const status of statusPane.firstChild.children) {
+                setTitle(status, wikiStatus)
+            }
+        }
     };
+
+    await mod.registerSetting(
+        'checkbox',
+        'get-status-from-wiki',
+        'Get Status Effect descriptions from wiki',
+        'Warning: uses a cross-site request'
+    );
 
     await mod.registerMethod(
         'sync',
