@@ -1244,9 +1244,9 @@ promiseList.push((async () => {
     const colorStatusPane = async (mod) => {
         const charInfo = document.getElementById('CharacterInfo');
         if (!charInfo) return;
-        const enableXSS = true
+        const enableXSS = await mod.getSetting('get-status-from-wiki')
         let wikiPromise = null
-        if (await mod.getSetting('get-status-from-wiki')) {
+        if (enableXSS) {
             wikiPromise = GM.xmlHttpRequest({
                 method: "GET",
                 url: "https://wiki.nexusclash.com/wiki/Status_Effect"
