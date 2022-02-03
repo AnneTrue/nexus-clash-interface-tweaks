@@ -1558,17 +1558,6 @@ promiseList.push((async () => {
             ],
         }
 
-        // let divs = {}
-        // const prev = itable.children[3]
-        // for (const [cat, match] of Object.entries(categories)) {
-        //     divs[cat] = itable.insertBefore(document.createElement('tr'), prev)
-        //     divs[cat].appendChild(document.createElement('th'))
-        //     divs[cat].firstChild.textContent = cat
-        // }
-        // divs.others = itable.insertBefore(document.createElement('tr'), prev)
-        // divs.others.appendChild(document.createElement('th'))
-        // divs.others.firstChild.textContent = 'Others'
-
         let content = {}
         for (const cat of Object.keys(categories)) {
             content[cat] = [document.createElement('tr')]
@@ -1582,7 +1571,7 @@ promiseList.push((async () => {
         content.Others[0].firstChild.colSpan = 6
         content.Worn = []
 
-        for (const item of Array.from(itable.children).slice(3 + Object.keys(categories).length + 1)) {
+        for (const item of Array.from(itable.children).slice(3)) {
             if (content.Worn.length == 0) {
                 if (item.querySelector('th')) {
                     content.Worn.push(item)
