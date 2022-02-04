@@ -1171,6 +1171,9 @@ promiseList.push((async () => {
                 'Suit of Gothic Plate', 'Suit of Light Body Armor', 'Suit of Military Encounter Armor',
                 'Suit of Police Riot Armor', 'Suit of Rusty Armor'
             ],
+            Ammo: [
+                'Fuel Can', 'Pistol Clip', 'Shotgun Shell', 'Rifle Magazine', 'SMG Magazine', 'Battery', 'Quiver of Arrows'
+            ],
             Weapons: [
                 'Axe', 'Baseball Bat', 'Battleaxe', 'Blackened Gauntlet', 'Broken Bottle', 'Bullwhip', 'Carving Knife',
                 'Cat of Nine Tails', 'Cavalry Saber', 'Chainsaw', 'Chaos Shard', 'Chunk of Cobblestone', 'Compound Bow',
