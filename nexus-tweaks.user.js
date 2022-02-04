@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.6.3.6
+// @version     1.6.3.7
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -1562,6 +1562,9 @@ promiseList.push((async () => {
                 'Chainmail Shirt', 'Fireman\'s Jacket', 'Leather Cuirass', 'Leather Jacket', 'Plate Cuirass',
                 'Suit of Gothic Plate', 'Suit of Light Body Armor', 'Suit of Military Encounter Armor',
                 'Suit of Police Riot Armor', 'Suit of Rusty Armor'
+            ],
+            Ammo: [
+                'Fuel Can', 'Pistol Clip', 'Shotgun Shell', 'Rifle Magazine', 'SMG Magazine', 'Battery', 'Quiver of Arrows'
             ],
             Weapons: [
                 'Axe', 'Baseball Bat', 'Battleaxe', 'Blackened Gauntlet', 'Broken Bottle', 'Bullwhip', 'Carving Knife',
