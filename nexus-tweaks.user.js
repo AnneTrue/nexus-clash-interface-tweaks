@@ -1189,7 +1189,12 @@ promiseList.push((async () => {
                 'Tire Iron', 'Torch', 'Trident', 'Truncheon', 'Virtuecaster', 'Warhammer', 'White Phosphorus Grenade', 'Wooden Club'
             ],
             Potions: ['Potion'],
-            'Spell Gems': ['Small Gem'],
+            'Spell Gems': [
+                'Small Gem',
+                'Small Black Gem', 'Small Blue Gem', 'Small Brown Gem', 'Small Clear Gem',
+                'Small Green Gem', 'Small Opalescent Gem', 'Small Orange Gem', 'Small Purple Gem',
+                'Small Red Gem', 'Small Tan Gem', 'Small White Gem', 'Small Yellow Gem'
+            ],
             'Alchemy Components' : [
                 'Bottle of Holy Water','Bottle of Paradise Water','Chunk of Stygian Iron','Femur',
                 'Handful of Grave Dirt','Humerus','Piece of Stygian Coal','Rose','Skull','Handful of Horehound',
@@ -1227,6 +1232,7 @@ promiseList.push((async () => {
                 let categorized = false
                 for (const [cat, match] of Object.entries(categories)) {
                     if (matchAny(item.querySelector('span').textContent, match)) {
+                        console.log('Match ' + item.querySelector('span').textContent + ' with ' + cat)
                         content[cat].push(item)
                         categorized = true
                         continue
