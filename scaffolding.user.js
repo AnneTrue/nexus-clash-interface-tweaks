@@ -178,14 +178,16 @@ function NexusTweaksScaffolding() {
     temptable.lastElementChild.appendChild(temptablerow);
     table.lastElementChild.lastElementChild.appendChild(temptable);
 
-    // todo: get elems async, add to row sync
-    for (const nexusTweaksMod of this.modules) {
-      await createSettingsRow(temptable, nexusTweaksMod);
-      const settingElements = await nexusTweaksMod.getSettingElements();
-      for (const setElem of settingElements) {
-        await addToRow(nexusTweaksMod.id, setElem);
-      }
-    }
+    let settingElementsPromises = [];
+    for (const nexusTweaksMod of this.modules) settingElementsPromises.push((async () => [nexusTweaksMod, await nexusTweaksMod.getSettingElements()])());
+    Promise.all(settingElementsPromises).then(
+      modSettingsPairs => modSettingsPairs.forEach(async ([nexusTweaksMod, settingElements]) => {
+        await createSettingsRow(temptable, nexusTweaksMod);
+        for (const setElem of settingElements) {
+          await addToRow(nexusTweaksMod.id, setElem);
+        }
+      })
+    );
   }
 
 
