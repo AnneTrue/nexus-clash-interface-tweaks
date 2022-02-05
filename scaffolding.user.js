@@ -146,16 +146,7 @@ function NexusTweaksScaffolding() {
   }
 
 
-  const createSettingsPane = async () => {
-    const tableSnapshot = document.evaluate(
-      '//td/form/textarea[@name="Scratchpad"]/ancestor::table[1]',
-      document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
-      );
-    if (tableSnapshot.snapshotLength !== 1) {
-      this.debug('No scratchpad detected');
-      return;
-    }
-    const table = tableSnapshot.snapshotItem(0);
+  const createSettingsPane = async (table) => {
     table.appendChild(document.createElement('tr'));
     table.lastElementChild.appendChild(document.createElement('td'));
     const temptable = document.createElement('table');
@@ -189,6 +180,24 @@ function NexusTweaksScaffolding() {
   }
 
 
+  const createSettingsButton = async () => {
+    const sidebar = document.getElementById('sidebar-menu');
+    if (!sidebar) {
+      this.debug('No sidebar detected');
+      return;
+    }
+
+    const SettingsTabButton = sidebar.firstElementChild.firstElementChild.appendChild(document.createElement('td')).appendChild(document.createElement('input'));
+    SettingsTabButton.value = 'Nexus Tweaks';
+    SettingsTabButton.type = 'button';
+    SettingsTabButton.onclick = async function() {
+      const mainRightTBody = document.getElementById('main-right').firstElementChild.firstElementChild;
+      while (mainRightTBody.children[2]) mainRightTBody.removeChild(mainRightTBody.children[2]); // Clear the right pane under the tab buttons
+      await createSettingsPane(mainRightTBody);
+    }
+  }
+
+
   this.runNexusTweaks = async () => {
     if (this.runCalled) {
       this.log('runNexusTweaks has already been called. Preventing duplicate run.');
@@ -208,7 +217,7 @@ function NexusTweaksScaffolding() {
       }
     }
 
-    await createSettingsPane();
+    await createSettingsButton();
 
     const mapRunAsync = async (nexusTweaksMod) => {
       if (!await nexusTweaksMod.isEnabled()) { return; }
