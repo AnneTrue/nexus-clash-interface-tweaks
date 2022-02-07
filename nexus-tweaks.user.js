@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.6.3
+// @version     1.7.0
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -1148,7 +1148,7 @@ promiseList.push((async () => {
 promiseList.push((async () => {
     const mod = await nexusTweaks.registerModule(
         'classifyBadges',
-        'Classify Badges',
+        'Badge Classifier',
         'global',
         'Classifies character badges into a hierarchy on the character info page.',
     );
