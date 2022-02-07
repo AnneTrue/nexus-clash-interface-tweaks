@@ -1536,9 +1536,9 @@ promiseList.push((async () => {
     }
 
     const sortInventory = (mod) => {
-        const inv = document.getElementById('inventory')
+        const inv = document.getElementById('inventory');
         if (!inv) return;
-        const itable = inv.querySelector('tbody')
+        const itable = inv.querySelector('tbody');
 
         const categories = {
             Armor: [
@@ -1583,57 +1583,57 @@ promiseList.push((async () => {
                 'Bag of Industrial Plastic', 'Batch of Leather', 'Chunk of Brass', 'Chunk of Iron',
                 'Chunk of Steel', 'Piece of Wood', 'Small Bottle of Gunpowder'
             ],
-        }
+        };
 
-        let content = {}
+        let content = {};
         for (const cat of Object.keys(categories)) {
-            content[cat] = [document.createElement('tr')]
-            content[cat][0].appendChild(document.createElement('th'))
-            content[cat][0].firstChild.textContent = cat
-            content[cat][0].firstChild.colSpan = 6
+            content[cat] = [document.createElement('tr')];
+            content[cat][0].appendChild(document.createElement('th'));
+            content[cat][0].firstChild.textContent = cat;
+            content[cat][0].firstChild.colSpan = 6;
         }
-        content.Others = [document.createElement('tr')]
-        content.Others[0].appendChild(document.createElement('th'))
-        content.Others[0].firstChild.textContent = 'Others'
-        content.Others[0].firstChild.colSpan = 6
-        content.Worn = []
+        content.Others = [document.createElement('tr')];
+        content.Others[0].appendChild(document.createElement('th'));
+        content.Others[0].firstChild.textContent = 'Others';
+        content.Others[0].firstChild.colSpan = 6;
+        content.Worn = [];
 
         for (const item of Array.from(itable.children).slice(3)) {
             if (content.Worn.length == 0) {
                 if (item.querySelector('th')) {
-                    content.Worn.push(item)
-                    continue
+                    content.Worn.push(item);
+                    continue;
                 }
-                let categorized = false
+                let categorized = false;
                 for (const [cat, match] of Object.entries(categories)) {
                     if (matchAny(item.querySelector('span').textContent, match)) {
-                        console.log('Match ' + item.querySelector('span').textContent + ' with ' + cat)
-                        content[cat].push(item)
-                        categorized = true
-                        continue
+                        console.log('Match ' + item.querySelector('span').textContent + ' with ' + cat);
+                        content[cat].push(item);
+                        categorized = true;
+                        continue;
                     }
                 }
-                if (!categorized) content.Others.push(item)
+                if (!categorized) content.Others.push(item);
             } else {
-                content.Worn.push(item)
+                content.Worn.push(item);
             }
         }
 
-        const newItable = itable.cloneNode(false)
-        let head = []
-        for (let i = 0; i < 3; i++) head.push(itable.children[i])
-        inv.replaceChild(newItable, itable)
+        const newItable = itable.cloneNode(false);
+        let head = [];
+        for (let i = 0; i < 3; i++) head.push(itable.children[i]);
+        inv.replaceChild(newItable, itable);
 
-        let nextBG = '#eeeeee'
-        function getNextBG(){ let ret = nextBG; nextBG = (nextBG == '#ffffff' ? '#eeeeee' : '#ffffff'); return ret; }
+        let nextBG = '#eeeeee';
+        const = getNextBG() => { let ret = nextBG; nextBG = (nextBG == '#ffffff' ? '#eeeeee' : '#ffffff'); return ret; }
         for (const tr of head) {
-            newItable.appendChild(tr)
+            newItable.appendChild(tr);
         }
         for (const [cat, arr] of Object.entries(content)) {
             if (arr.length > 1) {
                 for (const tr of arr) {
-                    newItable.appendChild(tr)
-                    newItable.lastChild.bgColor = getNextBG()
+                    newItable.appendChild(tr);
+                    newItable.lastChild.bgColor = getNextBG();
                 }
             }
         }
