@@ -54,7 +54,7 @@ Characters entering or reentering a location will be labeled with a "NEW" status
 
 # Contributing
 ## Guidelines
-Feel free to send pull requests with fixes or new features, open Github issues, comment on the Nexus forum thread with ideas, contact AnneTrue on discord, and more.
+Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
 
 Expect pull requests to be code reviewed, or taken over and adapted to the codebase.
 
