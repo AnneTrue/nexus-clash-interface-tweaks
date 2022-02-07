@@ -1250,7 +1250,7 @@ promiseList.push((async () => {
         inv.replaceChild(newItable, itable);
 
         let nextBG = '#eeeeee';
-        const = getNextBG() => { let ret = nextBG; nextBG = (nextBG == '#ffffff' ? '#eeeeee' : '#ffffff'); return ret; }
+        const getNextBG = () => { let ret = nextBG; nextBG = (nextBG == '#ffffff' ? '#eeeeee' : '#ffffff'); return ret; }
         for (const tr of head) {
             newItable.appendChild(tr);
         }
