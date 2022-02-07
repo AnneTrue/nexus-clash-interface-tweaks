@@ -131,7 +131,7 @@ function NexusTweaksScaffolding() {
   }
 
 
-  const createSettingsRow = async (settingTable, mod) => {
+  const createSettingsRow = async (settingTable, mod, isOdd) => {
     const settingsRow = document.createElement('tr');
     settingsRow.className = 'nexus-tweaks-settingrow';
     const settingTitle = document.createElement('td');
@@ -143,6 +143,8 @@ function NexusTweaksScaffolding() {
     settingsRow.appendChild(settingTitle);
     settingsRow.appendChild(settingList);
     settingTable.appendChild(settingsRow);
+
+	settingsRow.classList.add(isOdd ? 'odd-row' : 'even-row');
   }
 
 
@@ -159,7 +161,7 @@ function NexusTweaksScaffolding() {
     const verspan = document.createElement('span');
     verspan.appendChild(document.createTextNode(`Version ${this.version}`));
     const temptablerow = document.createElement('tr');
-    temptablerow.className = 'nexus-tweaks-settingrow';
+    temptablerow.className = 'nexus-tweaks-settingheader';
     temptablerow.appendChild(document.createElement('td'));
     temptablerow.lastElementChild.className = 'nexus-tweaks-settingname';
     temptablerow.lastElementChild.appendChild(link);
@@ -168,10 +170,15 @@ function NexusTweaksScaffolding() {
     temptablerow.lastElementChild.appendChild(verspan);
     temptable.lastElementChild.appendChild(temptablerow);
     table.lastElementChild.lastElementChild.appendChild(temptable);
-
-    // todo: get elems async, add to row sync
+	
+	// todo: make this into a proper setting, it is NOT trivial
+	const dummySettings = {}
+	dummySettings[':/settings-style'] = 'argavyon-revamped'
+	temptable.classList.add(dummySettings[':/settings-style']);
+    let isOdd = true;
     for (const nexusTweaksMod of this.modules) {
-      await createSettingsRow(temptable, nexusTweaksMod);
+      await createSettingsRow(temptable.firstElementChild, nexusTweaksMod, isOdd);
+	  isOdd = !isOdd;
       const settingElements = await nexusTweaksMod.getSettingElements();
       for (const setElem of settingElements) {
         await addToRow(nexusTweaksMod.id, setElem);
