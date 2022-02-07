@@ -1301,26 +1301,24 @@ promiseList.push((async () => {
     const printClassifiedBadges = (classifiedBadges, badgesNode) => {
         const MainBadgeCategory = (text, parent) => {
             const categoryNode = parent.appendChild(document.createElement('div'));
-            categoryNode.style.backgroundColor = '#dddddd';
+			categoryNode.className = 'classify-badges-MBcategory';
             const titleNode = categoryNode.appendChild(document.createElement('div'));
             const contentNode = categoryNode.appendChild(document.createElement('div'));
-            titleNode.style.fontWeight = '900';
+			titleNode.className = 'classify-badges-MBtitle';
             titleNode.textContent = text;
             titleNode.title = 'Click to expand/collapse';
-            titleNode.onclick = () => { if (contentNode.style.display != 'none') contentNode.style.display = 'none'; else contentNode.style.display = 'initial'; }
+            titleNode.onclick = () => { contentNode.classList.toggle('hidden'); }
             return contentNode;
         }
         const SecondaryBadgeCategory = (text, parent) => {
             const newNode = document.createElement('div');
-            newNode.style.backgroundColor = '#eeeeee';
-            newNode.style.fontWeight = 'normal';
+			newNode.className = 'classify-badges-SBcategory';
             newNode.textContent = text;
             return parent.appendChild(newNode);
         }
         const BadgeList = (text, parent) => {
             const newNode = document.createElement('div');
-            newNode.style.backgroundColor = '#ffffff';
-            newNode.style.fontWeight = 'normal';
+			newNode.className = 'classify-badges-BLcategory';
             newNode.textContent = text;
             return parent.appendChild(newNode);
         }
