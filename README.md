@@ -53,7 +53,7 @@ Characters taking damage since the last refresh will show a corresponding health
 Characters entering or reentering a location will be labeled with a "NEW" status tag to more easily notice them within a highly populated area.
 
 ## Badge Classifier
-Classifies character badges into a hierarchy on the character info page. The major categories can be collapsed and expanded.
+A global module that classifies character badges into a hierarchy on the character info page. The major categories can be collapsed and expanded.
 For career and breath achievement badges, it also displays progress.
 
 # Contributing
