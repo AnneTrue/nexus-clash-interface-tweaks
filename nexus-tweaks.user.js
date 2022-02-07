@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.7.0.1
+// @version     1.7.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -24,7 +24,7 @@
 const myPromise = nexusTweaks.registerPromise(); // script-file promise
 const promiseList = []; // individual module promises
 
-
+//
 //##############################################################################
 // Generic functions
 
