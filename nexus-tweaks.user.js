@@ -1176,7 +1176,7 @@ promiseList.push((async () => {
                 'Levitation', 'Mystic Mail', 'Mystic Shield', 'Planar Protection', 'Sanctuary Blessing', 'Sharp Vision',
                 'Shield of Mercy', 'Sixth Sense', 'Tiger Claw', 'Warriors Blessing', 'Water Breathing', 'on Painkillers'
             ],
-            Cyan: [ // Prayer, Defile, Feeding Fangs
+            Turquoise: [ // Prayer, Defile, Feeding Fangs
                 'Abiding Wickedness', 'Arcane Proficiency', 'Blazing Hosts', 'Blessing of Evasion', 'Blessing of Resistance',
                 'Blood Magic', 'Boon of Ahgza-haru', 'Boon of Tholaghru', 'Boon of Tlacolotl', 'Champion of Attunement',
                 'Champion of Defiance', 'Champion of Freedom', 'Chaos Cloak', 'Combat Intuition', 'Crusader Blessing',
