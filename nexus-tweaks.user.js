@@ -1200,10 +1200,16 @@ promiseList.push((async () => {
     const speechButton = form.querySelector('input[type="submit"]');
     const newSpeechButton = speechButton.cloneNode();
     newSpeechButton.disabled = false;
-    newSpeechButton.type = 'button';
+    speechButton.type = 'button';
     speechButton.classList.add('hidden');
     form.insertBefore(newSpeechButton, speechButton);
-    newSpeechButton.onclick = function() { textInput.value = zalgofyString(textInput.value, settings); speechButton.click(); };
+    const isEmote = (str) => (str.substr(0,3) === '/em' | str.substr(0,3) === '/me');
+    newSpeechButton.onclick = function() {
+      if (!isEmote(textInput.value)) {
+        textInput.value = zalgofyString(textInput.value, settings);
+      }
+      speechButton.click();
+    };
   }
 
   const zalgofy = async (mod) => {
