@@ -1607,7 +1607,6 @@ promiseList.push((async () => {
                 let categorized = false;
                 for (const [cat, match] of Object.entries(categories)) {
                     if (matchAny(item.querySelector('span').textContent, match)) {
-                        console.log('Match ' + item.querySelector('span').textContent + ' with ' + cat);
                         content[cat].push(item);
                         categorized = true;
                         continue;
