@@ -1162,6 +1162,7 @@ promiseList.push((async () => {
     };
     for (const key of Object.keys(defaultSettings)) if (!settings[key]) settings[key] = defaultSettings[key];
 
+    // Based off https://github.com/casieber/zalgo-js
     const zalgo = {
       up : [
         768, 769, 770, 771, 772, 773, 774, 775, 776, 777, 778, 779, 780, 781, 782, 783,
