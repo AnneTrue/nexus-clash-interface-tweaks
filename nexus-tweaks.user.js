@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.0
+// @version     999.prev.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2212,9 +2212,13 @@ promiseList.push((async () => {
     if (!petTableTable) {
       return;
     }
+
     // Pets are on a table inside the pet table
     const petTable = petTableTable.querySelector('tbody').querySelector('tbody');
-    const setAllRow = petTable.lastElementChild; // Last row is the set-all button
+    // With two title rows and a tail row, at least 4 rows are needed if there's any pet
+    if (petTable.children.length < 4) return;
+    // Last row is the set-all button
+    const setAllRow = petTable.lastElementChild;
 
     // Pets start on the third row
     for (const petRow of Array.from(petTable.children).slice(2, -1)) {
