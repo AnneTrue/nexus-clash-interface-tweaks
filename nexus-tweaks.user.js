@@ -2198,6 +2198,40 @@ promiseList.push((async () => {
 
 
 //##############################################################################
+promiseList.push((async () => {
+  const mod = await nexusTweaks.registerModule(
+    'potatoPets',
+    'Potato pet stance',
+    'local',
+    'Replaces the Passive pet stance by a functionally-equivalent Potato stance. It\'s pretty useless. Absolutely useless.',
+  );
+
+  const potatoPets = () => {
+    'use strict';
+
+    const petTableTable = document.querySelector('.petTable');
+    if (!petTableTable) {
+      return;
+    }
+    // Pets are on a table inside the pet table
+    const petTable = petTableTable.querySelector('tbody').querySelector('tbody');
+    const setAllRow = petTable.lastElementChild; // Last row is the set-all button
+
+    // Pets start on the third row
+    for (const petRow of Array.from(petTable.children).slice(2, -1)) {
+      petRow.querySelector('select[name="stance"]').innerHTML = petRow.querySelector('select[name="stance"]').innerHTML.replace('Passive', 'Potato').replace('Passive', 'Potato');
+    }
+    setAllRow.querySelector('select[name="stance"]').innerHTML = setAllRow.querySelector('select[name="stance"]').innerHTML.replace('Passive', 'Potato').replace('Passive', 'Potato');
+  }
+
+  await mod.registerMethod(
+    'sync',
+    potatoPets
+  );
+})());
+
+
+//##############################################################################
 // Must be last executed step, as this unlocks nexusTweaks to run
 (async () => {
     nexusTweaks.addGlobalStyle(await GM.getResourceUrl('nexusTweaksCSS'));
