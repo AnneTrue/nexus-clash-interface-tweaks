@@ -1165,12 +1165,16 @@ promiseList.push((async () => {
     const necro = petSummons.querySelector('input[value="Necrophage"]');
 
     if (FM) {
-      FM.nextSibling.value = 'Fossil Monstrosity (3 Skeletons) '
+      // This is how they currently display by default
+      // FM.nextSibling.value = 'Fossil Monstrosity (3 Skeletons) '
       if (petSummons.children.length < 3) petSummons.appendChild(document.createElement('tr'));
       petSummons.children[2].insertBefore(FM.parentNode.parentNode, petSummons.children[2].firstChild);
     }
     if (necro) {
-      necro.nextSibling.value = 'Necrophage (3 Zombies/Ghouls) ';
+      // This is how they currently display by default
+      // necro.nextSibling.value = 'Necrophage (3 Zombies/Ghouls) '
+      if (petSummons.children.length < 3) petSummons.appendChild(document.createElement('tr'));
+      petSummons.children[2].appendChild(necro.parentNode.parentNode);
     }
   }
 
