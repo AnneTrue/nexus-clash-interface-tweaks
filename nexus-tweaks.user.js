@@ -1157,9 +1157,7 @@ promiseList.push((async () => {
     'use strict';
 
     const petTableTable = document.querySelector('.petTable');
-    if (!petTableTable) {
-      return;
-    }
+    if (!petTableTable) return;
 
     // Pets summon buttons
     const petSummons = petTableTable.querySelector('tbody').querySelector('table.summonsButtons>tbody');
@@ -1172,7 +1170,7 @@ promiseList.push((async () => {
       petSummons.children[2].insertBefore(FM.parentNode.parentNode, petSummons.children[2].firstChild);
     }
     if (necro) {
-      necro.nextSibling.value = 'Necrophage (3 Zombies/Ghouls) '
+      necro.nextSibling.value = 'Necrophage (3 Zombies/Ghouls) ';
     }
   }
 
