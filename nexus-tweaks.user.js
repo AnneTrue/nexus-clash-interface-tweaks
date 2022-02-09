@@ -1161,66 +1161,67 @@ promiseList.push((async () => {
         return false;
     }
 
+	const statusColors = { // Warning: CAPS-sensitive
+		// ColorName: ['effect1', 'effect2', ...],
+		Black: [
+			'Deluged', 'Elemental Fog', 'Emergency Bunker', 'Flattened', 'Fog', 'Nimbus of Conquest',
+			'Nimbus of Death','Nimbus of Judgement', 'Nimbus of War', 'Parted', 'Rain', 'Raised',
+			'Stygian Presence', 'Swimming', 'Thunderstorm', 'Wind Storm'
+		],
+		Blue: [ // Buffs
+			'Altered Luck', 'Arcane Trail', 'Arcane Well', 'Benevolent Safeguard', 'Blur', 'Burning Incense',
+			'Cold Affinity', 'Combat Clarity', 'Conjured Sinews', 'Encourage', 'Flying', 'Gliding', 'Heavy Lifting',
+			'Hidden', 'Homing Beacon', 'Incense of Centering', 'Incense of Peace', 'Invisibility', 'Last Rites',
+			'Levitation', 'Mystic Mail', 'Mystic Shield', 'Planar Protection', 'Sanctuary Blessing', 'Sharp Vision',
+			'Shield of Mercy', 'Sixth Sense', 'Tiger Claw', 'Warriors Blessing', 'Water Breathing', 'on Painkillers'
+		],
+		Turquoise: [ // Prayer, Defile, Feeding Fangs
+			'Abiding Wickedness', 'Arcane Proficiency', 'Blazing Hosts', 'Blessing of Evasion', 'Blessing of Resistance',
+			'Blood Magic', 'Boon of Ahgza-haru', 'Boon of Tholaghru', 'Boon of Tlacolotl', 'Champion of Attunement',
+			'Champion of Defiance', 'Champion of Freedom', 'Chaos Cloak', 'Combat Intuition', 'Crusader Blessing',
+			'Defensive Power', 'Exalted Fauna', 'Fiendish Foresight', 'Foe of Goliath', 'Hawk Sight', 'Holy Brawn',
+			'Holy Eye', 'Holy Mantle', 'Hunter of Iniquity', 'Jericho Shout', 'Light Feet', 'Light Within',
+			'Might of Heroes', 'Mystic Insight', 'Oath of Battle', 'Offensive Might', 'Offensive Power', 'Out of Phase',
+			'Protective Bulwark', 'Reaper', 'Righteous Judge', 'Sanctuary', 'Soul Devourer', 'Spellgem Affinity',
+			'Stone Skin', 'Strength of the Dragon', 'Sulphurous Cloak', 'Transcend Spellgem', 'Unbroken Bond',
+			'Unholy Strength', 'Unrelenting Purity', 'Weapon Turning'
+		],
+		Green: [ // Class Skill effects
+			'Adapted to', 'Adrenaline', 'Angel Hunter', 'Animus of the Bat', 'Animus of the Dust', 'Animus of the Wolf',
+			'Aspect of the Ascended', 'Aspect of the Eagle', 'Aspect of the Lion', 'Aspect of the Ox', 'Assassins Edge',
+			'Blood Frenzy', 'Bloodlust', 'Bolster Attack', 'Burrowing', 'Cloak of Immanence', 'Cloak of Ineffable Mystery',
+			'Cloak of Steadfastness', 'Cloak of Vengeance', 'Cold Touch', 'Combination', 'Covetous Spite',
+			'Cruelty of the Assassin', 'Dark Pact', 'Defensive Stance', 'Demon Tracker', 'Dividend of Indolence',
+			'Divine Interdiction', 'Divine Providence', 'Divine Resolve', 'Dragon Sight', 'Eldritch Bond', 'Electric Touch',
+			'Electrify Blade', 'Exploit Weakness', 'Eye of Storms', 'Faunabond', 'Fiery Shafts', 'Fiery Touch', 'Fires of War',
+			'Fists of Holy Resolve', 'Flaming Weapons', 'Flickering Form', 'Grim Mien', 'Harbinger of Conquest',
+			'Harbinger of Death', 'Harbinger of Judgement', 'Harbinger of War', 'Healing Aura', 'Holy Fury', 'Holy Light',
+			'Holy Radiance', 'Hovering', 'Imperious Demeanor', 'Infernal Jets', 'Invigoration', 'Inviolate Form', 'Judging',
+			'Mask of Vengeance', 'Mask of the Impassive', 'Mask of the Penitent', 'Master of the Flow', 'Mutual Suffering',
+			'Origami Bow', 'Overclock', 'Passive Regeneration', 'Phasing', 'Precision of the Assassin', 'Rapturous Chant',
+			'Resolute', 'Shadow of the Bat', 'Shadow of the Dust', 'Shadow of the Wolf', 'Shield of Faith', 'Sorcerer\'s Might',
+			'Steady Aim', 'Stepping of the Assassin', 'Strangling', 'Stygian Fury', 'Unholy Weapons', 'Void Taint', 'Way of Lightning',
+			'Way of Void', 'Weapon Breaker', 'Wind Wall', 'Wing Wrap', 'Word of Abolition', 'Word of Censure', 'Word of Condemnation',
+			'Word of Opprobrium', 'Word of Wrath'
+		],
+		MediumPurple: [ // TLL, Potion effects
+			'Acid Affinity', 'Chlorophilter', 'Death Affinity', 'Electric Affinity', 'Fire Affinity', 'Golem Form', 'Holy Affinity',
+			'Regenerating', 'Strength', 'Tap Anchor', 'Unholy Affinity'
+		],
+		Pink: [ // Zerg
+			'Zerg Flag'
+		],
+		Red: [ // Debuffs
+			'Agony Cursed', 'Arcane Sink', 'Blasphemy against Alonai', 'Blasphemy against Baraas', 'Blasphemy against Namm', 'Blood Curse',
+			'Channelled Trail', 'Chilled', 'Choking', 'Cruorblight', 'Defiler Poison', 'Demoralize', 'Doomblight', 'Drained', 'Drunk', 'Enervated',
+			'Exposed', 'Fire Storm', 'Frightened', 'Hail Storm', 'Hellfire', 'Hunted By', 'Illuminated', 'Incense of Malice', 'Lethargic',
+			'Malice Poison', 'Mark of the Assassin', 'Mark of the Wendigo', 'Minor Poison', 'Pact Debt', 'Phantasmal Terror', 'Plagued with Doubt',
+			'Shocked', 'Soul Fray', 'Stunned', 'Succubus Kiss', 'Targeted', 'Touch of the Wendigo', 'Treading Water', 'Twitchy', 'Unsettling Aura',
+			'Weakness', 'Wytchfire'
+		]
+	};
+	
     const colorStatus = (status) => {
-        const statusColors = { // Warning: CAPS-sensitive
-            // ColorName: ['effect1', 'effect2', ...],
-            Black: [
-                'Deluged', 'Elemental Fog', 'Emergency Bunker', 'Flattened', 'Fog', 'Nimbus of Conquest',
-                'Nimbus of Death','Nimbus of Judgement', 'Nimbus of War', 'Parted', 'Rain', 'Raised',
-                'Stygian Presence', 'Swimming', 'Thunderstorm', 'Wind Storm'
-            ],
-            Blue: [ // Buffs
-                'Altered Luck', 'Arcane Trail', 'Arcane Well', 'Benevolent Safeguard', 'Blur', 'Burning Incense',
-                'Cold Affinity', 'Combat Clarity', 'Conjured Sinews', 'Encourage', 'Flying', 'Gliding', 'Heavy Lifting',
-                'Hidden', 'Homing Beacon', 'Incense of Centering', 'Incense of Peace', 'Invisibility', 'Last Rites',
-                'Levitation', 'Mystic Mail', 'Mystic Shield', 'Planar Protection', 'Sanctuary Blessing', 'Sharp Vision',
-                'Shield of Mercy', 'Sixth Sense', 'Tiger Claw', 'Warriors Blessing', 'Water Breathing', 'on Painkillers'
-            ],
-            Turquoise: [ // Prayer, Defile, Feeding Fangs
-                'Abiding Wickedness', 'Arcane Proficiency', 'Blazing Hosts', 'Blessing of Evasion', 'Blessing of Resistance',
-                'Blood Magic', 'Boon of Ahgza-haru', 'Boon of Tholaghru', 'Boon of Tlacolotl', 'Champion of Attunement',
-                'Champion of Defiance', 'Champion of Freedom', 'Chaos Cloak', 'Combat Intuition', 'Crusader Blessing',
-                'Defensive Power', 'Exalted Fauna', 'Fiendish Foresight', 'Foe of Goliath', 'Hawk Sight', 'Holy Brawn',
-                'Holy Eye', 'Holy Mantle', 'Hunter of Iniquity', 'Jericho Shout', 'Light Feet', 'Light Within',
-                'Might of Heroes', 'Mystic Insight', 'Oath of Battle', 'Offensive Might', 'Offensive Power', 'Out of Phase',
-                'Protective Bulwark', 'Reaper', 'Righteous Judge', 'Sanctuary', 'Soul Devourer', 'Spellgem Affinity',
-                'Stone Skin', 'Strength of the Dragon', 'Sulphurous Cloak', 'Transcend Spellgem', 'Unbroken Bond',
-                'Unholy Strength', 'Unrelenting Purity', 'Weapon Turning'
-            ],
-            Green: [ // Class Skill effects
-                'Adapted to', 'Adrenaline', 'Angel Hunter', 'Animus of the Bat', 'Animus of the Dust', 'Animus of the Wolf',
-                'Aspect of the Ascended', 'Aspect of the Eagle', 'Aspect of the Lion', 'Aspect of the Ox', 'Assassins Edge',
-                'Blood Frenzy', 'Bloodlust', 'Bolster Attack', 'Burrowing', 'Cloak of Immanence', 'Cloak of Ineffable Mystery',
-                'Cloak of Steadfastness', 'Cloak of Vengeance', 'Cold Touch', 'Combination', 'Covetous Spite',
-                'Cruelty of the Assassin', 'Dark Pact', 'Defensive Stance', 'Demon Tracker', 'Dividend of Indolence',
-                'Divine Interdiction', 'Divine Providence', 'Divine Resolve', 'Dragon Sight', 'Eldritch Bond', 'Electric Touch',
-                'Electrify Blade', 'Exploit Weakness', 'Eye of Storms', 'Faunabond', 'Fiery Shafts', 'Fiery Touch', 'Fires of War',
-                'Fists of Holy Resolve', 'Flaming Weapons', 'Flickering Form', 'Grim Mien', 'Harbinger of Conquest',
-                'Harbinger of Death', 'Harbinger of Judgement', 'Harbinger of War', 'Healing Aura', 'Holy Fury', 'Holy Light',
-                'Holy Radiance', 'Hovering', 'Imperious Demeanor', 'Infernal Jets', 'Invigoration', 'Inviolate Form', 'Judging',
-                'Mask of Vengeance', 'Mask of the Impassive', 'Mask of the Penitent', 'Master of the Flow', 'Mutual Suffering',
-                'Origami Bow', 'Overclock', 'Passive Regeneration', 'Phasing', 'Precision of the Assassin', 'Rapturous Chant',
-                'Resolute', 'Shadow of the Bat', 'Shadow of the Dust', 'Shadow of the Wolf', 'Shield of Faith', 'Sorcerer\'s Might',
-                'Steady Aim', 'Stepping of the Assassin', 'Strangling', 'Stygian Fury', 'Unholy Weapons', 'Void Taint', 'Way of Lightning',
-                'Way of Void', 'Weapon Breaker', 'Wind Wall', 'Wing Wrap'
-            ],
-            MediumPurple: [ // TLL, Potion effects
-                'Acid Affinity', 'Chlorophilter', 'Death Affinity', 'Electric Affinity', 'Fire Affinity', 'Golem Form', 'Holy Affinity',
-                'Regenerating', 'Strength', 'Tap Anchor', 'Unholy Affinity'
-            ],
-            Pink: [ // Zerg
-                'Zerg Flag'
-            ],
-            Red: [ // Debuffs
-                'Agony Cursed', 'Arcane Sink', 'Blasphemy against Alonai', 'Blasphemy against Baraas', 'Blasphemy against Namm', 'Blood Curse',
-                'Channelled Trail', 'Chilled', 'Choking', 'Cruorblight', 'Defiler Poison', 'Demoralize', 'Doomblight', 'Drained', 'Drunk', 'Enervated',
-                'Exposed', 'Fire Storm', 'Frightened', 'Hail Storm', 'Hellfire', 'Hunted By', 'Illuminated', 'Incense of Malice', 'Lethargic',
-                'Malice Poison', 'Mark of the Assassin', 'Mark of the Wendigo', 'Minor Poison', 'Pact Debt', 'Phantasmal Terror', 'Plagued with Doubt',
-                'Shocked', 'Soul Fray', 'Stunned', 'Succubus Kiss', 'Targeted', 'Touch of the Wendigo', 'Treading Water', 'Twitchy', 'Unsettling Aura',
-                'Weakness', 'Wytchfire'
-            ]
-        };
-
         for (const [color, matchArray] of Object.entries(statusColors)) {
             if (status.textContent && matchAny(status.textContent, matchArray)) {
                 status.style.color = color;
@@ -1481,6 +1482,11 @@ promiseList.push((async () => {
         'Wing Wrap': 'While under this Status Effect the character gets +6 to all soaks but cannot move nor attack.',
         'Wytchfire': 'Every AP Tick, the status effect deals 4 Fire damage to the target. If a target suffering from Wytchfire is hit by any attack, the attack gains 4 Supplemental Death Damage.\nAny actions taken by a target suffering from Wytchfire cause the target to take 4 points of Fire or Death damage (randomly determined).',
         'Zerg Flag': 'Has no direct in-game effect, but exists to notify you that your action failed due to tripping a zerg flag.',
+        'Word of Abolition': 'The Archon deals +5 damage against inorganic targets (Glyphs, Wards, Doors, Fortifications, Barricades)',
+        'Word of Censure': 'An opponent\'s Defense bonus is only half as effective against the Archon.',
+        'Word of Condemnation': 'An opponent\'s Resistance is only half as effective against the Archon.',
+        'Word of Opprobrium': 'An opponent\'s Phasing chance is only half as effective against the Archon.',
+        'Word of Wrath': 'The Archon\'s attacks deal 4 supplemental death damage with hand-to-hand, melee, thrown and spell attacks.',
     };
 
     const colorStatusPane = async (mod) => {
