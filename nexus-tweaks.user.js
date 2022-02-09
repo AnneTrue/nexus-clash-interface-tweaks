@@ -2248,6 +2248,45 @@ promiseList.push((async () => {
 
 
 //##############################################################################
+promiseList.push((async () => {
+  const mod = await nexusTweaks.registerModule(
+    'lichDelight',
+    'Lich Pet Summon fix',
+    'local',
+    'Fixes the UI for summoning lich pets. Should make the pet list more eye-friendly.',
+  );
+
+  const lichDelight = () => {
+    'use strict';
+
+    const petTableTable = document.querySelector('.petTable');
+    if (!petTableTable) {
+      return;
+    }
+
+    // Pets summon buttons
+    const petSummons = petTableTable.querySelector('tbody').querySelector('table.summonsButtons>tbody');
+    const FM = petSummons.querySelector('input[value="Fossil Monstrosity"]');
+    const necro = petSummons.querySelector('input[value="Necrophage"]');
+
+    if (FM) {
+      FM.nextSibling.value = 'Fossil Monstrosity (3 Skeletons) '
+      if (petSummons.children.length < 3) petSummons.appendChild(document.createElement('tr'));
+      petSummons.children[2].insertBefore(FM.parentNode.parentNode, petSummons.children[2].firstChild);
+    }
+    if (necro) {
+      necro.nextSibling.value = 'Necrophage (3 Zombies/Ghouls) '
+    }
+  }
+
+  await mod.registerMethod(
+    'sync',
+    lichDelight
+  );
+})());
+
+
+//##############################################################################
 // Must be last executed step, as this unlocks nexusTweaks to run
 (async () => {
     nexusTweaks.addGlobalStyle(await GM.getResourceUrl('nexusTweaksCSS'));
