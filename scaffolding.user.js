@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks Scaffolding
-// @version     999.prev.10
+// @version     999.prev.11
 // @description Scaffolding and API for nexus-tweaks
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -166,10 +166,10 @@ function NexusTweaksScaffolding(scriptName, scriptLink, version) {
   const createSettingsPane = async (table) => {
     let temptable = document.getElementById('nexus-tweaks-settingtable');
     if (!temptable) {
-    table.appendChild(document.createElement('tr'));
+      table.appendChild(document.createElement('tr'));
       table.lastElementChild.appendChild(document.createElement('td'));
       
-      const temptable = document.createElement('table');
+      temptable = document.createElement('table');
       temptable.id = 'nexus-tweaks-settingtable';
       temptable.className = 'nexus-tweaks-settingtable';
       temptable.appendChild(document.createElement('tbody'));
