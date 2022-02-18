@@ -244,8 +244,9 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
         const mainRightTBody = document.getElementById('main-right').firstElementChild.firstElementChild;
         while (mainRightTBody.children[2]) mainRightTBody.removeChild(mainRightTBody.children[2]); // Clear the right pane under the tab buttons
         await createSettingsPane(mainRightTBody); // It's important to synchronize this, as it creates the table for mod settings
-        let nextPaneButton = this.nextSibling;
+        let nextPaneButton = this.parentNode.firstElementChild;
         while (nextPaneButton) {
+          if (nextPaneButton.id === SettingsTabButton.id) continue;
           nextPaneButton.click();
           nextPaneButton = nextPaneButton.nextSibling;
         }
