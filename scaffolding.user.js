@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks Scaffolding
-// @version     1.6.3
+// @version     2.0.0
 // @description Scaffolding and API for nexus-tweaks
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -18,7 +18,7 @@
 // @resource    scaffoldingCSS css/scaffolding.css
 // ==/UserScript==
 
-function NexusTweaksScaffolding(scriptName, scriptLink, version) {
+function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion) {
   'use strict';
   this.version = `${GM.info.script.version}`;
   // logs to console; can disable if you want
@@ -148,12 +148,24 @@ function NexusTweaksScaffolding(scriptName, scriptLink, version) {
   }
 
 
-  const addToSettingsPane = async (settingsTable) => {
-    const settingsStyle = document.getElementById('nexus-tweaks-settingstyle');
-    settingsTable.classList.add(settingsStyle.value);
+  const addModSettings = async (settingsTable) => {
+    const modSettingsTD = settingsTable.firstElementChild.appendChild(document.createElement('tr')).appendChild(document.createElement('td'));
+    modSettingsTD.colSpan = 2;
+    modSettingsTD.style.padding = '0px';
+    const modSettingsTable = modSettingsTD.appendChild(document.createElement('table'));
+
+    const modSettingsTHeader = modSettingsTable.appendChild(document.createElement('tr'));
+    modSettingsTHeader.className = 'nexus-tweaks-settingheader';
+    const modLink = modSettingsTHeader.appendChild(document.createElement('td')).appendChild(document.createElement('a'));
+    modLink.textContent = scriptName;
+    modLink.href = scriptLink;
+    const modVer = modSettingsTHeader.appendChild(document.createElement('td'));
+    modVer.textContent = scriptVersion;
+
+    const modSettingsTBody = modSettingsTable.appendChild(document.createElement('tbody'));
     let isOdd = true;
     for (const nexusTweaksMod of this.modules) {
-      await createSettingsRow(settingsTable.firstElementChild, nexusTweaksMod, isOdd);
+      await createSettingsRow(modSettingsTBody, nexusTweaksMod, isOdd);
       isOdd = !isOdd;
       const settingElements = await nexusTweaksMod.getSettingElements();
       for (const setElem of settingElements) {
@@ -161,59 +173,60 @@ function NexusTweaksScaffolding(scriptName, scriptLink, version) {
       }
     }
   }
-  
-  
+
+
   const createSettingsPane = async (table) => {
-    let temptable = document.getElementById('nexus-tweaks-settingtable');
-    if (!temptable) {
     table.appendChild(document.createElement('tr'));
-      table.lastElementChild.appendChild(document.createElement('td'));
-      
-      const temptable = document.createElement('table');
-      temptable.id = 'nexus-tweaks-settingtable';
-      temptable.className = 'nexus-tweaks-settingtable';
-      temptable.appendChild(document.createElement('tbody'));
-      
-      const link = document.createElement('a');
-      link.href = 'https://github.com/AnneTrue/nexus-clash-interface-tweaks';
-      link.textContent = 'AnneTrue\'s Nexus Tweaks';
-      
-      const verspan = document.createElement('span');
-      verspan.appendChild(document.createTextNode(`Version ${this.version}`));
-      
-      const temptablerow = document.createElement('tr');
-      temptablerow.className = 'nexus-tweaks-settingheader';
-      temptablerow.appendChild(document.createElement('td'));
-      temptablerow.lastElementChild.className = 'nexus-tweaks-settingname';
-      temptablerow.lastElementChild.appendChild(link);
-      temptablerow.appendChild(document.createElement('td'));
-      temptablerow.lastElementChild.className = 'nexus-tweaks-settinglist';
-      temptablerow.lastElementChild.appendChild(verspan);
-      
-      const temptablerow2 = document.createElement('tr');
-      temptablerow2.className = 'nexus-tweaks-settingrow odd-row';
-      const settingsStyleLabel = temptablerow2.appendChild(document.createElement('td'));
-      settingsStyleLabel.textContent = 'Settings Pane Style';
-      const settingsStyleSelect = temptablerow2.appendChild(document.createElement('td')).appendChild(document.createElement('select'));
-      settingsStyleSelect.Id = 'nexus-tweaks-settingstyle';
-      const defaultStyleOpt = settingsStyleSelect.appendChild(document.createElement('option'));
-      defaultStyleOpt.value = '';
-      defaultStyleOpt.textContent = 'Default';
-      const argRevampedStyleOpt = settingsStyleSelect.appendChild(document.createElement('option'));
-      argRevampedStyleOpt.value = 'argavyon-revamped';
-      argRevampedStyleOpt.textContent = 'Argavyon\'s Revamped';
-      
-      temptable.lastElementChild.appendChild(temptablerow);
-      table.lastElementChild.lastElementChild.appendChild(temptable);
+    table.lastElementChild.appendChild(document.createElement('td'));
+
+    const temptable = document.createElement('table');
+    temptable.id = 'nexus-tweaks-settingtable';
+    temptable.className = 'nexus-tweaks-settingtable';
+    temptable.appendChild(document.createElement('tbody'));
+
+    const link = document.createElement('a');
+    link.href = 'https://github.com/AnneTrue/nexus-clash-interface-tweaks';
+    link.textContent = 'Nexus Tweaks Scaffolding';
+
+    const verspan = document.createElement('span');
+    verspan.appendChild(document.createTextNode(`Version ${this.version}`));
+
+    const temptablerow = document.createElement('tr');
+    temptablerow.className = 'nexus-tweaks-settingheader';
+    temptablerow.appendChild(document.createElement('td'));
+    temptablerow.lastElementChild.className = 'nexus-tweaks-settingname';
+    temptablerow.lastElementChild.appendChild(link);
+    temptablerow.appendChild(document.createElement('td'));
+    temptablerow.lastElementChild.className = 'nexus-tweaks-settinglist';
+    temptablerow.lastElementChild.appendChild(verspan);
+
+    const temptablerow2 = document.createElement('tr');
+    temptablerow2.className = 'nexus-tweaks-settingrow odd-row';
+    const settingsStyleLabel = temptablerow2.appendChild(document.createElement('td'));
+    settingsStyleLabel.textContent = 'Settings Pane Style';
+    const settingsStyleSelect = temptablerow2.appendChild(document.createElement('td')).appendChild(document.createElement('select'));
+    settingsStyleSelect.id = 'nexus-tweaks-settingstyle';
+    const defaultStyleOpt = settingsStyleSelect.appendChild(document.createElement('option'));
+    defaultStyleOpt.value = '';
+    defaultStyleOpt.textContent = 'Default';
+    const argRevampedStyleOpt = settingsStyleSelect.appendChild(document.createElement('option'));
+    argRevampedStyleOpt.value = 'argavyon-revamped';
+    argRevampedStyleOpt.textContent = 'Argavyon\'s Revamped';
+    const selectedStyle = await GM.getValue('nexus-tweaks-settingStyle');
+    settingsStyleSelect.value = selectedStyle;
+    temptable.firstChild.className = selectedStyle;
+    settingsStyleSelect.onchange = async function() {
+      temptable.firstChild.className = this.value;
+      GM.setValue('nexus-tweaks-settingStyle', this.value);
     }
-    
-    const settingsTable = temptable.firstChild.appendChild(document.createElement('tr')).appendChild(document.createElement('td')).appendChild(document.createElement('table'));
-    settingsTable.appendChild(document.createElement('tbody'));
-    addToSettingsPane(settingsTable);
+
+    temptable.lastElementChild.appendChild(temptablerow);
+    temptable.lastElementChild.appendChild(temptablerow2);
+    table.lastElementChild.lastElementChild.appendChild(temptable);
   }
 
 
-  const createSettingsButton = async () => {
+  const createSettingsButton = () => {
     const sidebar = document.getElementById('sidebar-menu');
     if (!sidebar) {
       this.debug('No sidebar detected');
@@ -224,25 +237,26 @@ function NexusTweaksScaffolding(scriptName, scriptLink, version) {
       this.debug('Settings button already exists');
     } else {
       SettingsTabButton = sidebar.firstElementChild.firstElementChild.appendChild(document.createElement('td')).appendChild(document.createElement('input'));
+      SettingsTabButton.id = 'nexus-tweaks-settings-button';
       SettingsTabButton.value = 'Nexus Tweaks';
       SettingsTabButton.type = 'button';
-      SettingsTabButton.Id = 'nexus-tweaks-settings-button';
-	  SettingsTabButton.onclick = async function(this) {
+      SettingsTabButton.onclick = async function() {
         const mainRightTBody = document.getElementById('main-right').firstElementChild.firstElementChild;
         while (mainRightTBody.children[2]) mainRightTBody.removeChild(mainRightTBody.children[2]); // Clear the right pane under the tab buttons
+        await createSettingsPane(mainRightTBody); // It's important to synchronize this, as it creates the table for mod settings
         let nextPaneButton = this.nextSibling;
-		while (nextPaneButton) {
+        while (nextPaneButton) {
           nextPaneButton.click();
           nextPaneButton = nextPaneButton.nextSibling;
-		}
+        }
       }
     }
-    const SettingsPaneButton = SettingsTabButton.parentNode.appendChild(document.createElement('input'));
-	SettingsPaneButton.hidden = true;
-	SettingsPaneButton.onclick = async function () {
+    const ModSettingsButton = SettingsTabButton.parentNode.appendChild(document.createElement('input'));
+    ModSettingsButton.hidden = true;
+    ModSettingsButton.onclick = function () {
       const mainRightTBody = document.getElementById('main-right').firstElementChild.firstElementChild;
-      await createSettingsPane(mainRightTBody);
-	}
+      addModSettings(document.getElementById('nexus-tweaks-settingtable'));
+    }
   }
 
 
@@ -335,12 +349,12 @@ function NexusTweaksScaffolding(scriptName, scriptLink, version) {
 
 
   const getLocalSettingName = (settingName) => {
-    return `nexus-tweaks-${this.charinfo.id}-${settingName}`;
+    return `${scriptId}-${this.charinfo.id}-${settingName}`;
   }
 
 
   const getGlobalSettingName = (settingName) => {
-    return `nexus-tweaks-global-${settingName}`;
+    return `${scriptId}-global-${settingName}`;
   }
 
 
@@ -370,12 +384,6 @@ function NexusTweaksScaffolding(scriptName, scriptLink, version) {
   this.setGlobalSetting = async (settingName, value) => {
     return await this.setSetting(getGlobalSettingName(settingName), value);
   }
-}
-
-
-// Create nexusTweaks object attached to the window for other scripts to interact with
-if (typeof nexusTweaks === 'undefined') {
-  this.nexusTweaks = new NexusTweaksScaffolding();
 }
 
 

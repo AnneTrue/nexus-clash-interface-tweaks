@@ -20,6 +20,12 @@
 // @resource    nexusTweaksCSS css/nexus-tweaks.css
 // ==/UserScript==
 
+const nexusTweaks = new NexusTweaksScaffolding(
+  'nexus-tweaks',
+  `${GM.info.script.name}`,
+  `${GM.info.script.homepage}`
+  `${GM.info.script.version}`
+);
 const myPromise = nexusTweaks.registerPromise(); // script-file promise
 const promiseList = []; // individual module promises
 
