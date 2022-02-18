@@ -18,7 +18,7 @@
 // @resource    scaffoldingCSS css/scaffolding.css
 // ==/UserScript==
 
-function NexusTweaksScaffolding() {
+function NexusTweaksScaffolding(scriptName, scriptLink, version) {
   'use strict';
   this.version = `${GM.info.script.version}`;
   // logs to console; can disable if you want
@@ -144,46 +144,72 @@ function NexusTweaksScaffolding() {
     settingsRow.appendChild(settingList);
     settingTable.appendChild(settingsRow);
 
-	settingsRow.classList.add(isOdd ? 'odd-row' : 'even-row');
+    settingsRow.classList.add(isOdd ? 'odd-row' : 'even-row');
   }
 
 
-  const createSettingsPane = async (table) => {
-    table.appendChild(document.createElement('tr'));
-    table.lastElementChild.appendChild(document.createElement('td'));
-    const temptable = document.createElement('table');
-    temptable.id = 'nexus-tweaks-settingtable';
-    temptable.className = 'nexus-tweaks-settingtable';
-    temptable.appendChild(document.createElement('tbody'));
-    const link = document.createElement('a');
-    link.href = 'https://github.com/AnneTrue/nexus-clash-interface-tweaks';
-    link.textContent = 'AnneTrue\'s Nexus Tweaks';
-    const verspan = document.createElement('span');
-    verspan.appendChild(document.createTextNode(`Version ${this.version}`));
-    const temptablerow = document.createElement('tr');
-    temptablerow.className = 'nexus-tweaks-settingheader';
-    temptablerow.appendChild(document.createElement('td'));
-    temptablerow.lastElementChild.className = 'nexus-tweaks-settingname';
-    temptablerow.lastElementChild.appendChild(link);
-    temptablerow.appendChild(document.createElement('td'));
-    temptablerow.lastElementChild.className = 'nexus-tweaks-settinglist';
-    temptablerow.lastElementChild.appendChild(verspan);
-    temptable.lastElementChild.appendChild(temptablerow);
-    table.lastElementChild.lastElementChild.appendChild(temptable);
-	
-	// todo: make this into a proper setting, it is NOT trivial
-	const dummySettings = {}
-	dummySettings[':/settings-style'] = 'argavyon-revamped'
-	temptable.classList.add(dummySettings[':/settings-style']);
+  const addToSettingsPane = async (settingsTable) => {
+    const settingsStyle = document.getElementById('nexus-tweaks-settingstyle');
+    settingsTable.classList.add(settingsStyle.value);
     let isOdd = true;
     for (const nexusTweaksMod of this.modules) {
-      await createSettingsRow(temptable.firstElementChild, nexusTweaksMod, isOdd);
-	  isOdd = !isOdd;
+      await createSettingsRow(settingsTable.firstElementChild, nexusTweaksMod, isOdd);
+      isOdd = !isOdd;
       const settingElements = await nexusTweaksMod.getSettingElements();
       for (const setElem of settingElements) {
         await addToRow(nexusTweaksMod.id, setElem);
       }
     }
+  }
+  
+  
+  const createSettingsPane = async (table) => {
+    let temptable = document.getElementById('nexus-tweaks-settingtable');
+    if (!temptable) {
+    table.appendChild(document.createElement('tr'));
+      table.lastElementChild.appendChild(document.createElement('td'));
+      
+      const temptable = document.createElement('table');
+      temptable.id = 'nexus-tweaks-settingtable';
+      temptable.className = 'nexus-tweaks-settingtable';
+      temptable.appendChild(document.createElement('tbody'));
+      
+      const link = document.createElement('a');
+      link.href = 'https://github.com/AnneTrue/nexus-clash-interface-tweaks';
+      link.textContent = 'AnneTrue\'s Nexus Tweaks';
+      
+      const verspan = document.createElement('span');
+      verspan.appendChild(document.createTextNode(`Version ${this.version}`));
+      
+      const temptablerow = document.createElement('tr');
+      temptablerow.className = 'nexus-tweaks-settingheader';
+      temptablerow.appendChild(document.createElement('td'));
+      temptablerow.lastElementChild.className = 'nexus-tweaks-settingname';
+      temptablerow.lastElementChild.appendChild(link);
+      temptablerow.appendChild(document.createElement('td'));
+      temptablerow.lastElementChild.className = 'nexus-tweaks-settinglist';
+      temptablerow.lastElementChild.appendChild(verspan);
+      
+      const temptablerow2 = document.createElement('tr');
+      temptablerow2.className = 'nexus-tweaks-settingrow odd-row';
+      const settingsStyleLabel = temptablerow2.appendChild(document.createElement('td'));
+      settingsStyleLabel.textContent = 'Settings Pane Style';
+      const settingsStyleSelect = temptablerow2.appendChild(document.createElement('td')).appendChild(document.createElement('select'));
+      settingsStyleSelect.Id = 'nexus-tweaks-settingstyle';
+      const defaultStyleOpt = settingsStyleSelect.appendChild(document.createElement('option'));
+      defaultStyleOpt.value = '';
+      defaultStyleOpt.textContent = 'Default';
+      const argRevampedStyleOpt = settingsStyleSelect.appendChild(document.createElement('option'));
+      argRevampedStyleOpt.value = 'argavyon-revamped';
+      argRevampedStyleOpt.textContent = 'Argavyon\'s Revamped';
+      
+      temptable.lastElementChild.appendChild(temptablerow);
+      table.lastElementChild.lastElementChild.appendChild(temptable);
+    }
+    
+    const settingsTable = temptable.firstChild.appendChild(document.createElement('tr')).appendChild(document.createElement('td')).appendChild(document.createElement('table'));
+    settingsTable.appendChild(document.createElement('tbody'));
+    addToSettingsPane(settingsTable);
   }
 
 
@@ -193,15 +219,30 @@ function NexusTweaksScaffolding() {
       this.debug('No sidebar detected');
       return;
     }
-
-    const SettingsTabButton = sidebar.firstElementChild.firstElementChild.appendChild(document.createElement('td')).appendChild(document.createElement('input'));
-    SettingsTabButton.value = 'Nexus Tweaks';
-    SettingsTabButton.type = 'button';
-    SettingsTabButton.onclick = async function() {
-      const mainRightTBody = document.getElementById('main-right').firstElementChild.firstElementChild;
-      while (mainRightTBody.children[2]) mainRightTBody.removeChild(mainRightTBody.children[2]); // Clear the right pane under the tab buttons
-      await createSettingsPane(mainRightTBody);
+    let SettingsTabButton = document.getElementById('nexus-tweaks-settings-button');
+    if (SettingsTabButton) {
+      this.debug('Settings button already exists');
+    } else {
+      SettingsTabButton = sidebar.firstElementChild.firstElementChild.appendChild(document.createElement('td')).appendChild(document.createElement('input'));
+      SettingsTabButton.value = 'Nexus Tweaks';
+      SettingsTabButton.type = 'button';
+      SettingsTabButton.Id = 'nexus-tweaks-settings-button';
+	  SettingsTabButton.onclick = async function(this) {
+        const mainRightTBody = document.getElementById('main-right').firstElementChild.firstElementChild;
+        while (mainRightTBody.children[2]) mainRightTBody.removeChild(mainRightTBody.children[2]); // Clear the right pane under the tab buttons
+        let nextPaneButton = this.nextSibling;
+		while (nextPaneButton) {
+          nextPaneButton.click();
+          nextPaneButton = nextPaneButton.nextSibling;
+		}
+      }
     }
+    const SettingsPaneButton = SettingsTabButton.parentNode.appendChild(document.createElement('input'));
+	SettingsPaneButton.hidden = true;
+	SettingsPaneButton.onclick = async function () {
+      const mainRightTBody = document.getElementById('main-right').firstElementChild.firstElementChild;
+      await createSettingsPane(mainRightTBody);
+	}
   }
 
 
