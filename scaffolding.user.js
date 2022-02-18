@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks Scaffolding
-// @version     999.prev.9
+// @version     999.prev.10
 // @description Scaffolding and API for nexus-tweaks
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -227,7 +227,7 @@ function NexusTweaksScaffolding(scriptName, scriptLink, version) {
       SettingsTabButton.value = 'Nexus Tweaks';
       SettingsTabButton.type = 'button';
       SettingsTabButton.Id = 'nexus-tweaks-settings-button';
-	  SettingsTabButton.onclick = async function(this) {
+	  SettingsTabButton.onclick = async function() {
         const mainRightTBody = document.getElementById('main-right').firstElementChild.firstElementChild;
         while (mainRightTBody.children[2]) mainRightTBody.removeChild(mainRightTBody.children[2]); // Clear the right pane under the tab buttons
         let nextPaneButton = this.nextSibling;
