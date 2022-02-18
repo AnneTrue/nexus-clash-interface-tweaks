@@ -293,3 +293,18 @@
   background: rgba(255,153,153,1);
   background: linear-gradient(0deg, rgba(255,153,153,1) 0%, rgba(255,153,153,0) 100%);
 }
+
+.classify-badges-MBcategory {
+  background-color: #dddddd;
+}
+.classify-badges-MBtitle {
+  font-weight : 900;
+}
+.classify-badges-SBcategory {
+  background-color: #eeeeee;
+  font-weight : normal;
+}
+.classify-badges-BLcategory {
+  background-color: #ffffff;
+  font-weight : normal;
+}
