@@ -160,7 +160,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
     modLink.textContent = scriptName;
     modLink.href = scriptLink;
     const modVer = modSettingsTHeader.appendChild(document.createElement('td'));
-    modVer.textContent = scriptVersion;
+    modVer.textContent = `Version ${scriptVersion}`;
 
     const modSettingsTBody = modSettingsTable.appendChild(document.createElement('tbody'));
     let isOdd = true;
