@@ -27,6 +27,9 @@ It disables the Say/Bullhorn buttons if the associated input field is empty.
 ## Global Description Highlights
 A global module that highlights building light status in the description, and displays how many items are available for pickup/target shooting.
 
+## Resizeable Message Pane
+A global module that allows setting a custom size for the message pane.
+
 ## Inventory Tweaks
 A local module that improves the inventory interface.
 
