@@ -24,7 +24,7 @@
 const nexusTweaks = new NexusTweaksScaffolding(
   'nexus-tweaks',
   'AnneTrue\'s Nexus Tweaks - Argavyon\'s Preview Branch',
-  `${GM.info.script.homepage}`
+  `${GM.info.script.homepage}`,
   `${GM.info.script.version}`
 );
 const myPromise = nexusTweaks.registerPromise(); // script-file promise
