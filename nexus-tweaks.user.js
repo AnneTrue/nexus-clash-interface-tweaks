@@ -1433,7 +1433,6 @@ promiseList.push((async () => {
     const settingContent = await mod.getSetting('message-pane-height');
     if (settingContent) {
       const num = settingContent.match(/.*?(?<num>\d*).*/).groups.num;
-      console.log(num);
       if (num) messagePane.style.height = `${num}px`;
       else messagePane.style.height = '100px';
     } else messagePane.style.height = '100px';
