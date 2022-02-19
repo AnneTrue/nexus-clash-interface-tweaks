@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.13
+// @version     999.prev.14
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
-// @author      Anne True
-// @homepage    https://github.com/AnneTrue/nexus-clash-interface-tweaks
-// @source      https://github.com/AnneTrue/nexus-clash-interface-tweaks
+// @author      Anne True | Argavyon
+// @homepage    https://www.nexusclash.com/viewtopic.php?f=8&t=2081
+// @source      https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview
 // @match       *://nexusclash.com/clash.php*
 // @match       *://www.nexusclash.com/clash.php*
 // @grant       GM_getValue
@@ -24,7 +24,7 @@
 const nexusTweaks = new NexusTweaksScaffolding(
   'nexus-tweaks',
   'AnneTrue\'s Nexus Tweaks - Argavyon\'s Preview Branch',
-  'https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview',
+  `${GM.info.script.homepage}`
   `${GM.info.script.version}`
 );
 const myPromise = nexusTweaks.registerPromise(); // script-file promise
