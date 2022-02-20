@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.14
+// @version     999.prev.15
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True | Argavyon
@@ -1939,7 +1939,7 @@ promiseList.push((async () => {
 
   const getRecipeId = recipeName => document.querySelector('#CharacterInfo a').textContent.replace(' ', '-') + '-alchemy-' + recipeName;
 
-  const EnhancedAlchemyNode = async (node, grade, researchButton, researchComp, researchPotion, forgetNode, brewButton, brewSelect) => {
+  const EnhancedAlchemyNode = async (node, grade, researchButton, researchComp, researchPotion, forgetNode, brewButton, brewSelect, transButton, transFrom, transTo) => {
     const recipeName = node.children[0].textContent.trim();
     const recipeId = getRecipeId(recipeName.replace(' ', '-'));
 
@@ -1981,7 +1981,35 @@ promiseList.push((async () => {
         researchPotion.value = recipeName;
         researchButton.click();
       }
-    } else if (grade == 6) { // fully researched
+    }
+    else if (grade == 6) { // fully researched
+      if (node.children[1].children[0].querySelector('.missing')) {
+        const tForm = span.appendChild(document.createElement('form'));
+        const tLabel = tForm.appendChild(document.createElement('div'));
+        tLabel.textContent = 'Transmute from:';
+        tLabel.style.width = '37%';
+        tLabel.style.display = 'inline-block';
+        const tComp = tForm.appendChild(transFrom.cloneNode(true));
+        tComp.style.width = '63%';
+        tComp.style.display = 'inline-block';
+        for (const li of node.children[1].children[0].children) {
+          if (li.classList.contains('missing')) {
+            const tButton = li.lastChild.insertBefore(document.createElement('input'), li.lastChild.firstChild);
+            tButton.type = 'button';
+            tButton.value = '🔃';
+            tButton.style.padding = '0px';
+            tButton.style.border = 'none';
+            tButton.style.background = 'none';
+            tButton.style.display = 'inline-block';
+            tButton.onclick = function(){
+              transFrom.value = tComp.value;
+              transTo.selectedIndex = transTo.options.namedItem(li.lastElementChild.textContent).index;
+              transButton.click();
+            }
+          }
+        }
+      }
+
       const brew = span.appendChild(brewButton.cloneNode(true));
       brew.style.width = '100%';
       brew.onclick = function() {
@@ -2053,17 +2081,27 @@ promiseList.push((async () => {
   const EnhancedAlchemyPanelUI = (trackerNode) => {
     const alchemyResearch = document.getElementById('main-left').querySelector('form[name="alchemyresearch"]');
     if (alchemyResearch) {
-      const alchemyForget = document.getElementById('main-left').querySelector('form[name="alchemyforget"]');
       const resButton = alchemyResearch.children[1];
       const resComp = alchemyResearch.children[2];
       const resPotion = alchemyResearch.children[3];
+      const alchemyForget = document.getElementById('main-left').querySelector('form[name="alchemyforget"]');
       const alchKnown = document.getElementById('main-left').querySelector('form[name="alchemyknown"]');
       const brewButton = alchKnown.children[2];
       const brewSelect = alchKnown.children[1];
+      const transmute = document.getElementById('main-left').querySelector('form[name="alchemytransmute"]');
+      const transButton = transmute.children[1];
+      const transFrom = transmute.children[2];
+      const transTo = transmute.children[3];
 
       for (let node = trackerNode.nextSibling; node && node.children[1]; node = node.nextSibling) {
         const grade = 6 - node.children[1].querySelectorAll('li[title="unknown"').length;
-        EnhancedAlchemyNode(node, grade, resButton, resComp, resPotion, alchemyForget, brewButton, brewSelect);
+        EnhancedAlchemyNode(
+          node, grade,
+          resButton, resComp, resPotion,
+          alchemyForget,
+          brewButton, brewSelect,
+          transButton, transFrom, transTo
+        );
       }
     } else {
       for (let node = trackerNode.nextSibling; node && node.children[1]; node = node.nextSibling) {
@@ -2312,7 +2350,6 @@ promiseList.push((async () => {
     const settingContent = await mod.getSetting('message-pane-height');
     if (settingContent) {
       const num = settingContent.match(/.*?(?<num>\d*).*/).groups.num;
-      console.log(num);
       if (num) messagePane.style.height = `${num}px`;
       else messagePane.style.height = '100px';
     } else messagePane.style.height = '100px';
