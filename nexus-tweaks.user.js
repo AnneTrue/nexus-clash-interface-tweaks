@@ -3,7 +3,9 @@
 // @version     999.prev.20
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
-// @author      Anne True | Argavyon
+// @author      Anne True
+// @author      Thalanor
+// @author      Argavyon
 // @homepage    https://www.nexusclash.com/viewtopic.php?f=8&t=2081
 // @source      https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview
 // @match       *://nexusclash.com/clash.php*
