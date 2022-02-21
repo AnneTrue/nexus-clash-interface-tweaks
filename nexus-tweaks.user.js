@@ -1425,7 +1425,7 @@ promiseList.push((async () => {
   );
 
   const paneResize = async () => {
-    const messagePane = document.getElementById('Messages');
+    const messagePane = document.querySelector('#main-left #Messages');
     if (!messagePane) {
       mod.debug('No message pane found.');
       return;
