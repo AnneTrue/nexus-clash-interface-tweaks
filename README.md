@@ -62,6 +62,9 @@ For career and breath achievement badges, it also displays progress.
 ## Default Set-All Pet Stance
 A local module that allows the user to set the default stance on the dropdown by the "Set All" button.
 
+## No Targeting Allies
+A local module that enables removing factionmates/allies/friendlies from the combat targeting list. May not work fast enough if you spam the attack button.
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.

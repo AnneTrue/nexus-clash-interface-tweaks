@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.16
+// @version     999.prev.17
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True | Argavyon
@@ -2406,6 +2406,62 @@ promiseList.push((async () => {
   await mod.registerMethod(
     'async',
     defaultStance
+  );
+})());
+
+
+//##############################################################################
+promiseList.push((async () => {
+  const mod = await nexusTweaks.registerModule(
+    'noTargetAllies',
+    'No Targeting Allies',
+    'local',
+    'Allows disabling targeting factionmates/allies/friendlies on the attack selection box.',
+  );
+
+  const noTargetAllies = async () => {
+    const targetDropdown = document.getElementById('combat_target_id');
+    if (!targetDropdown) {
+      mod.debug('No combat target dropdown found');
+      return;
+    }
+    const noFac = await mod.getSetting('no-target-faction');
+    const noAlly = await mod.getSetting('no-target-allies');
+    const noFriend = await mod.getSetting('no-target-friendlies');
+
+    const newDropdown = targetDropdown.cloneNode(false);
+    for (const opt of targetDropdown.options) {
+      mod.log(opt.textContent);
+      if (noFac && opt.textContent.includes('(Factionmate)'));
+      else if (noAlly && opt.textContent.includes('(Ally)'));
+      else if (noFriend && opt.textContent.includes('(Friendly)'));
+      else newDropdown.appendChild(opt);
+    }
+    targetDropdown.parentNode.replaceChild(newDropdown, targetDropdown);
+  }
+
+  await mod.registerSetting(
+    'checkbox',
+    'no-target-faction',
+    'Prevent Targeting Factionmates',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-target-allies',
+    'Prevent Targeting Allies',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-target-friendlies',
+    'Prevent Targeting Friendlies',
+    ''
+  );
+
+  await mod.registerMethod(
+    'async',
+    noTargetAllies
   );
 })());
 
