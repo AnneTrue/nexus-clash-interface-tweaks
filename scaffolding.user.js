@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks Scaffolding
-// @version     2.0.0
+// @version     2.0.1
 // @description Scaffolding and API for nexus-tweaks
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -246,8 +246,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
         await createSettingsPane(mainRightTBody); // It's important to synchronize this, as it creates the table for mod settings
         let nextPaneButton = this.parentNode.firstElementChild;
         while (nextPaneButton) {
-          if (nextPaneButton.id === SettingsTabButton.id) continue;
-          nextPaneButton.click();
+          if (nextPaneButton.id !== SettingsTabButton.id) nextPaneButton.click();
           nextPaneButton = nextPaneButton.nextSibling;
         }
       }
