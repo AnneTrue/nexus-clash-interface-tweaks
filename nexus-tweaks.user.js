@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.17
+// @version     999.prev.18
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True | Argavyon
@@ -2342,7 +2342,7 @@ promiseList.push((async () => {
   );
 
   const paneResize = async () => {
-    const messagePane = document.getElementById('Messages');
+    const messagePane = document.querySelector('#main-left #Messages');
     if (!messagePane) {
       mod.debug('No message pane found.');
       return;
