@@ -2348,11 +2348,17 @@ promiseList.push((async () => {
       return;
     }
     const settingContent = await mod.getSetting('message-pane-height');
-    if (settingContent) {
+    if (!settingContent) mod.setSetting('message-pane-height', '100');
+
+    if (await mod.getSetting('mesage-pane-autosize')) {
+      messagePane.style.height = 'auto';
+    } else if (settingContent) {
       const num = settingContent.match(/.*?(?<num>\d*).*/).groups.num;
       if (num) messagePane.style.height = `${num}px`;
       else messagePane.style.height = '100px';
-    } else messagePane.style.height = '100px';
+    } else {
+      messagePane.style.height = '100px';
+    }
   }
 
   await mod.registerSetting(
@@ -2360,6 +2366,13 @@ promiseList.push((async () => {
     'message-pane-height',
     'Pane Height',
     'Choose pane height (default is 100px)'
+  );
+
+  await mod.registerSetting(
+    'checkbox',
+    'mesage-pane-autosize',
+    'Auto Resize Message Pane',
+    'Auto Resize Message Pane (overrides pane height)',
   );
 
   await mod.registerMethod(
