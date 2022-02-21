@@ -59,6 +59,9 @@ Characters entering or reentering a location will be labeled with a "NEW" status
 A global module that classifies character badges into a hierarchy on the character info page. The major categories can be collapsed and expanded.
 For career and breath achievement badges, it also displays progress.
 
+## Lich Pet Summon fix
+A local module that rearranges Necro/FM summoning buttons into a second row under Skeleton/Zombie summoning buttons. No more wide Pet tables.
+
 ## Default Set-All Pet Stance
 A local module that allows the user to set the default stance on the dropdown by the "Set All" button.
 
