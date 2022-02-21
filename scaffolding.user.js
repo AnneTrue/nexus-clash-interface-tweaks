@@ -4,6 +4,7 @@
 // @description Scaffolding and API for nexus-tweaks
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
+// @author      Argavyon
 // @homepage    https://github.com/AnneTrue/nexus-clash-interface-tweaks
 // @match       *://nexusclash.com/clash.php*
 // @match       *://www.nexusclash.com/clash.php*
@@ -20,7 +21,13 @@
 
 function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion) {
   'use strict';
+  // GM.info refers to the caller's metadata block instead of this script's - at least, that's how it works on TM for Chrome
+  // Given how GM does apparently ignore the metadata block on @require scripts, it could possibly be removed
+  // Leaving it here for backwards-compatibility, in case any scripts need it
   this.version = `${GM.info.script.version}`;
+  this.APIversion = '999.api.14';
+  this.APIname = 'Scaffolding and API for Nexus-Tweaks';
+  this.APIhomepage = 'https://github.com/AnneTrue/nexus-clash-interface-tweaks';
   // logs to console; can disable if you want
   this.logging = true;
   // verbose logging, set true for dev-work
@@ -29,7 +36,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
 
   this.log = async (message) => {
     if (this.logging) {
-      console.log(`[Nexus-Tweaks-${this.version}]:  ${message}`);
+      console.log(`[Nexus-Tweaks-${this.APIversion}]:  ${message}`);
     }
   }
 
@@ -42,7 +49,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
 
 
   this.error = async (message) => {
-    console.error(`[Nexus-Tweaks-${this.version}]:  ${message}`);
+    console.error(`[Nexus-Tweaks-${this.APIversion}]:  ${message}`);
   }
 
 
@@ -185,11 +192,11 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
     temptable.appendChild(document.createElement('tbody'));
 
     const link = document.createElement('a');
-    link.href = 'https://github.com/AnneTrue/nexus-clash-interface-tweaks';
-    link.textContent = 'Nexus Tweaks Scaffolding';
+    link.href = this.APIhomepage;
+    link.textContent = this.APIname;
 
     const verspan = document.createElement('span');
-    verspan.appendChild(document.createTextNode(`Version ${this.version}`));
+    verspan.appendChild(document.createTextNode(`Version ${this.APIversion}`));
 
     const temptablerow = document.createElement('tr');
     temptablerow.className = 'nexus-tweaks-settingheader';
