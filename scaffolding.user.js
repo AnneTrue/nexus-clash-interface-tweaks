@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks Scaffolding
-// @version     999.prev.12
+// @version     999.prev.13
 // @description Scaffolding and API for nexus-tweaks
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -160,7 +160,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
     modLink.textContent = scriptName;
     modLink.href = scriptLink;
     const modVer = modSettingsTHeader.appendChild(document.createElement('td'));
-    modVer.textContent = scriptVersion;
+    modVer.textContent = `Version ${scriptVersion}`;
 
     const modSettingsTBody = modSettingsTable.appendChild(document.createElement('tbody'));
     let isOdd = true;
@@ -244,8 +244,9 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
         const mainRightTBody = document.getElementById('main-right').firstElementChild.firstElementChild;
         while (mainRightTBody.children[2]) mainRightTBody.removeChild(mainRightTBody.children[2]); // Clear the right pane under the tab buttons
         await createSettingsPane(mainRightTBody); // It's important to synchronize this, as it creates the table for mod settings
-        let nextPaneButton = this.nextSibling;
+        let nextPaneButton = this.parentNode.firstElementChild;
         while (nextPaneButton) {
+          if (nextPaneButton.id === SettingsTabButton.id) continue;
           nextPaneButton.click();
           nextPaneButton = nextPaneButton.nextSibling;
         }
