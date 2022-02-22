@@ -74,6 +74,13 @@ A local module that colors the status effects in the status effect pane, and add
 ## Inventory Sorter
 A local module that sorts items into categories, such as "weapons", ...
 
+## Enhanced Alchemy Pane
+A local module that adds the following buttons to each recipe in the alchemy pane, so that you don't need to select which potion you want to work with on the potion dropdown:
+* Brew Potion: If the recipe is fully researched.
+* Research Component: If the recipe isn't fully researched.
+* Forget Recipe: If the recipe has at least one component researched.
+* Transmute Component: If the recipe is fully researched and there's components missing from the inventory.
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
