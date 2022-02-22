@@ -546,6 +546,10 @@ promiseList.push((async () => {
       op:'pad', val:'libFort'
     },
     {
+      msg: new RegExp(`${pfx}You attack the barricades to the (North|East|South|West) with`),
+      op:'pad', val:'libFort'
+    },
+    {
       msg: new RegExp(`${pfx}You attack .*? with your .*? and miss\\.`),
       op:'pad', val:'libAttackMiss'
     },
