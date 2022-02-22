@@ -52,6 +52,10 @@ Shows a proportional health and magic bar when the appropriate skills are availa
 Characters taking damage since the last refresh will show a corresponding health bar animation to quickly notice combat actions in the area.
 Characters entering or reentering a location will be labeled with a "NEW" status tag to more easily notice them within a highly populated area.
 
+## Badge Classifier
+A global module that classifies character badges into a hierarchy on the character info page. The major categories can be collapsed and expanded.
+For career and breath achievement badges, it also displays progress.
+
 ## Enhanced Alchemy Pane
 A local module that adds the following buttons to each recipe in the alchemy pane, so that you don't need to select which potion you want to work with on the potion dropdown:
 * Brew Potion: If the recipe is fully researched.
@@ -61,7 +65,7 @@ A local module that adds the following buttons to each recipe in the alchemy pan
 
 # Contributing
 ## Guidelines
-Feel free to send pull requests with fixes or new features, open Github issues, comment on the Nexus forum thread with ideas, contact AnneTrue on discord, and more.
+Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
 
 Expect pull requests to be code reviewed, or taken over and adapted to the codebase.
 
