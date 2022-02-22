@@ -81,6 +81,9 @@ A local module that adds the following buttons to each recipe in the alchemy pan
 * Forget Recipe: If the recipe has at least one component researched.
 * Transmute Component: If the recipe is fully researched and there's components missing from the inventory.
 
+## Word of Sorting
+Sorts Archon's Word powers in the dropdown. (They appear unsorted if the Archon has purchased a skill that grants a new Word power)
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
