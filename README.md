@@ -68,6 +68,9 @@ A local module that allows the user to set the default stance on the dropdown by
 ## No Targeting Allies
 A local module that enables removing factionmates/allies/friendlies from the combat targeting list. May not work fast enough if you spam the attack button.
 
+## Colored Status Effects
+A local module that colors the status effects in the status effect pane, and adds a description on-mouse-hover. No more navigating to the wiki to check what a status is.
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
