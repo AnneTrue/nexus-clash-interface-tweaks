@@ -15,7 +15,6 @@
 // @grant       GM.setValue
 // @grant       GM.deleteValue
 // @grant       GM.getResourceUrl
-// @grant       GM.xmlHttpRequest
 // @require     scaffolding.user.js
 // @resource    scaffoldingCSS css/scaffolding.css
 // @resource    nexusTweaksCSS css/nexus-tweaks.css
@@ -1501,20 +1500,8 @@ promiseList.push((async () => {
         }
     }
 
-    const setTitle = (status, wikiStatus, statusDesc) => {
-        if (wikiStatus) {
-            const effectHeader = wikiStatus.querySelector(`h2 > #${status.textContent.replace(' ', '_')}`).parentNode;
-            let effectDesc = effectHeader;
-            while (!effectDesc.textContent.includes('Effect:')) effectDesc = effectDesc.nextElementSibling;
-            if (effectDesc.textContent == 'Effect:\n') {
-                effectDesc = effectDesc.nextElementSibling;
-                status.title = 'Effect: ' + effectDesc.textContent.replace('\n', ' ');
-            } else {
-                status.title = effectDesc.textContent.replace('\n', ' ');
-            }
-        } else {
-            status.title = 'Effect: ' + statusDesc[status.textContent];
-        }
+    const setTitle = (status, statusDesc) => {
+        status.title = 'Effect: ' + statusDesc[status.textContent];
     }
 
     const statusDesc = {
@@ -1763,31 +1750,14 @@ promiseList.push((async () => {
     const colorStatusPane = async (mod) => {
         const charInfo = document.getElementById('CharacterInfo');
         if (!charInfo) return;
-        const enableXSS = await mod.getSetting('get-status-from-wiki')
-        let wikiPromise = null
-        if (enableXSS) {
-            wikiPromise = GM.xmlHttpRequest({
-                method: 'GET',
-                url: 'https://wiki.nexusclash.com/wiki/Status_Effect'
-            })
-        }
         const statusPane = charInfo.querySelector('tbody').lastChild;
         for (const status of statusPane.firstChild.children) {
             colorStatus(status);
         }
-        let wikiStatus = null;
-        if (enableXSS) wikiStatus = (await wikiPromise).responseXML;
         for (const status of statusPane.firstChild.children) {
-            setTitle(status, wikiStatus, statusDesc);
+            setTitle(status, statusDesc);
         }
     }
-
-    await mod.registerSetting(
-        'checkbox',
-        'get-status-from-wiki',
-        'Get Status Effect descriptions from wiki',
-        'Warning: uses a cross-site request'
-    );
 
     await mod.registerMethod(
         'sync',
