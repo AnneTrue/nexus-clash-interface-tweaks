@@ -52,6 +52,9 @@ Shows a proportional health and magic bar when the appropriate skills are availa
 Characters taking damage since the last refresh will show a corresponding health bar animation to quickly notice combat actions in the area.
 Characters entering or reentering a location will be labeled with a "NEW" status tag to more easily notice them within a highly populated area.
 
+## Inventory Sorter
+A local module that sorts items into categories, such as "weapons", ...
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the Nexus forum thread with ideas, contact AnneTrue on discord, and more.
