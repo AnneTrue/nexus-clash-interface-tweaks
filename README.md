@@ -4,7 +4,7 @@ A userscript that tweaks the Nexus Clash user interface to be bearable
 # Usage
 Install the userscript via GreaseMonkey or TamperMonkey.
 
-Then navigate to your character's "Pad" tab in the multifunction pane.
+Then navigate to "Nexus Tweaks" tab in the multifunction pane.
 
 There are two types of modules: "local" for character-specific settings, and "global" for all characters (for instance, Global Message History).
 
