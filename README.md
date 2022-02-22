@@ -71,6 +71,9 @@ A local module that enables removing factionmates/allies/friendlies from the com
 ## Colored Status Effects
 A local module that colors the status effects in the status effect pane, and adds a description on-mouse-hover. No more navigating to the wiki to check what a status is.
 
+## Inventory Sorter
+A local module that sorts items into categories, such as "weapons", ...
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
