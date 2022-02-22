@@ -1416,6 +1416,36 @@ promiseList.push((async () => {
 
 
 //##############################################################################
+promiseList.push((async () => {
+  const mod = await nexusTweaks.registerModule(
+    'wordOfSorting',
+    'Word of Sorting',
+    'local',
+    'Sorts Archons\' Word powers.',
+  );
+
+  const wordOfSorting = () => {
+    const divineWordButton = document.querySelector('form[name="skilluse"] input[value="Divine Words"]');
+    if (!divineWordButton) {
+      mod.debug('Divine Word button not found');
+      return;
+    }
+    const divineWordSelect = divineWordButton.parentNode.querySelector('select');
+    let options = Array.from(divineWordSelect.children);
+    // Sort 'none' first, then sort everything else lexicographically
+    options.sort((opt1, opt2) => (opt1.value === 'none' ? -1 : opt2.value === 'none' ? 1 : opt1.value < opt2.value ? -1 : 1));
+    divineWordSelect.innerHTML = '';
+    for (const opt of options) divineWordSelect.options.add(opt);
+  }
+
+  await mod.registerMethod(
+    'sync',
+    wordOfSorting
+  );
+})());
+
+
+//##############################################################################
 // Must be last executed step, as this unlocks nexusTweaks to run
 (async () => {
   nexusTweaks.addGlobalStyle(await GM.getResourceUrl('nexusTweaksCSS'));

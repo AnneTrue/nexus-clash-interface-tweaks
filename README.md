@@ -56,6 +56,9 @@ Characters entering or reentering a location will be labeled with a "NEW" status
 A global module that classifies character badges into a hierarchy on the character info page. The major categories can be collapsed and expanded.
 For career and breath achievement badges, it also displays progress.
 
+## Word of Sorting
+Sorts Archon's Word powers in the dropdown. (They appear unsorted if the Archon has purchased a skill that grants a new Word power)
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
