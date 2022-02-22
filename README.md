@@ -52,6 +52,13 @@ Shows a proportional health and magic bar when the appropriate skills are availa
 Characters taking damage since the last refresh will show a corresponding health bar animation to quickly notice combat actions in the area.
 Characters entering or reentering a location will be labeled with a "NEW" status tag to more easily notice them within a highly populated area.
 
+## Enhanced Alchemy Pane
+A local module that adds the following buttons to each recipe in the alchemy pane, so that you don't need to select which potion you want to work with on the potion dropdown:
+* Brew Potion: If the recipe is fully researched.
+* Research Component: If the recipe isn't fully researched.
+* Forget Recipe: If the recipe has at least one component researched.
+* Transmute Component: If the recipe is fully researched and there's components missing from the inventory.
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the Nexus forum thread with ideas, contact AnneTrue on discord, and more.
