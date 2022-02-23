@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.7.1
+// @version     1.7.2
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -543,6 +543,10 @@ promiseList.push((async () => {
     },
     {
       msg: new RegExp(`${pfx}You attack the (door|ward|fortifications) with `),
+      op:'pad', val:'libFort'
+    },
+    {
+      msg: new RegExp(`${pfx}You attack the barricades to the (North|East|South|West) with`),
       op:'pad', val:'libFort'
     },
     {
