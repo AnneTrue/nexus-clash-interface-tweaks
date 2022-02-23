@@ -1249,7 +1249,7 @@ promiseList.push((async () => {
         'Exploration' : {
             'Breath 5' : [
                 'A Heaven of Hell', 'According to Their Works', 'Bloodbreaker', 'Cassandras Truth', 'Club Feral', 'Cognitive Dissonance', 'Convenient', 'Divine Comedy',
-                'Earth Was Like a Marble', 'Eternal I Endure', 'Every Mountain Made Low', 'Family Fun', 'Flushed!', 'Going Up', 'Grandest of Slams', 'Hear Ye!',
+                'Earth Was Like a Marble', 'Eternal I Endure', 'Every Mountain Made Low', 'Family Fun', 'Flushed!', 'Forget All That', 'Going Up', 'Grandest of Slams', 'Hear Ye!',
                 'Hell is Other People', 'I Stab at Thee', 'Iron Juggernaut', 'Kenopsia', 'Love Eternal', 'Made to Last', 'No Longer Boarding', 'Not a Drill', 'Not Safe',
                 'Perseverence of the Saints', 'Receded Waters', 'Skipping Stones', 'Taste of Dried Leaves', 'They Shall Not Pass', 'This Place is Not a Place of Honor',
                 'Those Lost', 'Trading Places', 'True Blue', 'Two Guns', 'Whole Dome', 'Wild in the Woods', 'With Great Power'
