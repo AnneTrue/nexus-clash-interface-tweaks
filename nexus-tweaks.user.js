@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.24
+// @version     999.prev.25
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2449,12 +2449,14 @@ promiseList.push((async () => {
     const noFriend = await mod.getSetting('no-target-friendlies');
 
     const newDropdown = targetDropdown.cloneNode(false);
-    for (const opt of targetDropdown.options) {
-      mod.log(opt.textContent);
-      if (noFac && opt.textContent.includes('(Factionmate)'));
-      else if (noAlly && opt.textContent.includes('(Ally)'));
-      else if (noFriend && opt.textContent.includes('(Friendly)'));
-      else newDropdown.appendChild(opt);
+    for (const opt of Array.from(targetDropdown.options)) {
+      mod.debug(opt.textContent);
+      if (opt.textContent.endsWith('(Factionmate)')) { if (!noFac) newDropdown.appendChild(opt); }
+      else if (opt.textContent.endsWith('(Ally)')) { if (!noAlly) newDropdown.appendChild(opt); }
+      else if (opt.textContent.endsWith('(Friendly)')) { if (!noFriend) newDropdown.appendChild(opt); }
+      else if (opt.textContent.endsWith('(Enemy)')) { if (!noEnemy) newDropdown.appendChild(opt); }
+      else if (opt.textContent.endsWith('(Hostile)')) { if (!noHostile) newDropdown.appendChild(opt); }
+      else { if (!noOther) newDropdown.appendChild(opt); }
     }
     targetDropdown.parentNode.replaceChild(newDropdown, targetDropdown);
   }
