@@ -84,6 +84,9 @@ A local module that adds the following buttons to each recipe in the alchemy pan
 ## Word of Sorting
 Sorts Archon's Word powers in the dropdown. (They appear unsorted if the Archon has purchased a skill that grants a new Word power)
 
+## Collapse Released Characters
+A global module that enables collapsing/expanding the list of released characters on the character select page.
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
