@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     1.7.0
+// @version     1.7.2
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -549,6 +549,10 @@ promiseList.push((async () => {
     },
     {
       msg: new RegExp(`${pfx}You attack the (door|ward|fortifications) with `),
+      op:'pad', val:'libFort'
+    },
+    {
+      msg: new RegExp(`${pfx}You attack the barricades to the (North|East|South|West) with`),
       op:'pad', val:'libFort'
     },
     {
@@ -1250,11 +1254,11 @@ promiseList.push((async () => {
         },
         'Exploration' : {
             'Breath 5' : [
-                'A Heaven of Hell', 'According to Their Works', 'Cassandras Truth', 'Club Feral', 'Cognitive Dissonance', 'Convenient', 'Divine Comedy',
+                'A Heaven of Hell', 'According to Their Works', 'Bloodbreaker', 'Cassandras Truth', 'Club Feral', 'Cognitive Dissonance', 'Convenient', 'Divine Comedy',
                 'Earth Was Like a Marble', 'Eternal I Endure', 'Every Mountain Made Low', 'Family Fun', 'Flushed!', 'Going Up', 'Grandest of Slams', 'Hear Ye!',
-                'Hell is Other People', 'I Stab at Thee', 'Kenopsia', 'Love Eternal', 'Made to Last', 'No Longer Boarding', 'Not a Drill', 'Not Safe', 'Perseverence of the Saints',
-                'Receded Waters', 'Skipping Stones', 'Taste of Dried Leaves', 'They Shall Not Pass', 'This Place is Not a Place of Honor', 'Those Lost', 'Trading Places', 'True Blue',
-                'Two Guns', 'Whole Dome', 'Wild in the Woods'
+                'Hell is Other People', 'I Stab at Thee', 'Iron Juggernaut', 'Kenopsia', 'Love Eternal', 'Made to Last', 'No Longer Boarding', 'Not a Drill', 'Not Safe',
+                'Perseverence of the Saints', 'Receded Waters', 'Skipping Stones', 'Taste of Dried Leaves', 'They Shall Not Pass', 'This Place is Not a Place of Honor',
+                'Those Lost', 'Trading Places', 'True Blue', 'Two Guns', 'Whole Dome', 'Wild in the Woods', 'With Great Power'
             ],
             'Breath 4' : [
                 'A New Chapter', 'Academic Probation', 'All In The Family', 'And I Must Scream', 'At All Costs', 'Baraas Ascends', 'Birthing Pool', 'Broken Alliance',
