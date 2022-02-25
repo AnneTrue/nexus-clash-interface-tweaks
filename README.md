@@ -87,6 +87,9 @@ Sorts Archon's Word powers in the dropdown. (They appear unsorted if the Archon 
 ## Collapse Released Characters
 A global module that enables collapsing/expanding the list of released characters on the character select page.
 
+## Zalgo Speech
+A local module that enables zalgofy your speech. Configurable on intensity and direction.
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
