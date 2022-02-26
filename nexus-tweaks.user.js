@@ -1461,6 +1461,12 @@ promiseList.push((async () => {
     if (grade < 6) { // At least one of the components hasn't been found
       const rComp = span.appendChild(researchComp.cloneNode(true));
       rComp.style.width = '100%';
+      rComp.onchange = function() {
+        const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
+        this.style.color = style.color;
+        this.style.backgroundColor = style.backgroundColor;
+      }
+      rComp.onchange();
 
       const rButton = span.appendChild(researchButton.cloneNode(true));
       rButton.style.width = '100%';
@@ -1477,9 +1483,17 @@ promiseList.push((async () => {
         tLabel.textContent = 'Transmute from:';
         tLabel.style.width = '37%';
         tLabel.style.display = 'inline-block';
+
         const tComp = tForm.appendChild(transFrom.cloneNode(true));
         tComp.style.width = '63%';
         tComp.style.display = 'inline-block';
+        tComp.onchange = function() {
+          const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
+          this.style.color = style.color;
+          this.style.backgroundColor = style.backgroundColor;
+        }
+        tComp.onchange();
+
         for (const li of node.children[1].children[0].children) {
           if (li.classList.contains('missing')) {
             const tButton = li.lastChild.insertBefore(document.createElement('input'), li.lastChild.firstChild);
@@ -1580,6 +1594,61 @@ promiseList.push((async () => {
       const transButton = transmute.children[1];
       const transFrom = transmute.children[2];
       const transTo = transmute.children[3];
+
+      for (const compList of [resComp, transFrom]) {
+        const commons = document.createElement('optgroup');
+        const uncommons = document.createElement('optgroup');
+        const rares = document.createElement('optgroup');
+        const spellgems = document.createElement('optgroup');
+        commons.label = 'Common Ingredients';
+        uncommons.label = 'Uncommon Ingredients';
+        rares.label = 'Rare Ingredients';
+        spellgems.label = 'Spellgems';
+        for (const comp of Array.from(compList.options)) {
+          if (comp.textContent.includes('Small Gem')) spellgems.appendChild(comp);
+          else if (comp.textContent.endsWith('(C)')) commons.appendChild(comp);
+          else if (comp.textContent.endsWith('(U)')) uncommons.appendChild(comp);
+          else if (comp.textContent.endsWith('(R)')) rares.appendChild(comp);
+          else mod.error(`Unknown component rarity for ${comp.textContent}`);
+        }
+
+        compList.add(commons);
+        compList.add(uncommons);
+        compList.add(rares);
+        compList.add(spellgems);
+        compList.selectedIndex = 0;
+
+        for (const optGroup of [commons, uncommons, rares, spellgems]) {
+          if (optGroup.children.length === 0) optGroup.hidden = true;
+          else {
+            const style = document.defaultView.getComputedStyle(optGroup.children[0], '');
+            optGroup.style.color = style.color;
+            optGroup.style.backgroundColor = style.backgroundColor;
+          }
+        }
+
+        compList.onchange = function() {
+          const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
+          this.style.color = style.color;
+          this.style.backgroundColor = style.backgroundColor;
+        }
+        compList.onchange();
+      }
+
+      for (const optGroup of transTo.children) {
+        if (optGroup.children.length === 0) optGroup.hidden = true;
+        else {
+          const style = document.defaultView.getComputedStyle(optGroup.children[0], '');
+          optGroup.style.color = style.color;
+          optGroup.style.backgroundColor = style.backgroundColor;
+        }
+      }
+      transTo.onchange = function() {
+        const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
+        this.style.color = style.color;
+        this.style.backgroundColor = style.backgroundColor;
+      }
+      transTo.onchange();
 
       for (let node = trackerNode.nextSibling; node && node.children[1]; node = node.nextSibling) {
         const grade = 6 - node.children[1].querySelectorAll('li[title="unknown"').length;
