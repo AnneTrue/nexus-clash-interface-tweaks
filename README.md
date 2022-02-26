@@ -90,6 +90,9 @@ A global module that enables collapsing/expanding the list of released character
 ## Zalgo Speech
 A local module that enables zalgofy your speech. Configurable on intensity and direction.
 
+## Improved Purchase Skills Page
+A global module that slightly improves the Buy Skills page.
+
 # Contributing
 ## Guidelines
 Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
