@@ -1425,24 +1425,32 @@ promiseList.push((async () => {
   );
 
   const noTargetAllies = async () => {
-    const targetDropdown = document.getElementById('combat_target_id');
-    if (!targetDropdown) {
+    const combatTargetDropdown = document.getElementById('combat_target_id');
+    const petTargetDropdown = document.getElementById('pet_target_id');
+    if (!combatTargetDropdown) {
       mod.debug('No combat target dropdown found');
       return;
     }
     const noFac = await mod.getSetting('no-target-faction');
     const noAlly = await mod.getSetting('no-target-allies');
     const noFriend = await mod.getSetting('no-target-friendlies');
+    const noEnemy = await mod.getSetting('no-target-enemies');
+    const noHostile = await mod.getSetting('no-target-hostiles');
+    const noOther = await mod.getSetting('no-target-others');
+    const noTargetPets = await mod.getSetting('no-target-pets');
 
-    const newDropdown = targetDropdown.cloneNode(false);
-    for (const opt of targetDropdown.options) {
-      mod.log(opt.textContent);
-      if (noFac && opt.textContent.includes('(Factionmate)'));
-      else if (noAlly && opt.textContent.includes('(Ally)'));
-      else if (noFriend && opt.textContent.includes('(Friendly)'));
-      else newDropdown.appendChild(opt);
+    for (const dropdown of noTargetPets && petTargetDropdown ? [combatTargetDropdown, petTargetDropdown] : [combatTargetDropdown]) {
+      const newDropdown = dropdown.cloneNode(false);
+      for (const opt of Array.from(dropdown.options)) {
+        if (opt.textContent.endsWith('(Factionmate)')) { if (!noFac) newDropdown.appendChild(opt); }
+        else if (opt.textContent.endsWith('(Ally)')) { if (!noAlly) newDropdown.appendChild(opt); }
+        else if (opt.textContent.endsWith('(Friendly)')) { if (!noFriend) newDropdown.appendChild(opt); }
+        else if (opt.textContent.endsWith('(Enemy)')) { if (!noEnemy) newDropdown.appendChild(opt); }
+        else if (opt.textContent.endsWith('(Hostile)')) { if (!noHostile) newDropdown.appendChild(opt); }
+        else { if (!noOther) newDropdown.appendChild(opt); }
+      }
+      dropdown.parentNode.replaceChild(newDropdown, dropdown);
     }
-    targetDropdown.parentNode.replaceChild(newDropdown, targetDropdown);
   }
 
   await mod.registerSetting(
@@ -1461,6 +1469,30 @@ promiseList.push((async () => {
     'checkbox',
     'no-target-friendlies',
     'Prevent Targeting Friendlies',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-target-enemies',
+    'Prevent Targeting Enemies',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-target-hostiles',
+    'Prevent Targeting Hostiles',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-target-others',
+    'Prevent Targeting Others',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-target-pets',
+    'Apply to Pet dropdown',
     ''
   );
 
