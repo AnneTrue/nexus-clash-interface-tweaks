@@ -2667,6 +2667,75 @@ promiseList.push((async () => {
 
 
 //##############################################################################
+promiseList.push((async () => {
+  const mod = await nexusTweaks.registerModule(
+    'improvePetDisplay',
+    'Pet Display Improvement',
+    'local',
+    'Classifies the pets on the tile description by petmaster, sorts petmasters by faction politics and enables collapsing a petmaster\'s pet list.',
+  );
+
+  const improvePetDisplay = () => {
+    const petList = document.querySelector('div.petListArea');
+    if (!petList) {
+      mod.debug('No pet list found');
+      return;
+    }
+
+    const classifiedPetList = {
+      faction: {}, ally: {}, friendly: {},
+      neutral: {}, hostile: {}, enemy: {}
+    };
+    const petCount = petList.firstChild.textContent.substr(0, petList.firstChild.length - 2);
+    for (const pet of petList.getElementsByTagName('a')) {
+      const alignment = pet.className;
+      const master = pet.title.split('Master: ')[1] ? pet.title.split('Master: ')[1] : ' ';
+      if (!classifiedPetList[alignment][master]) classifiedPetList[alignment][master] = [];
+      classifiedPetList[alignment][master].push([pet, document.createTextNode(' '), pet.nextElementSibling, pet.nextElementSibling.nextElementSibling]);
+    }
+
+    const newPetList = petList.cloneNode(false);
+    newPetList.appendChild(document.createTextNode(petCount));
+    const firstUppercase = (str) => str.at(0).toUpperCase() + str.substr(1);
+    for (const alignment of Object.keys(classifiedPetList)) {
+      if (Object.keys(classifiedPetList[alignment]).length == 0) continue;
+      const AlignmentDiv = newPetList.appendChild(document.createElement('span'));
+      // AlignmentDiv.textContent = firstUppercase(alignment);
+      for (const master of Object.keys(classifiedPetList[alignment])) {
+        const PMDiv = AlignmentDiv.appendChild(document.createElement('div'));
+        PMDiv.textContent = 'Master: ';
+        const PMName = PMDiv.appendChild(document.createElement('b'));
+        PMName.textContent = master;
+        const collapseIcon = PMDiv.appendChild(document.createElement('img'));
+        collapseIcon.src = 'https://www.nexusclash.com/images/g/inf/close.gif';
+        collapseIcon.align = 'right';
+
+        const PetDiv = AlignmentDiv.appendChild(document.createElement('div'));
+        for (const pet of classifiedPetList[alignment][master]) {
+          PetDiv.append(...pet);
+          PetDiv.appendChild(document.createTextNode(', '));
+        }
+        PetDiv.removeChild(PetDiv.lastChild);
+
+        PMDiv.onclick = function() {
+          const setHide = !PMDiv.classList.contains('collapsed-released');
+          PetDiv.hidden = setHide;
+          PMDiv.classList.toggle('collapsed-released');
+          collapseIcon.src = setHide ? 'https://www.nexusclash.com/images/g/inf/open.gif' : 'https://www.nexusclash.com/images/g/inf/close.gif';
+        }
+      }
+    }
+    petList.parentNode.replaceChild(newPetList, petList);
+  }
+
+  await mod.registerMethod(
+    'sync',
+    improvePetDisplay
+  );
+})());
+
+
+//##############################################################################
 // Must be last executed step, as this unlocks nexusTweaks to run
 (async () => {
   nexusTweaks.addGlobalStyle(await GM.getResourceUrl('nexusTweaksCSS'));
