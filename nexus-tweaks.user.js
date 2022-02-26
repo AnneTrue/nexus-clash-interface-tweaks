@@ -1454,7 +1454,7 @@ promiseList.push((async () => {
       if (Object.keys(classifiedPetList[alignment]).length == 0) continue;
       const AlignmentDiv = newPetList.appendChild(document.createElement('span'));
       // AlignmentDiv.textContent = firstUppercase(alignment);
-      for (const master of Object.keys(classifiedPetList[alignment])) {
+      for (const master of Object.keys(classifiedPetList[alignment]).sort((a,b) => a.toUpperCase() > b.toUpperCase() ? 1 : -1)) {
         const PMDiv = AlignmentDiv.appendChild(document.createElement('div'));
         PMDiv.textContent = 'Master: ';
         const PMName = PMDiv.appendChild(document.createElement('b'));
