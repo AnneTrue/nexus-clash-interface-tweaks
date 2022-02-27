@@ -1436,8 +1436,12 @@ promiseList.push((async () => {
     }
 
     const classifiedPetList = {
-      faction: {}, ally: {}, friendly: {},
-      neutral: {}, hostile: {}, enemy: {}
+      enemy: {},
+      hostile: {},
+      neutral: {},
+      friendly: {},
+      ally: {},
+      faction: {}, 
     };
     const petCount = petList.firstChild.textContent.substr(0, petList.firstChild.length - 2);
     for (const pet of petList.getElementsByTagName('a')) {
