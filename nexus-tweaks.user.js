@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.29.1
+// @version     999.prev.30
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2735,6 +2735,57 @@ promiseList.push((async () => {
   await mod.registerMethod(
     'sync',
     improvePetDisplay
+  );
+})());
+
+
+//##############################################################################
+promiseList.push((async () => {
+  const mod = await nexusTweaks.registerModule(
+    'spellAffinity',
+    'Display Spell Affinity',
+    'global',
+    'Display Spell Affinity bonus for known spells in the character page.',
+  );
+
+  const spellAffinity = () => {
+    const skillPane = document.querySelector('div.panetitle[name="Skills"]');
+    if (!skillPane) {
+      mod.debug('No skills pane found');
+      return;
+    }
+    const spellTable = skillPane.nextElementSibling.firstElementChild.firstElementChild.lastElementChild.firstElementChild.firstElementChild;
+    const affinities = {};
+    for (const spellRow of spellTable.children) {
+      if (spellRow.children.length >= 3) {
+        const spellText = spellRow.children[2].textContent;
+        if (spellText.includes('Aura') || spellText.includes('Autohit') || spellText.includes('Ranged') || spellText.includes('Touch')) {
+          const damageType = spellRow.children[2].textContent.split(' ').pop();
+          if (!(damageType in affinities)) affinities[damageType] = 0;
+          else affinities[damageType] += 1;
+        }
+      }
+    }
+    for (const spellRow of spellTable.children) {
+      if (spellRow.children.length >= 3) {
+        const spellText = spellRow.children[2].textContent;
+        if (spellText.includes('Autohit') || spellText.includes('Ranged') || spellText.includes('Touch')) {
+          const splitText = spellRow.children[2].textContent.split(' ');
+          const damageType = splitText.pop();
+          const damage = parseInt(splitText.pop()) + affinities[damageType];
+          const spellType = splitText.pop();
+          spellRow.children[2].textContent = `${spellType} ${damage} ${damageType}`;
+        } else if (spellText.includes('Aura')) {
+          const damageType = spellRow.children[2].textContent.split(' ').pop();
+          spellRow.children[2].textContent = spellText + `, ${5 + 2 * affinities[damageType]} ticks`;
+        }
+      }
+    }
+  }
+
+  await mod.registerMethod(
+    'sync',
+    spellAffinity
   );
 })());
 
