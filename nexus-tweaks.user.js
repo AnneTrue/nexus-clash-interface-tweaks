@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.32
+// @version     999.prev.32.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -927,24 +927,26 @@ promiseList.push((async () => {
     hideButton.addEventListener('click', inventoryToggle, false);
     invTHead.nextElementSibling.appendChild(hideButton);
     // Now actually hide all weightless items
-    for (const child of invTBody.children) {
-      if (child.children[3] && child.children[3].textContent === '0') {
-        // We want weightless items that can be manabitten to show up always
-        const manabiteMissing = document.evaluate(
-          ".//input[@class='item_use' and starts-with(@value, 'Manabite')]",
-          child.children[1], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
-        ).snapshotLength === 0
-        // We also want to unconditionally display worn items
-        const removeMissing = document.evaluate(
-          ".//input[@class='item_use' and starts-with(@value, 'Remove')]",
-          child.children[1], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
-        ).snapshotLength === 0
-        if (manabiteMissing && removeMissing) {
-          child.className = hideClass;
-          child.style.display = hideState;
-        }
-      }
-    }
+    // for (const child of invTBody.children) {
+    //   if (child.children[3] && child.children[3].textContent === '0') {
+    //     // We want weightless items that can be manabitten to show up always
+    //     const manabiteMissing = document.evaluate(
+    //       ".//input[@class='item_use' and starts-with(@value, 'Manabite')]",
+    //       child.children[1], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
+    //     ).snapshotLength === 0
+    //     // We also want to unconditionally display worn items
+    //     const removeMissing = document.evaluate(
+    //       ".//input[@class='item_use' and starts-with(@value, 'Remove')]",
+    //       child.children[1], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
+    //     ).snapshotLength === 0
+    //     if (manabiteMissing && removeMissing) {
+    //       child.className = hideClass;
+    //       child.style.display = hideState;
+    //     }
+    //   }
+    // }
+    // Inventory Sorting adds a race condition, this works as a fix
+    hideButton.click(); hideButton.click();
   }
 
   await mod.registerSetting(
@@ -1624,6 +1626,7 @@ promiseList.push((async () => {
     content.Worn = [];
 
     for (const item of Array.from(itable.children).slice(3)) {
+      if (item.children.length >= 4 && item.children[3].textContent === '0') item.classList.add('nexusTweaksHideWeightless');
       if (content.Worn.length == 0) {
         if (item.querySelector('th')) {
           item.colSpan = 6;
