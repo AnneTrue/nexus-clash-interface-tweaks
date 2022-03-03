@@ -1459,7 +1459,14 @@ promiseList.push((async () => {
                 'Sling', 'Small Cannon', 'Spear', 'Spellgems', 'Sub-Machine Gun', 'Sword', 'Tarnished Sword', 'Taser', 'Throwing Knife',
                 'Tire Iron', 'Torch', 'Trident', 'Truncheon', 'Virtuecaster', 'Warhammer', 'White Phosphorus Grenade', 'Wooden Club'
             ],
-            Potions: ['Potion'],
+            Potions: [
+                'Potion',
+                'Oil of',
+                'Incense of',
+                'Termite Paste',
+                'Chlorophilter',
+                'Cruorblight'
+            ],
             'Spell Gems': [
                 'Small Gem',
                 'Small Black Gem', 'Small Blue Gem', 'Small Brown Gem', 'Small Clear Gem',
@@ -1497,6 +1504,8 @@ promiseList.push((async () => {
         for (const item of Array.from(itable.children).slice(3)) {
             if (content.Worn.length == 0) {
                 if (item.querySelector('th')) {
+                    item.colSpan = 6;
+                    item.lastChild.colSpan = 2;
                     content.Worn.push(item);
                     continue;
                 }
@@ -1510,25 +1519,39 @@ promiseList.push((async () => {
                 }
                 if (!categorized) content.Others.push(item);
             } else {
+                item.colSpan = 6;
+                item.lastChild.colSpan = 2;
                 content.Worn.push(item);
             }
         }
 
-        const newItable = itable.cloneNode(false);
+        const newItable = itable.parentNode.cloneNode(false);
         let head = [];
         for (let i = 0; i < 3; i++) head.push(itable.children[i]);
         inv.replaceChild(newItable, itable);
 
         let nextBG = '#eeeeee';
         const getNextBG = () => { let ret = nextBG; nextBG = (nextBG == '#ffffff' ? '#eeeeee' : '#ffffff'); return ret; }
-        for (const tr of head) {
-            newItable.appendChild(tr);
-        }
-        for (const [cat, arr] of Object.entries(content)) {
-            if (arr.length > 1) {
-                for (const tr of arr) {
-                    newItable.appendChild(tr);
-                    newItable.lastChild.bgColor = getNextBG();
+        // const newTableHead = newItable.appendChild(document.createElement('tbody'));
+        for (const tr of head) newItable.appendChild(tr);
+        for (const [cat, rows] of Object.entries(content)) {
+            if (rows.length > 1) {
+                rows[0].bgColor = getNextBG();
+                newItable.appendChild(rows[0]);
+                const catBody = newItable.appendChild(document.createElement('tbody'));
+                for (const tr of rows.slice(1)) {
+                    tr.bgColor = getNextBG();
+                    catBody.appendChild(tr);
+                }
+
+                const collapseIcon = rows[0].lastChild.appendChild(document.createElement('img'));
+                collapseIcon.src = 'https://www.nexusclash.com/images/g/inf/close.gif';
+                collapseIcon.align = 'right';
+                rows[0].onclick = function() {
+                    const setHide = !rows[0].classList.contains('collapsed-inventory-category');
+                    rows[0].nextSibling.hidden = setHide;
+                    rows[0].classList.toggle('collapsed-inventory-category');
+                    collapseIcon.src = setHide ? 'https://www.nexusclash.com/images/g/inf/open.gif' : 'https://www.nexusclash.com/images/g/inf/close.gif';
                 }
             }
         }
