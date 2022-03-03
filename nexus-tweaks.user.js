@@ -1666,6 +1666,16 @@ promiseList.push((async () => {
         SimpleAlchemyNode(node, grade);
       }
     }
+	
+	trackerNode.firstChild.textContent = '';
+    const CollapseAllButton = trackerNode.firstChild.appendChild(document.createElement('input'));
+    trackerNode.firstChild.appendChild(document.createTextNode(' Recipe Tracker'));
+    CollapseAllButton.type = 'button';
+    CollapseAllButton.value = 'Collapse All';
+    CollapseAllButton.style.color = 'black';
+    CollapseAllButton.onclick = function() {
+      for (const collapseButton of trackerNode.parentNode.querySelectorAll('input[type="Button"][value="-"]')) collapseButton.click();
+    }
   }
 
   const EnhancedAlchemyPanel = () => {
