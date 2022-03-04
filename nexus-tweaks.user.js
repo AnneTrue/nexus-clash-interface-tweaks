@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.33.2
+// @version     999.prev.34
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -17,7 +17,7 @@
 // @grant       GM.setValue
 // @grant       GM.deleteValue
 // @grant       GM.getResourceUrl
-// @require     scaffolding.user.js
+// @require     scaffolding.js
 // @resource    scaffoldingCSS css/scaffolding.css
 // @resource    nexusTweaksCSS css/nexus-tweaks.css
 // ==/UserScript==
