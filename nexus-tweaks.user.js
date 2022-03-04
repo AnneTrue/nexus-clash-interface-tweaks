@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.33
+// @version     999.prev.33.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -1190,7 +1190,7 @@ promiseList.push((async () => {
     ],
     Turquoise: [ // Prayer, Defile, Feeding Fangs
       'Abiding Wickedness', 'Arcane Proficiency', 'Blazing Hosts', 'Blessing of Evasion', 'Blessing of Resistance',
-      'Blood Magic', 'Boon of Ahgza-haru', 'Boon of Tholaghru', 'Boon of Tlacolotl', 'Champion of Attunement',
+      'Blood Magic', 'Boon of Ahg-Za-Haru', 'Boon of Tholaghru', 'Boon of Tlacolotl', 'Champion of Attunement',
       'Champion of Defiance', 'Champion of Freedom', 'Chaos Cloak', 'Combat Intuition', 'Crusader Blessing',
       'Defensive Power', 'Exalted Fauna', 'Fiendish Foresight', 'Foe of Goliath', 'Hawk Sight', 'Holy Brawn',
       'Holy Eye', 'Holy Mantle', 'Hunter of Iniquity', 'Jericho Shout', 'Light Feet', 'Light Within',
@@ -1280,7 +1280,7 @@ promiseList.push((async () => {
     'Blood Magic': 'Every time the character spends MP, they gain 2 MP but lose 1 HP.',
     'Blur': '+10% defense, +5% dodge.',
     'Bolster Attack': 'The character with this status effect deals 4 Holy Supplemental Damage with each attack.',
-    'Boon of Ahgza-haru': 'See Sulphurous Cloak',
+    'Boon of Ahg-Za-Haru': 'See Sulphurous Cloak',
     'Boon of Tholaghru': 'Character gains 2 HP per action or 4 HP per attack action. It is possible to go over maximum HP this way, but any HP over maximum will be lost when the status ends.',
     'Boon of Tlacolotl': 'Supplemental Damage dealt by the character cannot be soaked. Additionally, see Sulphurous Cloak.',
     'Burning Incense': 'The character gains +10% to hit and +2 damage bonus to Melee and Hand-To-Hand attacks.',
@@ -1606,7 +1606,7 @@ promiseList.push((async () => {
       {
         name: 'Demonic Boons', op: 'equals',
         match: [
-          'Blood Ice', 'Soul Ice', 'Boon of Ahg-za-haru', 'Boon of Tholaghru', 'Boon of Tlacolotl'
+          'Blood Ice', 'Soul Ice', 'Boon of Ahg-Za-Haru', 'Boon of Tholaghru', 'Boon of Tlacolotl'
         ]
       },
     ];
