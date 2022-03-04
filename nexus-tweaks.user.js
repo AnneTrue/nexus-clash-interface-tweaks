@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.33.1
+// @version     999.prev.33.2
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -1675,10 +1675,13 @@ promiseList.push((async () => {
         collapseIcon.align = 'right';
         rows[0].onclick = function() {
           const setHide = !rows[0].classList.contains('collapsed-inventory-category');
+          mod.setSetting(`hide-${cat}`, setHide);
           rows[0].nextSibling.hidden = setHide;
           rows[0].classList.toggle('collapsed-inventory-category');
           collapseIcon.src = setHide ? 'https://www.nexusclash.com/images/g/inf/open.gif' : 'https://www.nexusclash.com/images/g/inf/close.gif';
         }
+
+        mod.getSetting(`hide-${cat}`).then((setHide) => { if (setHide) rows[0].click() });
       }
     }
   }
