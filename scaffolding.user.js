@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks Scaffolding
-// @version     999.prev.15
+// @version     999.prev.16
 // @description Scaffolding and API for nexus-tweaks
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -25,7 +25,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   // Given how GM does apparently ignore the metadata block on @require scripts, it could possibly be removed
   // Leaving it here for backwards-compatibility, in case any scripts need it
   this.version = `${GM.info.script.version}`;
-  this.APIversion = '999.api.14';
+  this.APIversion = '999.api.16';
   this.APIname = 'Scaffolding and API for Nexus-Tweaks';
   this.APIhomepage = 'https://github.com/AnneTrue/nexus-clash-interface-tweaks';
   // logs to console; can disable if you want
@@ -495,7 +495,7 @@ function NexusTweaksModule(id, name, localType, description) {
   this.error = async (message) => { await nexusTweaks.error(`[${this.id}] ${message}`); }
 
 
-  this.getSetting = async (key, def) => {
+  this.getValue = this.getSetting = async (key, def) => {
     key = `${this.id}-${key}`;
     if (this.localType === 'global') {
       return await nexusTweaks.getGlobalSetting(key, def);
@@ -504,7 +504,7 @@ function NexusTweaksModule(id, name, localType, description) {
   }
 
 
-  this.setSetting = async (key, value) => {
+  this.setValue = this.setSetting = async (key, value) => {
     key = `${this.id}-${key}`;
     if (this.localType === 'global') {
       return await nexusTweaks.setGlobalSetting(key, value);
