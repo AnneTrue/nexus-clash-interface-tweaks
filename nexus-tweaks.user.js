@@ -1424,102 +1424,116 @@ promiseList.push((async () => {
         'Sort and Categorize Inventory Items.',
     );
 
-    const matchAny = (string, matchArray, operator) => {
-        if (operator === 'equals') {
-            for (const m of matchArray) if (string === m) return true;
+    const matchItem = (itemName, filter) => {
+        const parseName = (name, splitMode) => {
+            if (!splitMode) return name.trim();
+            else if (splitMode === 'tail') return itemName.split(',').slice(-1)[0].trim();
+            else if (splitMode === 'head') return itemName.split(',')[0].trim();
+            else throw 'Invalid split mode';
+        }
+        const parsedName = parseName(itemName, filter.split);
+        if (filter.op === 'equals') {
+            for (const m of filter.match) if (parsedName === m) return true;
         } else {
-            for (const m of matchArray) if (string[operator](m)) return true;
+            for (const m of filter.match) if (parsedName[filter.op](m)) return true;
         }
         return false;
     }
+
+    const filters = [
+        {
+            category: 'Armor', op: 'includes', split: 'tail',
+            match: [
+                'Chainmail Shirt', 'Fireman\'s Jacket', 'Leather Cuirass', 'Leather Jacket', 'Plate Cuirass',
+                'Suit of Gothic Plate', 'Suit of Light Body Armor', 'Suit of Military Encounter Armor',
+                'Suit of Police Riot Armor', 'Suit of Rusty Armor'
+            ]
+        },
+        {
+            category: 'Ammo', op: 'equals',
+            match: [
+                'Fuel Can', 'Pistol Clip', 'Shotgun Shell', 'Rifle Magazine', 'SMG Magazine', 'Battery', 'Quiver of Arrows'
+            ]
+        },
+        {
+            category: 'Weapons', op: 'includes', split: 'tail',
+            match: [
+                'Axe', 'Baseball Bat', 'Battleaxe', 'Blackened Gauntlet', 'Broken Bottle', 'Bullwhip', 'Carving Knife',
+                'Cat of Nine Tails', 'Cavalry Saber', 'Chainsaw', 'Chaos Shard', 'Chunk of Cobblestone', 'Compound Bow',
+                'Concussion Grenade', 'Crowbar', 'Cutlass', 'Dagger', 'Double-Barrelled Shotgun', 'Fishing Pole', 'Fist',
+                'Flamethrower', 'Flaming Pitchfork', 'Flaming Sword', 'Flintlock Pistol', 'Flintlock Rifle', 'Fragmentation Grenade',
+                'Frozen Gauntlet', 'Frying Pan', 'Golf Club', 'Greater Rod of Doom', 'Greater Rod of Flame', 'Greater Rod of Frost',
+                'Greater Rod of Lightning', 'Harpoon', 'Harpoon Gun', 'Hatchet', 'Icy Blade', 'Katar', 'Kick', 'Length of Chain',
+                'Long Bow', 'Long Rifle', 'Marrakunian Soul Cannon', 'Melee Weapons', 'Pipewrench', 'Pistol', 'Pitchfork',
+                'Poison Pistol', 'Poison Ring', 'Pump Action Shotgun', 'Quarterstaff', 'Ranged Weapons', 'Rapier', 'Rifle', 'Rock',
+                'Rod of Doom', 'Rod of Flame', 'Rod of Frost', 'Rod of Lightning', 'Rod of Wonder', 'Rotten Crossbow', 'Runesword',
+                'Rusty Flail', 'Saber', 'Set of Brass Knuckles', 'Set of Spiked Knuckles', 'Shock Sphere', 'Short Bow', 'Sledgehammer',
+                'Sling', 'Small Cannon', 'Spear', 'Spellgems', 'Sub-Machine Gun', 'Sword', 'Tarnished Sword', 'Taser', 'Throwing Knife',
+                'Tire Iron', 'Torch', 'Trident', 'Truncheon', 'Virtuecaster', 'Warhammer', 'White Phosphorus Grenade', 'Wooden Club'
+            ]
+        },
+        {
+            category: 'Potions', op: 'startsWith',
+            match: [
+                'Potion of', 'Oil of', 'Incense of', 'Termite Paste', 'Chlorophilter', 'Cruorblight'
+            ]
+        },
+        {
+            category: 'Demonic Boons', op: 'startsWith',
+            match: [
+                'Blood Ice', 'Soul Ice', 'Boon of Ahg-Za-Haru', 'Boon of Tholaghru', 'Boon of Tlacolotl', 'Dark Pact with'
+            ]
+        },
+        {
+            category: 'Tools', op: 'equals',
+            match: [
+                'Portable Toolkit', 'Set of Lockpicks', 'Surgeon\'s Kit'
+            ]
+        },
+        {
+            category: 'Reading', op: 'equals',
+            match: [
+                'Book', 'Arcane Book', 'Holy Book', 'Unholy Book', 'Newspaper'
+            ]
+        },
+        {
+            category: 'Spell Gems', op: 'includes', split: 'tail',
+            match: [
+                'Small Gem',
+                'Small Black Gem', 'Small Blue Gem', 'Small Brown Gem', 'Small Clear Gem',
+                'Small Green Gem', 'Small Opalescent Gem', 'Small Orange Gem', 'Small Purple Gem',
+                'Small Red Gem', 'Small Tan Gem', 'Small White Gem', 'Small Yellow Gem'
+            ]
+        },
+        {
+            category: 'Alchemy Components', op: 'equals',
+            match: [
+                'Bottle of Holy Water','Bottle of Paradise Water','Chunk of Stygian Iron','Femur',
+                'Handful of Grave Dirt','Humerus','Piece of Stygian Coal','Rose','Skull','Handful of Horehound',
+                'Batch of Mushrooms','Bunch of Daisies','Bunch of Paradise Lilies','Chunk of Ivory','Lead Brick',
+                'Patch of Lichen','Patch of Moss','Chunk of Coral','Silver Ingot','Gold Ingot',
+                'Chunk of Brimstone','Pinch of Saltpeter','Handful of Clover','Bunch of Lilies','Chunk of Onyx',
+                'Spool of Copper Wire','Sprig of Nightshade','Chunk of Celestial Bronze','Piece of Amber',
+                'Nacre Shell','Mandrake Root','Sprig of Holly','Handful of Red Clay'
+            ]
+        },
+        {
+            category: 'Crafting Components', op: 'equals',
+            match: [
+                'Bag of Industrial Plastic', 'Batch of Leather', 'Chunk of Brass', 'Chunk of Iron',
+                'Chunk of Steel', 'Piece of Wood', 'Small Bottle of Gunpowder'
+            ]
+        },
+    ];
 
     const sortInventory = (mod) => {
         const inv = document.getElementById('inventory');
         if (!inv) return;
         const itable = inv.querySelector('tbody');
 
-        const filters = [
-            {
-                name: 'Armor', op: 'includes',
-                match: [
-                    'Chainmail Shirt', 'Fireman\'s Jacket', 'Leather Cuirass', 'Leather Jacket', 'Plate Cuirass',
-                    'Suit of Gothic Plate', 'Suit of Light Body Armor', 'Suit of Military Encounter Armor',
-                    'Suit of Police Riot Armor', 'Suit of Rusty Armor'
-                ]
-            },
-            {
-                name: 'Ammo', op: 'equals',
-                match: [
-                    'Fuel Can', 'Pistol Clip', 'Shotgun Shell', 'Rifle Magazine', 'SMG Magazine', 'Battery', 'Quiver of Arrows'
-                ]
-            },
-            {
-                name: 'Weapons', op: 'includes',
-                match: [
-                    'Axe', 'Baseball Bat', 'Battleaxe', 'Blackened Gauntlet', 'Broken Bottle', 'Bullwhip', 'Carving Knife',
-                    'Cat of Nine Tails', 'Cavalry Saber', 'Chainsaw', 'Chaos Shard', 'Chunk of Cobblestone', 'Compound Bow',
-                    'Concussion Grenade', 'Crowbar', 'Cutlass', 'Dagger', 'Double-Barrelled Shotgun', 'Fishing Pole', 'Fist',
-                    'Flamethrower', 'Flaming Pitchfork', 'Flaming Sword', 'Flintlock Pistol', 'Flintlock Rifle', 'Fragmentation Grenade',
-                    'Frozen Gauntlet', 'Frying Pan', 'Golf Club', 'Greater Rod of Doom', 'Greater Rod of Flame', 'Greater Rod of Frost',
-                    'Greater Rod of Lightning', 'Harpoon', 'Harpoon Gun', 'Hatchet', 'Icy Blade', 'Katar', 'Kick', 'Length of Chain',
-                    'Long Bow', 'Long Rifle', 'Marrakunian Soul Cannon', 'Melee Weapons', 'Pipewrench', 'Pistol', 'Pitchfork',
-                    'Poison Pistol', 'Poison Ring', 'Pump Action Shotgun', 'Quarterstaff', 'Ranged Weapons', 'Rapier', 'Rifle', 'Rock',
-                    'Rod of Doom', 'Rod of Flame', 'Rod of Frost', 'Rod of Lightning', 'Rod of Wonder', 'Rotten Crossbow', 'Runesword',
-                    'Rusty Flail', 'Saber', 'Set of Brass Knuckles', 'Set of Spiked Knuckles', 'Shock Sphere', 'Short Bow', 'Sledgehammer',
-                    'Sling', 'Small Cannon', 'Spear', 'Spellgems', 'Sub-Machine Gun', 'Sword', 'Tarnished Sword', 'Taser', 'Throwing Knife',
-                    'Tire Iron', 'Torch', 'Trident', 'Truncheon', 'Virtuecaster', 'Warhammer', 'White Phosphorus Grenade', 'Wooden Club'
-                ]
-            },
-            {
-                name: 'Potions', op: 'includes',
-                match: [
-                    'Potion of',
-                    'Oil of',
-                    'Incense of',
-                    'Termite Paste',
-                    'Chlorophilter',
-                    'Cruorblight'
-                ]
-            },
-            {
-                name: 'Spell Gems', op: 'includes',
-                match: [
-                    'Small Gem',
-                    'Small Black Gem', 'Small Blue Gem', 'Small Brown Gem', 'Small Clear Gem',
-                    'Small Green Gem', 'Small Opalescent Gem', 'Small Orange Gem', 'Small Purple Gem',
-                    'Small Red Gem', 'Small Tan Gem', 'Small White Gem', 'Small Yellow Gem'
-                ]
-            },
-            {
-                name: 'Alchemy Components', op: 'equals',
-                match: [
-                    'Bottle of Holy Water','Bottle of Paradise Water','Chunk of Stygian Iron','Femur',
-                    'Handful of Grave Dirt','Humerus','Piece of Stygian Coal','Rose','Skull','Handful of Horehound',
-                    'Batch of Mushrooms','Bunch of Daisies','Bunch of Paradise Lilies','Chunk of Ivory','Lead Brick',
-                    'Patch of Lichen','Patch of Moss','Chunk of Coral','Silver Ingot','Gold Ingot',
-                    'Chunk of Brimstone','Pinch of Saltpeter','Handful of Clover','Bunch of Lilies','Chunk of Onyx',
-                    'Spool of Copper Wire','Sprig of Nightshade','Chunk of Celestial Bronze','Piece of Amber',
-                    'Nacre Shell','Mandrake Root','Sprig of Holly','Handful of Red Clay'
-                ]
-            },
-            {
-                name: 'Crafting Components', op: 'equals',
-                match: [
-                    'Bag of Industrial Plastic', 'Batch of Leather', 'Chunk of Brass', 'Chunk of Iron',
-                    'Chunk of Steel', 'Piece of Wood', 'Small Bottle of Gunpowder'
-                ]
-            },
-            {
-                name: 'Demonic Boons', op: 'equals',
-                match: [
-                    'Blood Ice', 'Soul Ice', 'Boon of Ahg-za-haru', 'Boon of Tholaghru', 'Boon of Tlacolotl'
-                ]
-            },
-        ];
-
         let content = {};
         for (const filter of filters) {
-            const cat = filter.name;
+            const cat = filter.category;
             content[cat] = [document.createElement('tr')];
             content[cat][0].appendChild(document.createElement('th'));
             content[cat][0].firstChild.textContent = cat;
@@ -1531,6 +1545,8 @@ promiseList.push((async () => {
         content.Others[0].firstChild.colSpan = 6;
         content.Worn = [];
 
+        const weightlessClass = 'nexusTweaksHideWeightless';
+        const weightless = [];
         for (const item of Array.from(itable.children).slice(3)) {
             if (content.Worn.length == 0) {
                 if (item.querySelector('th')) {
@@ -1539,11 +1555,17 @@ promiseList.push((async () => {
                     content.Worn.push(item);
                     continue;
                 }
+
+                if (item.children.length >= 4 && item.children[3].textContent === '0' && item.children[0].textContent !== 'Newspaper ') {
+                    item.classList.add(weightlessClass);
+                    weightless.push(item);
+                    continue;
+                }
+
                 let categorized = false;
                 for (const filter of filters) {
-                    const parsedItemName = item.querySelector('span').textContent.split(',').slice(-1)[0].trim();
-                    if (matchAny(parsedItemName, filter.match, filter.op)) {
-                        content[filter.name].push(item);
+                    if (matchItem(item.querySelector('span').textContent, filter)) {
+                        content[filter.category].push(item);
                         categorized = true;
                         continue;
                     }
@@ -1555,6 +1577,17 @@ promiseList.push((async () => {
                 content.Worn.push(item);
             }
         }
+        for (const item of weightless) {
+            let categorized = false;
+            for (const filter of filters) {
+                if (matchItem(item.querySelector('span').textContent, filter)) {
+                    content[filter.category].push(item);
+                    categorized = true;
+                    continue;
+                }
+            }
+            if (!categorized) content.Others.push(item);
+        }
 
         const newItable = itable.parentNode.cloneNode(false);
         let head = [];
@@ -1563,16 +1596,16 @@ promiseList.push((async () => {
 
         let nextBG = '#eeeeee';
         const getNextBG = () => { let ret = nextBG; nextBG = (nextBG == '#ffffff' ? '#eeeeee' : '#ffffff'); return ret; }
-        // const newTableHead = newItable.appendChild(document.createElement('tbody'));
         for (const tr of head) newItable.appendChild(tr);
         for (const [cat, rows] of Object.entries(content)) {
             if (rows.length > 1) {
+                if(rows[1].classList.contains(weightlessClass)) rows[0].classList.add(weightlessClass);
                 rows[0].bgColor = getNextBG();
                 newItable.appendChild(rows[0]);
                 const catBody = newItable.appendChild(document.createElement('tbody'));
-                for (const tr of rows.slice(1)) {
-                    tr.bgColor = getNextBG();
-                    catBody.appendChild(tr);
+                for (const row of rows.slice(1)) {
+                    row.bgColor = getNextBG();
+                    catBody.appendChild(row);
                 }
 
                 const collapseIcon = rows[0].lastChild.appendChild(document.createElement('img'));
@@ -1580,10 +1613,13 @@ promiseList.push((async () => {
                 collapseIcon.align = 'right';
                 rows[0].onclick = function() {
                     const setHide = !rows[0].classList.contains('collapsed-inventory-category');
+                    mod.setSetting(`hide-${cat}`, setHide);
                     rows[0].nextSibling.hidden = setHide;
                     rows[0].classList.toggle('collapsed-inventory-category');
                     collapseIcon.src = setHide ? 'https://www.nexusclash.com/images/g/inf/open.gif' : 'https://www.nexusclash.com/images/g/inf/close.gif';
                 }
+
+                mod.getSetting(`hide-${cat}`).then((setHide) => { if (setHide) rows[0].click() });
             }
         }
     }
