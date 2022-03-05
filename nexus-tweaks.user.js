@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.35
+// @version     999.prev.36
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -24,7 +24,13 @@
 
 const nexusTweaks = new NexusTweaksScaffolding(
   'nexus-tweaks',
-  'AnneTrue\'s Nexus Tweaks - Argavyon\'s Preview Branch',
+  'AnneTrue\'s Nexus Tweaks',
+  'https://github.com/AnneTrue/nexus-clash-interface-tweaks',
+  `1.7.2.1`
+);
+const argavyonExTweaks = new NexusTweaksScaffolding(
+  'nexus-tweaks',
+  'Argavyon\'s Experimental Tweaks',
   `${GM.info.script.homepage}`,
   `${GM.info.script.version}`
 );
@@ -1431,7 +1437,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'colorStatus',
     'Colored Status Effects',
     'local',
@@ -1782,7 +1788,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'inventorySort',
     'Inventory Sorter',
     'local',
@@ -1998,7 +2004,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'alchPanel+',
     'Enhanced Alchemy Panel',
     'local',
@@ -2273,7 +2279,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'zalgofy',
     'Zalgo Speech',
     'local',
@@ -2401,7 +2407,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'potatoPets',
     'Potato pet stance',
     'local',
@@ -2440,7 +2446,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'lichDelight',
     'Lich Pet Summon fix',
     'local',
@@ -2481,7 +2487,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'messagePaneResize',
     'Message Pane Resize',
     'global',
@@ -2531,7 +2537,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'defaultSetAllPetStance',
     'Default Set-All Pet Stance',
     'local',
@@ -2572,7 +2578,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'noTargetAllies',
     'No Targeting Allies',
     'local',
@@ -2660,7 +2666,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'wordOfSorting',
     'Word of Sorting',
     'local',
@@ -2690,7 +2696,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'collapseReleased',
     'Collapse Released Characters',
     'global',
@@ -2735,7 +2741,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'betterPurchaseSkills',
     'Improved Purchase Skills Page',
     'global',
@@ -2770,7 +2776,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'improvePetDisplay',
     'Pet Display Improvement',
     'local',
@@ -2906,7 +2912,7 @@ promiseList.push((async () => {
 
 //##############################################################################
 promiseList.push((async () => {
-  const mod = await nexusTweaks.registerModule(
+  const mod = await argavyonExTweaks.registerModule(
     'spellAffinity',
     'Display Spell Affinity',
     'global',
@@ -2960,6 +2966,7 @@ promiseList.push((async () => {
 (async () => {
   nexusTweaks.addGlobalStyle(await GM.getResourceUrl('nexusTweaksCSS'));
   await Promise.all(promiseList);
-  myPromise.resolve();
+  myPromise.resolve(); // Is this really necessary -- Argavyon
   nexusTweaks.runNexusTweaks();
+  argavyonExTweaks.runNexusTweaks();
 })();
