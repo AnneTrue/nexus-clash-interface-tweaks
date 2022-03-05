@@ -6,7 +6,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   // Given how GM does apparently ignore the metadata block on @require scripts, it could possibly be removed
   // Leaving it here for backwards-compatibility, in case any scripts need it
   this.version = `${GM.info.script.version}`;
-  this.APIversion = '999.api.20';
+  this.APIversion = '999.api.21';
   this.APIname = 'Nexus Tweaks API & Scaffolding';
   this.APIhomepage = 'https://github.com/AnneTrue/nexus-clash-interface-tweaks';
   // logs to console; can disable if you want
@@ -208,9 +208,9 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
     argRevampedStyleOpt.textContent = 'Argavyon\'s Revamped';
     const selectedStyle = await GM.getValue('nexus-tweaks-settingStyle');
     settingsStyleSelect.value = selectedStyle;
-    temptable.firstChild.className = selectedStyle;
+    temptable.className = 'nexus-tweaks-settingtable ' + selectedStyle;
     settingsStyleSelect.onchange = async function() {
-      temptable.firstChild.className = this.value;
+      temptable.className = 'nexus-tweaks-settingtable ' + this.value;
       GM.setValue('nexus-tweaks-settingStyle', this.value);
     }
 

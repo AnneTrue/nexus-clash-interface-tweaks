@@ -221,9 +221,9 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
     argRevampedStyleOpt.textContent = 'Argavyon\'s Revamped';
     const selectedStyle = await GM.getValue('nexus-tweaks-settingStyle');
     settingsStyleSelect.value = selectedStyle;
-    temptable.firstChild.className = selectedStyle;
+    temptable.className = 'nexus-tweaks-settingtable ' + selectedStyle;
     settingsStyleSelect.onchange = async function() {
-      temptable.firstChild.className = this.value;
+      temptable.className = 'nexus-tweaks-settingtable ' + this.value;
       GM.setValue('nexus-tweaks-settingStyle', this.value);
     }
 
