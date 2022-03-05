@@ -137,7 +137,12 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
 
 
   const addModSettings = async (settingsTable) => {
-    const modSettingsTD = settingsTable.firstElementChild.appendChild(document.createElement('tr')).appendChild(document.createElement('td'));
+	// Add a white row between different userscript setting panes
+	settingsTable.appendChild(document.createElement('tr')).appendChild(document.createElement('br'));
+	
+	const modSettingsTB = settingsTable.appendChild(document.createElement('tbody'));
+	modSettingsTB.id = `nexus-tweaks-settings-${scriptId}`;
+    const modSettingsTD = modSettingsTB.appendChild(document.createElement('tr')).appendChild(document.createElement('td'));
     modSettingsTD.colSpan = 2;
     modSettingsTD.style.padding = '0px';
     const modSettingsTable = modSettingsTD.appendChild(document.createElement('table'));
@@ -171,6 +176,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
     temptable.id = 'nexus-tweaks-settingtable';
     temptable.className = 'nexus-tweaks-settingtable';
     temptable.appendChild(document.createElement('tbody'));
+	temptable.lastChild.id = 'nexus-tweaks-settings-API';
 
     const link = document.createElement('a');
     link.href = this.APIhomepage;
