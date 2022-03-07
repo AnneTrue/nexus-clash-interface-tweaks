@@ -1506,7 +1506,7 @@ promiseList.push((async () => {
             ]
         },
         {
-            category: 'Alchemy Components', op: 'equals',
+            category: 'Alchemy Components', op: 'startsWith',
             match: [
                 'Bottle of Holy Water','Bottle of Paradise Water','Chunk of Stygian Iron','Femur',
                 'Handful of Grave Dirt','Humerus','Piece of Stygian Coal','Rose','Skull','Handful of Horehound',
