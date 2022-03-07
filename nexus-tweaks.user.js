@@ -2953,7 +2953,7 @@ promiseList.push((async () => {
           spellRow.children[2].textContent = `${spellType} ${damage} ${damageType}`;
         } else if (spellText.includes('Aura')) {
           const damageType = spellRow.children[2].textContent.split(' ').pop();
-          spellRow.children[2].textContent = spellText + `, ${5 + 2 * affinities[damageType]} ticks`;
+          spellRow.children[2].textContent = spellText + `, ${10 + 2 * affinities[damageType]} ticks`;
         }
       }
     }
