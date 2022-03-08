@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.38.1
+// @version     999.prev.38.2
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2177,7 +2177,10 @@ promiseList.push((async () => {
       const transFrom = transmute ? transmute.children[2] : null;
       const transTo = transmute ? transmute.children[3] : null;
 
-      for (const compList of [resComp, transFrom]) {
+	  const compLists = [];
+	  if (resComp) compLists.push(resComp);
+	  if (transFrom) compLists.push(transFrom);
+      for (const compList of compLists) {
         const commons = document.createElement('optgroup');
         const uncommons = document.createElement('optgroup');
         const rares = document.createElement('optgroup');
