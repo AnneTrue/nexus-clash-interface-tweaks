@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.38
+// @version     999.prev.38.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2164,18 +2164,18 @@ promiseList.push((async () => {
 
   const EnhancedAlchemyPanelUI = (trackerNode) => {
     if (document.getElementById('pane-alchemy')) {
-    const alchemyResearch = document.getElementById('main-left').querySelector('form[name="alchemyresearch"]');
-      const resButton = alchemyResearch.children[1];
-      const resComp = alchemyResearch.children[2];
-      const resPotion = alchemyResearch.children[3];
+      const alchemyResearch = document.getElementById('main-left').querySelector('form[name="alchemyresearch"]');
+      const resButton = alchemyResearch ? alchemyResearch.children[1] : null;
+      const resComp = alchemyResearch ? alchemyResearch.children[2] : null;
+      const resPotion = alchemyResearch ? alchemyResearch.children[3] : null;
       const alchemyForget = document.getElementById('main-left').querySelector('form[name="alchemyforget"]');
       const alchKnown = document.getElementById('main-left').querySelector('form[name="alchemyknown"]');
-      const brewButton = alchKnown.children[2];
-      const brewSelect = alchKnown.children[1];
+      const brewButton = alchKnown ? alchKnown.children[2] : null;
+      const brewSelect = alchKnown ? alchKnown.children[1] : null;
       const transmute = document.getElementById('main-left').querySelector('form[name="alchemytransmute"]');
-      const transButton = transmute.children[1];
-      const transFrom = transmute.children[2];
-      const transTo = transmute.children[3];
+      const transButton = transmute ? transmute.children[1] : null;
+      const transFrom = transmute ? transmute.children[2] : null;
+      const transTo = transmute ? transmute.children[3] : null;
 
       for (const compList of [resComp, transFrom]) {
         const commons = document.createElement('optgroup');
