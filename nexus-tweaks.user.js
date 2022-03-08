@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.37.1
+// @version     999.prev.38
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2011,11 +2011,8 @@ promiseList.push((async () => {
     'Enables researching, brewing and forgetting from the recipes panel.',
   );
 
-  const getRecipeId = recipeName => document.querySelector('#CharacterInfo a').textContent.replace(' ', '-') + '-alchemy-' + recipeName;
-
   const EnhancedAlchemyNode = async (node, grade, researchButton, researchComp, researchPotion, forgetNode, brewButton, brewSelect, transButton, transFrom, transTo) => {
     const recipeName = node.children[0].textContent.trim();
-    const recipeId = getRecipeId(recipeName.replace(' ', '-'));
 
     node.children[0].style.width = '59.69%';
     node.children[0].childNodes[1].nodeValue = node.children[0].childNodes[1].nodeValue + ` [${grade}/6]`;
@@ -2040,9 +2037,9 @@ promiseList.push((async () => {
       span.hidden = wasCollapsed ? false : true;
       node.children[1].children[0].classList.toggle('toggled');
 
-      GM.setValue(recipeId, !wasCollapsed);
+      mod.setValue(recipeName, !wasCollapsed);
     }
-    if (!(await GM.getValue(recipeId))) collapseButton.click();
+    if ((await mod.getValue(recipeName)) === false) collapseButton.click();
 
     if (grade < 6) { // At least one of the components hasn't been found
       const rComp = span.appendChild(researchComp.cloneNode(true));
@@ -2145,7 +2142,6 @@ promiseList.push((async () => {
 
   const SimpleAlchemyNode = async (node, grade) => {
     const recipeName = node.children[0].textContent.trim();
-    const recipeId = getRecipeId(recipeName.replace(' ', '-'));
     node.children[0].childNodes[1].nodeValue = node.children[0].childNodes[1].nodeValue + ` [${grade}/6]`;
 
     const collapseButton = document.createElement('input');
@@ -2161,14 +2157,14 @@ promiseList.push((async () => {
       collapseButton.title = wasCollapsed ? 'Collapse' : 'Expand';
       node.children[1].children[0].classList.toggle('toggled');
 
-      GM.setValue(recipeId, !wasCollapsed);
+      mod.setValue(recipeName, !wasCollapsed);
     }
-    if (!(await GM.getValue(recipeId))) collapseButton.click();
+    if ((await mod.getValue(recipeName)) === false) collapseButton.click();
   }
 
   const EnhancedAlchemyPanelUI = (trackerNode) => {
+    if (document.getElementById('pane-alchemy')) {
     const alchemyResearch = document.getElementById('main-left').querySelector('form[name="alchemyresearch"]');
-    if (alchemyResearch) {
       const resButton = alchemyResearch.children[1];
       const resComp = alchemyResearch.children[2];
       const resPotion = alchemyResearch.children[3];
@@ -2247,12 +2243,13 @@ promiseList.push((async () => {
         );
       }
     } else {
+      mod.debug('No Alchemy pane found');
       for (let node = trackerNode.nextSibling; node && node.children[1]; node = node.nextSibling) {
         const grade = 6 - node.children[1].querySelectorAll('li[title="unknown"').length;
         SimpleAlchemyNode(node, grade);
       }
     }
-	
+
 	trackerNode.firstChild.textContent = '';
     const CollapseAllButton = trackerNode.firstChild.appendChild(document.createElement('input'));
     trackerNode.firstChild.appendChild(document.createTextNode(' Recipe Tracker'));
@@ -2268,6 +2265,7 @@ promiseList.push((async () => {
     'use strict';
     const trackerNode = document.getElementById('recipe-tracker');
     if (trackerNode) EnhancedAlchemyPanelUI(trackerNode);
+    else mod.debug('No Recipe Tracker found');
   }
 
   await mod.registerMethod(
