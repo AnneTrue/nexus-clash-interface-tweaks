@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.38.2
+// @version     999.prev.39
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2601,17 +2601,58 @@ promiseList.push((async () => {
     const noOther = await mod.getSetting('no-target-others');
     const noTargetPets = await mod.getSetting('no-target-pets');
 
-    for (const dropdown of (noTargetPets && petTargetDropdown ? [combatTargetDropdown, petTargetDropdown] : [combatTargetDropdown])) {
-      const newDropdown = dropdown.cloneNode(false);
-      for (const opt of Array.from(dropdown.options)) {
-        if (opt.textContent.endsWith('(Factionmate)')) { if (!noFac) newDropdown.appendChild(opt); }
-        else if (opt.textContent.endsWith('(Ally)')) { if (!noAlly) newDropdown.appendChild(opt); }
-        else if (opt.textContent.endsWith('(Friendly)')) { if (!noFriend) newDropdown.appendChild(opt); }
-        else if (opt.textContent.endsWith('(Enemy)')) { if (!noEnemy) newDropdown.appendChild(opt); }
-        else if (opt.textContent.endsWith('(Hostile)')) { if (!noHostile) newDropdown.appendChild(opt); }
-        else { if (!noOther) newDropdown.appendChild(opt); }
+    const charList = document.querySelector('#AreaDescription .charListArea');
+    const charListLinks = charList.querySelectorAll('[onclick^="SelectItem"],[href^="javascript:SelectItem"]');
+    const charPoliticsDict = {};
+    const charNameToId = {};
+    for (const link of charListLinks) {
+      const selectItem = link.href ? link.href : link.onclick;
+      const charId = selectItem.toString().match(/\d+/);
+      const containsPolitics = (classList, politics) => (classList.contains(politics) || classList.contains(`politics-${politics}`));
+      let charPolitics = 'other';
+      const possiblePolitics = ['faction', 'ally', 'friendly', 'enemy', 'hostile'];
+      for (const politics of possiblePolitics) {
+        if (containsPolitics(link.classList, politics)) {
+          charPolitics = politics;
+          break;
+        }
       }
-      dropdown.parentNode.replaceChild(newDropdown, dropdown);
+      charPoliticsDict[charId] = charPolitics;
+    }
+
+    const newCombatDropdown = combatTargetDropdown.cloneNode(false);
+    for (const opt of Array.from(combatTargetDropdown.options)) {
+      const charId = Number(opt.value);
+      charNameToId[opt.textContent] = charId;
+	  const politicsMatch = opt.textContent.match(/(.*) \(/)
+      if (politicsMatch) charNameToId[politicsMatch[1]] = charId;
+      if (charPoliticsDict[charId] == 'faction') { if (!noFac) newCombatDropdown.appendChild(opt); }
+      else if (charPoliticsDict[charId] == 'ally') { if (!noAlly) newCombatDropdown.appendChild(opt); }
+      else if (charPoliticsDict[charId] == 'friendly') { if (!noFriend) newCombatDropdown.appendChild(opt); }
+      else if (charPoliticsDict[charId] == 'enemy') { if (!noEnemy) newCombatDropdown.appendChild(opt); }
+      else if (charPoliticsDict[charId] == 'hostile') { if (!noHostile) newCombatDropdown.appendChild(opt); }
+      else { if (!noOther) newCombatDropdown.appendChild(opt); }
+    }
+    combatTargetDropdown.parentNode.replaceChild(newCombatDropdown, combatTargetDropdown);
+
+    if (noTargetPets && petTargetDropdown) {
+      const newPetDropdown = petTargetDropdown.cloneNode(false);
+      for (const opt of Array.from(petTargetDropdown.options)) {
+        const pmMatch = opt.textContent.match(/Master: (.*)/);
+        if (!pmMatch) {
+          mod.debug(`Couldn't get master's name for: ${opt.textContent}`);
+          continue;
+        }
+        const pmName = opt.textContent.match(/Master: (.*)/)[1];
+        const pmId = charNameToId[pmName];
+        if (charPoliticsDict[pmId] == 'faction') { if (!noFac) newPetDropdown.appendChild(opt); }
+        else if (charPoliticsDict[pmId] == 'ally') { if (!noAlly) newPetDropdown.appendChild(opt); }
+        else if (charPoliticsDict[pmId] == 'friendly') { if (!noFriend) newPetDropdown.appendChild(opt); }
+        else if (charPoliticsDict[pmId] == 'enemy') { if (!noEnemy) newPetDropdown.appendChild(opt); }
+        else if (charPoliticsDict[pmId] == 'hostile') { if (!noHostile) newPetDropdown.appendChild(opt); }
+        else { if (!noOther) newPetDropdown.appendChild(opt); }
+      }
+      petTargetDropdown.parentNode.replaceChild(newPetDropdown, petTargetDropdown);
     }
   }
 
