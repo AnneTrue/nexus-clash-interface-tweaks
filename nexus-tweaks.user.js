@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.39.1
+// @version     999.prev.40
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3007,6 +3007,88 @@ promiseList.push((async () => {
   await mod.registerMethod(
     'sync',
     spellAffinity
+  );
+})());
+
+
+//##############################################################################
+promiseList.push((async () => {
+  const mod = await argavyonExTweaks.registerModule(
+    'sortSafeSpells',
+    'Safe Spellgem Sorter',
+    'local',
+    'Sort Spellgems in Faction Safe.',
+  );
+
+  const sortSafeSpells = () => {
+    const safeSpellButton = document.querySelector('form[name="footlockergrab"] input[value^="Retrieve Spell"]');
+    if (!safeSpellButton) {
+      mod.debug('Retrieve Spell From Safe button not found.');
+      return;
+    }
+    const safeSpellSelect = safeSpellButton.parentNode.querySelector('select');
+    const sortedOpt = Array.from(safeSpellSelect.options).sort((a,b) => a.textContent < b.textContent ? -1 : 1);
+    safeSpellSelect.innerHTML = '';
+    for (const opt of sortedOpt) safeSpellSelect.add(opt);
+    safeSpellSelect.selectedIndex = 0;
+  }
+
+  await mod.registerMethod(
+    'sync',
+    sortSafeSpells
+  );
+})());
+
+
+//##############################################################################
+promiseList.push((async () => {
+  const mod = await argavyonExTweaks.registerModule(
+    'HELL',
+    'HELL',
+    'global',
+    'HELL',
+  );
+
+  const unleash = (str) => {
+    if (!str) return null;
+    const hellSpan = [];
+    for (let i = 0; i < str.length; i += 6) {
+      const cursedText = document.createElement('text');
+      cursedText.textContent = str.slice(i+5, i+6);
+      cursedText.style.fontFamily = 'Garamond';
+      hellSpan.push(str.slice(i, i+5), cursedText);
+    }
+    return hellSpan;
+  }
+
+  const HELL = () => {
+    for (const node of document.body.querySelector('#page-body').querySelectorAll('text,div,span,option,a,b,td,th')) {
+      if (node.children && node.children.length !== 0) {
+        for (const childNode of node.childNodes) {
+          if (childNode.children && childNode.children.length !== 0) continue;
+          const hellSpan = unleash(childNode.textContent);
+          if (!hellSpan) continue;
+          childNode.textContent = '';
+          if (childNode.nodeType === Node.TEXT_NODE) {
+            childNode.before(...hellSpan);
+            childNode.parentNode.removeChild(childNode);
+          }
+          else if (childNode.nodeType === Node.COMMENT_NODE) continue;
+          else childNode.append(...hellSpan);
+        }
+      }
+      else {
+        const hellSpan = unleash(node.textContent);
+        if (!hellSpan) continue;
+        node.textContent = '';
+        node.append(...hellSpan);
+      }
+    }
+  }
+
+  await mod.registerMethod(
+    'sync',
+    HELL
   );
 })());
 

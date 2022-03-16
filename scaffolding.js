@@ -6,7 +6,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   // Given how GM does apparently ignore the metadata block on @require scripts, it could possibly be removed
   // Leaving it here for backwards-compatibility, in case any scripts need it
   this.version = `${GM.info.script.version}`;
-  this.APIversion = '999.api.21.1';
+  this.APIversion = '999.api.21.2';
   this.APIname = 'Nexus Tweaks API & Scaffolding';
   this.APIhomepage = 'https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview';
   // logs to console; can disable if you want
@@ -235,7 +235,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
       SettingsTabButton.value = 'Nexus Tweaks';
       SettingsTabButton.type = 'button';
       SettingsTabButton.onclick = async function() {
-        const mainRightTBody = document.getElementById('main-right').firstElementChild.firstElementChild;
+        const mainRightTBody = document.querySelector('#main-right table tbody');
         while (mainRightTBody.children[2]) mainRightTBody.removeChild(mainRightTBody.children[2]); // Clear the right pane under the tab buttons
         await createSettingsPane(mainRightTBody); // It's important to synchronize this, as it creates the table for mod settings
         let nextPaneButton = this.parentNode.firstElementChild;
