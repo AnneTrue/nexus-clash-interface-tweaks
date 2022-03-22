@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.40
+// @version     999.prev.41
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -20,6 +20,9 @@
 // @require     scaffolding.js
 // @resource    scaffoldingCSS css/scaffolding.css
 // @resource    nexusTweaksCSS css/nexus-tweaks.css
+// @require     https://code.jquery.com/jquery-3.6.0.min.js
+// @require     https://code.jquery.com/ui/1.13.1/jquery-ui.min.js
+// @resource    jqueryCSS https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css
 // ==/UserScript==
 
 const nexusTweaks = new NexusTweaksScaffolding(
@@ -3089,6 +3092,62 @@ promiseList.push((async () => {
   await mod.registerMethod(
     'sync',
     HELL
+  );
+})());
+
+
+//##############################################################################
+promiseList.push((async () => {
+  const mod = await argavyonExTweaks.registerModule(
+    'charIconSelect',
+    'Character Icon Selection',
+    'global',
+    'Enables selecting your character icon from a visual dropdown',
+  );
+
+  const charIconSelectUI = () => {
+    const charIconForm = document.querySelector('form[action="/clash.php?op=charsettings&category=set_avatar"]');
+    if (!charIconForm) {
+      mod.debug('No character icon selection form found');
+      return;
+    }
+
+    const charIconSelect = charIconForm.querySelector('select[name="switch"]');
+    charIconSelect.hidden = true;
+
+    const showUIbutton = charIconSelect.parentNode.insertBefore(document.createElement('input'), charIconSelect);
+    showUIbutton.type = 'button';
+    showUIbutton.value = 'Display Avatar List';
+
+    const UIdiv = charIconForm.appendChild(document.createElement('div'));
+    UIdiv.hidden = true;
+    UIdiv.id = 'char-selectable';
+    UIdiv.class = 'selectable';
+    showUIbutton.onclick = function() { UIdiv.hidden = !UIdiv.hidden; }
+
+    for (const opt of charIconSelect.options) {
+      const img = UIdiv.appendChild(document.createElement('img'));
+      img.src = `https://www.nexusclash.com/images/g/YouAreHere/Avatar${opt.value}.gif`;
+      img.className = 'ui-widget-content';
+    }
+
+    $(function() {
+      $("#char-selectable").selectable({
+        selected: function() {
+          $("#char-selectable img").each(function(index) {
+            if ($(this).hasClass("ui-selected")) {
+              charIconSelect.selectedIndex = index;
+              charIconSelect.onchange();
+            }
+          });
+        }
+      });
+    });
+  }
+
+  await mod.registerMethod(
+    'sync',
+    charIconSelectUI
   );
 })());
 
