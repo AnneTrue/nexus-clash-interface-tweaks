@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.41
+// @version     999.prev.41.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2436,9 +2436,9 @@ promiseList.push((async () => {
 
     // Pets start on the third row
     for (const petRow of Array.from(petTable.children).slice(2, -1)) {
-      petRow.querySelector('select[name="stance"]').innerHTML = petRow.querySelector('select[name="stance"]').innerHTML.replace('Passive', 'Potato').replace('Passive', 'Potato');
+      petRow.querySelector('select[name="stance"] option[value="Passive"]').textContent = 'Potato';
     }
-    setAllRow.querySelector('select[name="stance"]').innerHTML = setAllRow.querySelector('select[name="stance"]').innerHTML.replace('Passive', 'Potato').replace('Passive', 'Potato');
+    setAllRow.querySelector('select[name="stance"] option[value="Passive"]').textContent = 'Potato';
   }
 
   await mod.registerMethod(
