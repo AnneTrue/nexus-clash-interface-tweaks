@@ -6,7 +6,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   // Given how GM does apparently ignore the metadata block on @require scripts, it could possibly be removed
   // Leaving it here for backwards-compatibility, in case any scripts need it
   this.version = `${GM.info.script.version}`;
-  this.APIversion = '999.api.21.2';
+  this.APIversion = '999.api.21.3';
   this.APIname = 'Nexus Tweaks API & Scaffolding';
   this.APIhomepage = 'https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview';
   // logs to console; can disable if you want
@@ -447,7 +447,7 @@ function NexusTweaksSetting(API, settingType, id, name, description, extras) {
   this.getSettingsRowElement = async (mod) => {
     const tempspan = document.createElement('span');
     tempspan.className = 'nexus-tweaks-settingspan';
-    tempspan.appendChild(document.createTextNode(this.name));
+    tempspan.appendChild(document.createTextNode(this.name + ' '));
     const elemFuncs = {
       'checkbox': getCheckbox,
       'select': getSelect,
