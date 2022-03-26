@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.42
+// @version     999.prev.43
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -1816,21 +1816,19 @@ promiseList.push((async () => {
 
   const filters = [
     {
-      category: 'Armor', op: 'includes', split: 'tail',
-      match: [
-        'Chainmail Shirt', 'Fireman\'s Jacket', 'Leather Cuirass', 'Leather Jacket', 'Plate Cuirass',
-        'Suit of Gothic Plate', 'Suit of Light Body Armor', 'Suit of Military Encounter Armor',
-        'Suit of Police Riot Armor', 'Suit of Rusty Armor'
-      ]
-    },
-    {
       category: 'Ammo', op: 'equals',
       match: [
         'Fuel Can', 'Pistol Clip', 'Shotgun Shell', 'Rifle Magazine', 'SMG Magazine', 'Battery', 'Quiver of Arrows'
       ]
     },
     {
-      category: 'Weapons', op: 'includes', split: 'tail',
+      category: 'Innate Weapons', op: 'includes', split: 'tail', showWeightless: true,
+      match: [
+        'Oaken Greatbow', 'Verdant Sling', 'Origami Bow', 'Voltcaster', 'Spellwand'
+      ]
+    },
+    {
+      category: 'Weapons', op: 'includes', split: 'tail', showWeightless: true,
       match: [
         'Axe', 'Baseball Bat', 'Battleaxe', 'Blackened Gauntlet', 'Broken Bottle', 'Bullwhip', 'Carving Knife',
         'Cat of Nine Tails', 'Cavalry Saber', 'Chainsaw', 'Chaos Shard', 'Chunk of Cobblestone', 'Compound Bow',
@@ -1844,6 +1842,14 @@ promiseList.push((async () => {
         'Rusty Flail', 'Saber', 'Set of Brass Knuckles', 'Set of Spiked Knuckles', 'Shock Sphere', 'Short Bow', 'Sledgehammer',
         'Sling', 'Small Cannon', 'Spear', 'Spellgems', 'Sub-Machine Gun', 'Sword', 'Tarnished Sword', 'Taser', 'Throwing Knife',
         'Tire Iron', 'Torch', 'Trident', 'Truncheon', 'Virtuecaster', 'Warhammer', 'White Phosphorus Grenade', 'Wooden Club'
+      ]
+    },
+    {
+      category: 'Armor', op: 'includes', split: 'tail',
+      match: [
+        'Chainmail Shirt', 'Fireman\'s Jacket', 'Leather Cuirass', 'Leather Jacket', 'Plate Cuirass',
+        'Suit of Gothic Plate', 'Suit of Light Body Armor', 'Suit of Military Encounter Armor',
+        'Suit of Police Riot Armor', 'Suit of Rusty Armor'
       ]
     },
     {
@@ -1865,7 +1871,7 @@ promiseList.push((async () => {
       ]
     },
     {
-      category: 'Reading', op: 'equals',
+      category: 'Reading', op: 'equals', showWeightless: true,
       match: [
         'Book', 'Arcane Book', 'Holy Book', 'Unholy Book', 'Newspaper'
       ]
@@ -1930,7 +1936,7 @@ promiseList.push((async () => {
           continue;
         }
 
-        if (item.children.length >= 4 && item.children[3].textContent === '0' && item.children[0].textContent !== 'Newspaper ') {
+        if (item.children.length >= 4 && item.children[3].textContent === '0') {
           item.classList.add(weightlessClass);
           weightless.push(item);
           continue;
@@ -1957,6 +1963,7 @@ promiseList.push((async () => {
         if (matchItem(item.querySelector('span').textContent, filter)) {
           content[filter.category].push(item);
           categorized = true;
+		  if (filter.showWeightless) item.classList.remove(weightlessClass);
           continue;
         }
       }
