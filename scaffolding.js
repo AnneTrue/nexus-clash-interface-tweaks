@@ -6,7 +6,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   // Given how GM does apparently ignore the metadata block on @require scripts, it could possibly be removed
   // Leaving it here for backwards-compatibility, in case any scripts need it
   this.version = `${GM.info.script.version}`;
-  this.APIversion = '999.api.21.3';
+  this.APIversion = '999.api.22';
   this.APIname = 'Nexus Tweaks API & Scaffolding';
   this.APIhomepage = 'https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview';
   // logs to console; can disable if you want
@@ -105,41 +105,46 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   }
 
 
-  const addToRow = async (tdid, element) => {
-    const td = document.getElementById(`nexus-tweaks-setting-${tdid}`);
-    if (!td) {
-      this.error(`addToRow failed to find settingsRow with <td>.id ${tdid}`);
+  const addToModuleSettings = async (tableID, element) => {
+    const table = document.getElementById(`nexus-tweaks-setting-${tableID}`);
+    if (!table) {
+      this.error(`addToRow failed to find settingsTable with <table>.id ${tableID}`);
       return;
     }
-    const tempspan = document.createElement('span');
-    tempspan.className = 'nexus-tweaks-settingspan';
-    tempspan.appendChild(element);
-    td.appendChild(tempspan);
-    td.appendChild(document.createElement('br'));
+    if (table.children.length === 1) {
+      table.appendChild(document.createElement('tr')).style.height = '4px'; // Separator between module enabler & its settings
+      table.appendChild(document.createElement('tr'));
+    }
+    if (table.lastChild.children.length >= 2) table.appendChild(document.createElement('tr'));
+    const td = table.lastChild.appendChild(document.createElement('td'));
+    td.className = 'nexus-tweaks-settingspan';
+    td.appendChild(element);
   }
 
 
   const createSettingsRow = async (settingTable, mod, isOdd) => {
     const settingsRow = document.createElement('tr');
     settingsRow.className = 'nexus-tweaks-settingrow';
-    const settingTitle = document.createElement('td');
+    settingsRow.classList.add(isOdd ? 'odd-row' : 'even-row');
+
+    const moduleSettingsTable = settingsRow.appendChild(document.createElement('td')).appendChild(document.createElement('table'));
+    moduleSettingsTable.parentNode.style.margin = '0px';
+    moduleSettingsTable.parentNode.colSpan = 2;
+    moduleSettingsTable.id = `nexus-tweaks-setting-${mod.id}`;
+    const settingTitle = moduleSettingsTable.appendChild(document.createElement('tr')).appendChild(document.createElement('td'));
     settingTitle.className = 'nexus-tweaks-settingname';
     settingTitle.appendChild(await mod.getModuleEnableElement());
-    const settingList = document.createElement('td');
-    settingList.className = 'nexus-tweaks-settinglist';
-    settingList.id = `nexus-tweaks-setting-${mod.id}`;
-    settingsRow.appendChild(settingTitle);
-    settingsRow.appendChild(settingList);
-    settingTable.appendChild(settingsRow);
+    settingTitle.colSpan = 2;
+    settingTitle.style.fontWeight = 'bold';
 
-    settingsRow.classList.add(isOdd ? 'odd-row' : 'even-row');
+    settingTable.appendChild(settingsRow);
   }
 
 
   const addModSettings = async (settingsTable) => {
 	// Add a white row between different userscript setting panes
 	settingsTable.appendChild(document.createElement('tr')).appendChild(document.createElement('br'));
-	
+
 	const modSettingsTB = settingsTable.appendChild(document.createElement('tbody'));
 	modSettingsTB.id = `nexus-tweaks-settings-${scriptId}`;
     const modSettingsTD = modSettingsTB.appendChild(document.createElement('tr')).appendChild(document.createElement('td'));
@@ -162,7 +167,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
       isOdd = !isOdd;
       const settingElements = await nexusTweaksMod.getSettingElements();
       for (const setElem of settingElements) {
-        await addToRow(nexusTweaksMod.id, setElem);
+        await addToModuleSettings(nexusTweaksMod.id, setElem);
       }
     }
   }
