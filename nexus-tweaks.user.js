@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.41.1
+// @version     999.prev.42
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2180,9 +2180,9 @@ promiseList.push((async () => {
       const transFrom = transmute ? transmute.children[2] : null;
       const transTo = transmute ? transmute.children[3] : null;
 
-	  const compLists = [];
-	  if (resComp) compLists.push(resComp);
-	  if (transFrom) compLists.push(transFrom);
+      const compLists = [];
+      if (resComp) compLists.push(resComp);
+      if (transFrom) compLists.push(transFrom);
       for (const compList of compLists) {
         const commons = document.createElement('optgroup');
         const uncommons = document.createElement('optgroup');
@@ -2256,7 +2256,7 @@ promiseList.push((async () => {
       }
     }
 
-	trackerNode.firstChild.textContent = '';
+    trackerNode.firstChild.textContent = '';
     const CollapseAllButton = trackerNode.firstChild.appendChild(document.createElement('input'));
     trackerNode.firstChild.appendChild(document.createTextNode(' Recipe Tracker'));
     CollapseAllButton.type = 'button';
@@ -2660,6 +2660,40 @@ promiseList.push((async () => {
       }
       petTargetDropdown.parentNode.replaceChild(newPetDropdown, petTargetDropdown);
     }
+    
+    const healTargetDropdowns = [];
+    const healDropdownSelectors = [
+      'form[name="FAKHeal"] select[name="target_id"]',
+      'form[name="Surgery"] select[name="target_id"]'
+    ];
+	for (const selector of healDropdownSelectors) {
+      const dropdown = document.querySelector(selector);
+      if (dropdown) healTargetDropdowns.push(dropdown);
+	}
+    if (healTargetDropdowns.length === 0) {
+      mod.debug('No heal target dropdown found');
+      return;
+    }
+    
+    const noHealFac = await mod.getSetting('no-heal-faction');
+    const noHealAlly = await mod.getSetting('no-heal-allies');
+    const noHealFriend = await mod.getSetting('no-heal-friendlies');
+    const noHealEnemy = await mod.getSetting('no-heal-enemies');
+    const noHealHostile = await mod.getSetting('no-heal-hostiles');
+    const noHealOther = await mod.getSetting('no-heal-others');
+    for (const dropdown of healTargetDropdowns) {
+      const newHealDropdown = dropdown.cloneNode(false);
+      for (const opt of Array.from(dropdown.options)) {
+        const charId = Number(opt.value);
+        if (charPoliticsDict[charId] == 'faction') { if (!noHealFac) newHealDropdown.appendChild(opt); }
+        else if (charPoliticsDict[charId] == 'ally') { if (!noHealAlly) newHealDropdown.appendChild(opt); }
+        else if (charPoliticsDict[charId] == 'friendly') { if (!noHealFriend) newHealDropdown.appendChild(opt); }
+        else if (charPoliticsDict[charId] == 'enemy') { if (!noHealEnemy) newHealDropdown.appendChild(opt); }
+        else if (charPoliticsDict[charId] == 'hostile') { if (!noHealHostile) newHealDropdown.appendChild(opt); }
+        else { if (!noHealOther) newHealDropdown.appendChild(opt); }
+      }
+      dropdown.parentNode.replaceChild(newHealDropdown, dropdown);
+    }
   }
 
   await mod.registerSetting(
@@ -2702,6 +2736,42 @@ promiseList.push((async () => {
     'checkbox',
     'no-target-pets',
     'Apply to Pet dropdown',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-heal-faction',
+    'Prevent Healing Factionmates',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-heal-allies',
+    'Prevent Healing Allies',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-heal-friendlies',
+    'Prevent Healing Friendlies',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-heal-enemies',
+    'Prevent Healing Enemies',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-heal-hostiles',
+    'Prevent Healing Hostiles',
+    ''
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-heal-others',
+    'Prevent Healing Others',
     ''
   );
 
