@@ -1,3 +1,5 @@
+# Nexus Clash Interface Tweaks
+A userscript that tweaks the Nexus Clash user interface to be bearable
 <div align="center">
   <a href="https://github.com/Argavyon/nexus-clash-interface-tweaks/issues">
     <img src="https://img.shields.io/github/issues/Argavyon/nexus-clash-interface-tweaks" />
@@ -6,9 +8,6 @@
     <img src="https://img.shields.io/github/issues-pr/Argavyon/nexus-clash-interface-tweaks" />
   </a>
 </div>
-
-# Nexus Clash Interface Tweaks
-A userscript that tweaks the Nexus Clash user interface to be bearable
 
 # Usage
 Install the userscript via GreaseMonkey or TamperMonkey.
