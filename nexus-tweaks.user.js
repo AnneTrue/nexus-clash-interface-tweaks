@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.43.1
+// @version     999.prev.44
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -20,7 +20,7 @@
 // @require     scaffolding.js
 // @resource    scaffoldingCSS css/scaffolding.css
 // @resource    nexusTweaksCSS css/nexus-tweaks.css
-// @require     https://code.jquery.com/jquery-3.6.0.min.js
+// @require     https://code.jquery.com/jquery-3.5.1.min.js
 // @require     https://code.jquery.com/ui/1.13.1/jquery-ui.min.js
 // @resource    jqueryCSS https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css
 // ==/UserScript==
@@ -1814,7 +1814,7 @@ promiseList.push((async () => {
     return false;
   }
 
-  const filters = [
+  const defaultFilters = [
     {
       category: 'Ammo', op: 'equals',
       match: [
@@ -1905,8 +1905,191 @@ promiseList.push((async () => {
       ]
     },
   ];
+  let filters = [];
 
-  const sortInventory = (mod) => {
+  const inventoryFilterUI = (index) => {
+    const filterUI = document.createElement('tbody');
+    // category: 'Innate Weapons', op: 'includes', split: 'tail', showWeightless: true, match: []
+    const firstRow = filterUI.appendChild(document.createElement('tr'));
+
+    const category = firstRow.appendChild(document.createElement('td'));
+    category.dataset.id = 'category';
+    category.textContent = 'Category ';
+    const categoryInput = category.appendChild(document.createElement('input'));
+    categoryInput.type = 'text';
+
+    const compare = firstRow.appendChild(document.createElement('td'));
+    compare.dataset.id = 'op';
+    compare.colSpan = 2;
+    compare.textContent = 'Comparing Operator ';
+    const compareSelect = compare.appendChild(document.createElement('select'));
+    compareSelect.add(new Option('Starts With', 'startsWith'));
+    compareSelect.add(new Option('Ends With', 'endsWith'));
+    compareSelect.add(new Option('Equals', 'equals'));
+    compareSelect.add(new Option('Includes', 'includes'));
+
+    const secondRow = filterUI.appendChild(document.createElement('tr'));
+
+    const splitMode = secondRow.appendChild(document.createElement('td'));
+    splitMode.dataset.id = 'split';
+    splitMode.textContent = 'String Splitting ';
+    const splitSelect = splitMode.appendChild(document.createElement('select'));
+    splitSelect.add(new Option('None', ''));
+    splitSelect.add(new Option('Head', 'head'));
+    splitSelect.add(new Option('Tail', 'tail'));
+
+    const showWt0 = secondRow.appendChild(document.createElement('td'));
+    showWt0.dataset.id = 'showWeightless';
+    showWt0.textContent = 'Show Weightless ';
+    const showWt0Box = showWt0.appendChild(document.createElement('input'));
+    showWt0Box.type = 'checkbox';
+
+    const remove = secondRow.appendChild(document.createElement('td')).appendChild(document.createElement('input'));
+    remove.parentNode.dataset.id = 'remove';
+    remove.type = 'button';
+    remove.value = 'Remove Filter';
+    remove.onclick = function() {
+      const last = filters.length - 1;
+      if (index < last) {
+        mod.setValue(`filter-${index}-category`, filters[last].category);
+        mod.setValue(`filter-${index}-op`, filters[last].op);
+        mod.setValue(`filter-${index}-split`, filters[last].split);
+        mod.setValue(`filter-${index}-showWeightless`, filters[last].showWeightless);
+        mod.setValue(`filter-${index}-match`, filters[last].match.join('\n'));
+        filters[index] = { ...filters[last] };
+      }
+      filters.pop()
+      mod.deleteValue(`filter-${last}-category`);
+      mod.deleteValue(`filter-${last}-op`);
+      mod.deleteValue(`filter-${last}-split`);
+      mod.deleteValue(`filter-${last}-showWeightless`);
+      mod.deleteValue(`filter-${last}-match`);
+      mod.setValue('filter-count', last);
+
+      const table = document.querySelector('table#inventorySort');
+      table.querySelectorAll('tbody').forEach(tb => tb.remove());
+      filterSettings(table);
+    }
+
+    const thirdRow = filterUI.appendChild(document.createElement('tr'));
+
+    const matchBox = thirdRow.appendChild(document.createElement('td')).appendChild(document.createElement('textarea'));
+    matchBox.parentNode.dataset.id = 'match';
+    matchBox.parentNode.colSpan = 3;
+    matchBox.style.width = '97%';
+    matchBox.style.resize = 'vertical';
+
+    return filterUI;
+  }
+
+  const filterSettings = (table) => {
+    for (const index in filters) {
+      const filter = filters[index];
+      // category: str, op: str select, split: str select, showWeightless: bool, match: str array
+      const filterUI = inventoryFilterUI(index);
+
+      const category = filterUI.querySelector('[data-id="category"] input');
+      category.value = filter.category;
+      category.addEventListener('change', () => {
+        mod.setValue(`filter-${index}-category`, category.value);
+        filter.category = category.value;
+      });
+      const op = filterUI.querySelector('[data-id="op"] select');
+      op.value = filter.op;
+      op.addEventListener('change', () => {
+        mod.setValue(`filter-${index}-op`, op.value);
+        filter.op = op.value;
+      });
+      const split = filterUI.querySelector('[data-id="split"] select');
+      split.value = filter.split;
+      split.addEventListener('change', () => {
+        mod.setValue(`filter-${index}-split`, split.value);
+        filter.split = split.value;
+      });
+      const showWeightless = filterUI.querySelector('[data-id="showWeightless"] input');
+      showWeightless.checked = filter.showWeightless;
+      showWeightless.addEventListener('change', () => {
+        mod.setValue(`filter-${index}-showWeightless`, showWeightless.checked);
+        filter.showWeightless = showWeightless.value;
+      });
+      const match = filterUI.querySelector('[data-id="match"] textarea');
+      match.value = filter.match.join('\n');
+      match.addEventListener('change', () => {
+        mod.setValue(`filter-${index}-match`, match.value);
+        filter.match = match.value;
+      });
+
+      const remove = filterUI.querySelector('[data-id="remove"] input');
+
+      table.appendChild(filterUI);
+    }
+  }
+
+  const restoreDefaultFilters = () => {
+    mod.debug('Restoring default filters');
+    filters = [];
+    for (const df of defaultFilters) {
+      filters.push({
+        category: df.category, op: df.op, split: df.split, showWeightless: df.showWeightless, match: [...df.match]
+      });
+    }
+    for (const index in filters) {
+      const filter = filters[index];
+      mod.setValue(`filter-${index}-category`, filter.category);
+      mod.setValue(`filter-${index}-op`, filter.op);
+      mod.setValue(`filter-${index}-split`, filter.split);
+      mod.setValue(`filter-${index}-showWeightless`, filter.showWeightless);
+      mod.setValue(`filter-${index}-match`, filter.match.join('\n'));
+    }
+    mod.setValue('filter-count', filters.length);
+  }
+
+  const sortInventorySettings = (table, button) => {
+    const defaultButton = table.appendChild(document.createElement('tr')).appendChild(document.createElement('td')).appendChild(document.createElement('input'));
+    defaultButton.type = 'button';
+    defaultButton.value = 'Restore Default Filters';
+    defaultButton.parentNode.colSpan = 3;
+    defaultButton.style.width = '98.5%';
+    defaultButton.onclick = function() {
+      restoreDefaultFilters();
+      table.querySelectorAll('tbody').forEach(tb => tb.remove());
+      filterSettings(table);
+    }
+    filterSettings(table);
+  }
+
+  const loadFiltersFromStorage = async () => {
+    const filterCount = Number(await mod.getValue('filter-count'));
+    if (!filterCount) {
+      restoreDefaultFilters();
+      return false;
+    }
+    for (let index = 0; index < filterCount; index++) {
+      const filter = {};
+      filter.category = await mod.getValue(`filter-${index}-category`);
+      filter.op = await mod.getValue(`filter-${index}-op`);
+      filter.split = await mod.getValue(`filter-${index}-split`);
+      const wless = await mod.getValue(`filter-${index}-showWeightless`);
+      filter.showWeightless = (wless === 'false') ? false : (wless ? true : false);
+      filter.match = (await mod.getValue(`filter-${index}-match`)).split('\n');
+      filters.push(filter);
+    }
+    return true;
+  }
+
+  const deleteFiltersFromStorage = async() => {
+    mod.log('deleting filters from storage');
+    for (const identifier of (await GM.listValues()).filter(id => id.match(/nexus-tweaks-\d*-inventorySort-filter-.*/))) {
+      GM.deleteValue(identifier);
+    }
+  }
+
+  const sortInventory = async () => {
+    const {table, button} = mod.API.createRightSidePane(mod.name, null, mod.id);
+    // await deleteFiltersFromStorage();
+    await loadFiltersFromStorage();
+    sortInventorySettings(table, button);
+
     const inv = document.getElementById('inventory');
     if (!inv) return;
     const itable = inv.querySelector('tbody');
@@ -2003,10 +2186,15 @@ promiseList.push((async () => {
         mod.getSetting(`hide-${cat}`).then((setHide) => { if (setHide) rows[0].click() });
       }
     }
+
+    if (inv.querySelector('input.item_use[value="Show"]')) {
+      inv.querySelector('input.item_use[value="Show"]').click();
+      inv.querySelector('input.item_use[value="Hide"]').click();
+    }
   }
 
   await mod.registerMethod(
-    'sync',
+    'async',
     sortInventory
   );
 })());
