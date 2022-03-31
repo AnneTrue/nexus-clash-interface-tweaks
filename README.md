@@ -1,3 +1,12 @@
+<div align="center">
+  <a href="https://github.com/Argavyon/nexus-clash-interface-tweaks/issues">
+    <img src="https://img.shields.io/github/issues/Argavyon/nexus-clash-interface-tweaks" />
+  </a>
+  <a href="https://github.com/Argavyon/nexus-clash-interface-tweaks/pulls">
+    <img src="https://img.shields.io/github/issues-pr/Argavyon/nexus-clash-interface-tweaks" />
+  </a>
+</div>
+
 # Nexus Clash Interface Tweaks
 A userscript that tweaks the Nexus Clash user interface to be bearable
 
