@@ -6,7 +6,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   // Given how GM does apparently ignore the metadata block on @require scripts, it could possibly be removed
   // Leaving it here for backwards-compatibility, in case any scripts need it
   this.version = `${GM.info.script.version}`;
-  this.APIversion = '999.api.22';
+  this.APIversion = '999.api.23';
   this.APIname = 'Nexus Tweaks API & Scaffolding';
   this.APIhomepage = 'https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview';
   // logs to console; can disable if you want
@@ -100,7 +100,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   this.registerModule = async (id, name, type, description) => {
     const mod = new NexusTweaksModule(this, id, name, type, description);
     this.modules.push(mod);
-    this.debug(`Registered module ${mod.name}`);
+    this.debug(`[API] Registered module ${mod.name}`);
     return mod
   }
 
@@ -225,15 +225,41 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   }
 
 
+  this.createRightSidePane = (paneName, paneClass, paneID) => {
+    const sidebar = document.getElementById('sidebar-menu');
+    if (!sidebar) {
+      this.debug('[API] No sidebar detected');
+      return;
+    }
+
+    const paneButton = sidebar.querySelector('tbody>tr').appendChild(document.createElement('td')).appendChild(document.createElement('input'));
+    if (paneID) paneButton.id = `${paneID}-button`;
+    paneButton.value = paneName;
+    paneButton.type = 'button';
+
+    const paneTable = document.createElement('table');
+    if (paneID) paneTable.id = paneID;
+    if (paneClass) paneTable.className = paneClass;
+
+    paneButton.onclick = function() {
+      const sidebarRow = sidebar.parentNode.parentNode; // the sidebar is a table within a td within a tr, sidebarRow is said tr
+      while (sidebarRow.nextSibling) sidebarRow.nextSibling.remove();
+      sidebarRow.parentNode.appendChild(document.createElement('tr')).appendChild(document.createElement('td')).appendChild(paneTable);
+    }
+
+    return {table: paneTable, button: paneButton};
+  }
+
+
   const createSettingsButton = () => {
     const sidebar = document.getElementById('sidebar-menu');
     if (!sidebar) {
-      this.debug('No sidebar detected');
+      this.debug('[API] No sidebar detected');
       return;
     }
     let SettingsTabButton = document.getElementById('nexus-tweaks-settings-button');
     if (SettingsTabButton) {
-      this.debug('Settings button already exists');
+      this.debug('[API] Settings button already exists');
     } else {
       SettingsTabButton = sidebar.firstElementChild.firstElementChild.appendChild(document.createElement('td')).appendChild(document.createElement('input'));
       SettingsTabButton.id = 'nexus-tweaks-settings-button';
@@ -261,29 +287,29 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
 
   this.runNexusTweaks = async () => {
     if (this.runCalled) {
-      this.log('runNexusTweaks has already been called. Preventing duplicate run.');
+      this.log('[API] runNexusTweaks has already been called. Preventing duplicate run.');
       return
     }
     this.runCalled = true;
     // wait for module registration promises
     await Promise.all(this.promises);
 
+    await createSettingsButton();
+
     for (const nexusTweaksMod of this.modules) {
       if (await nexusTweaksMod.isEnabled() !== true) { continue; }
       try {
-        this.debug(`Running (sync) module [${nexusTweaksMod.name}]`);
+        this.debug(`[API] Running (sync) module [${nexusTweaksMod.name}]`);
         await nexusTweaksMod.runSync();
       } catch (err) {
         this.error(`Error while (sync) running ${nexusTweaksMod.name}: ${err.message}`);
       }
     }
 
-    await createSettingsButton();
-
     const mapRunAsync = async (nexusTweaksMod) => {
       if (!await nexusTweaksMod.isEnabled()) { return; }
       try {
-        this.debug(`Running (async) module [${nexusTweaksMod.name}]`);
+        this.debug(`[API] Running (async) module [${nexusTweaksMod.name}]`);
         await nexusTweaksMod.runAsync();
       } catch (err) {
         this.error(`Error while (async) running ${nexusTweaksMod.name}: ${err.message}`);
@@ -319,7 +345,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
             return matchResult[1];
           }
         } catch (err) {
-          this.log(`Charinfo Parse ${match} error: ${err.message}`);
+          this.log(`[API] Charinfo Parse ${match} error: ${err.message}`);
         }
         return null;
       }
@@ -333,7 +359,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   })();
 
 
-  this.getSetting = async (settingName, def=undefined) => {
+  this.getValue = this.getSetting = async (settingName, def=undefined) => {
     const value = await GM.getValue(settingName);
     if (typeof value !== 'undefined') {
       return JSON.parse(value)
@@ -342,46 +368,27 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   }
 
 
-  this.setSetting = async (settingName, value) => {
+  this.setValue = this.setSetting = async (settingName, value) => {
     return await GM.setValue(settingName, JSON.stringify(value));
   }
 
 
-  const getLocalSettingName = (settingName) => {
-    return `${scriptId}-${this.charinfo.id}-${settingName}`;
+  this.deleteValue = this.deleteSetting = async (settingName) => {
+    return await GM.deleteValue(settingName);
   }
 
 
-  const getGlobalSettingName = (settingName) => {
-    return `${scriptId}-global-${settingName}`;
-  }
-
-
-  this.getLocalSetting = async (settingName, def) => {
+  this.getLocalSettingName = (settingKey) => {
     if (!this.inGame || typeof this.charinfo.id === 'undefined') {
       this.error('getLocalSetting: not in game, no character ID');
       return undefined;
     }
-    return await this.getSetting(getLocalSettingName(settingName), def);
+    return `${scriptId}-${this.charinfo.id}-${settingKey}`;
   }
 
 
-  this.getGlobalSetting = async (settingName, def) => {
-    return await this.getSetting(getGlobalSettingName(settingName), def);
-  }
-
-
-  this.setLocalSetting = async (settingName, value) => {
-    if (!this.inGame || typeof this.charinfo.id === 'undefined') {
-      this.error('setLocalSetting: not in game, no character ID');
-      return undefined;
-    }
-    return await this.setSetting(getLocalSettingName(settingName), value);
-  }
-
-
-  this.setGlobalSetting = async (settingName, value) => {
-    return await this.setSetting(getGlobalSettingName(settingName), value);
+  this.getGlobalSettingName = (settingKey) => {
+    return `${scriptId}-global-${settingKey}`;
   }
 }
 
@@ -474,6 +481,7 @@ function NexusTweaksModule(API, id, name, localType, description) {
     API.error(`Error constructing NexusTweaksModule ${id}: Unrecognised type ${localType}`);
     return
   }
+  this.API = API;
   this.id = id;
   this.name = name;
   this.description = description;
@@ -489,19 +497,25 @@ function NexusTweaksModule(API, id, name, localType, description) {
 
   this.getValue = this.getSetting = async (key, def) => {
     key = `${this.id}-${key}`;
-    if (this.localType === 'global') {
-      return await API.getGlobalSetting(key, def);
-    }
-    return await API.getLocalSetting(key, def);
+    const settingName = (this.localType === 'global') ? API.getGlobalSettingName(key) : API.getLocalSettingName(key);
+    if (settingName === undefined) return undefined
+    return await API.getSetting(settingName, def);
   }
 
 
   this.setValue = this.setSetting = async (key, value) => {
     key = `${this.id}-${key}`;
-    if (this.localType === 'global') {
-      return await API.setGlobalSetting(key, value);
-    }
-    return await API.setLocalSetting(key, value);
+    const settingName = (this.localType === 'global') ? API.getGlobalSettingName(key) : API.getLocalSettingName(key);
+    if (settingName === undefined) return undefined
+    return await API.setSetting(settingName, value);
+  }
+
+
+  this.deleteValue = this.deleteSetting = async (key) => {
+    key = `${this.id}-${key}`;
+    const settingName = (this.localType === 'global') ? API.getGlobalSettingName(key) : API.getLocalSettingName(key);
+    if (settingName === undefined) return undefined;
+    return await API.deleteSetting(settingName);
   }
 
 
@@ -534,6 +548,15 @@ function NexusTweaksModule(API, id, name, localType, description) {
     // corresponding to option value and display text
     const setting = new NexusTweaksSetting(API, type, id, name, desc, extra);
     this.settings.push(setting);
+    return setting
+  }
+
+
+  this.unregisteredSetting = async (type, id, name, desc, extra=null) => {
+    // if type is select, extra must be list of objects with properties 'value' and 'text'
+    // corresponding to option value and display text
+    const setting = new NexusTweaksSetting(API, type, id, name, desc, extra);
+    // Do not push to this.settings so that the API doesn't handle it
     return setting
   }
 
