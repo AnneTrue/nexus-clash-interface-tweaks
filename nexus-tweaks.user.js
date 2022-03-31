@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.43
+// @version     999.prev.43.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2667,11 +2667,12 @@ promiseList.push((async () => {
       }
       petTargetDropdown.parentNode.replaceChild(newPetDropdown, petTargetDropdown);
     }
-    
+
     const healTargetDropdowns = [];
     const healDropdownSelectors = [
       'form[name="FAKHeal"] select[name="target_id"]',
-      'form[name="Surgery"] select[name="target_id"]'
+      'form[name="Surgery"] select[name="target_id"]',
+      'form[name="Heal Others"] select[name="target_id"]'
     ];
 	for (const selector of healDropdownSelectors) {
       const dropdown = document.querySelector(selector);
@@ -2681,16 +2682,27 @@ promiseList.push((async () => {
       mod.debug('No heal target dropdown found');
       return;
     }
-    
+
     const noHealFac = await mod.getSetting('no-heal-faction');
     const noHealAlly = await mod.getSetting('no-heal-allies');
     const noHealFriend = await mod.getSetting('no-heal-friendlies');
     const noHealEnemy = await mod.getSetting('no-heal-enemies');
     const noHealHostile = await mod.getSetting('no-heal-hostiles');
     const noHealOther = await mod.getSetting('no-heal-others');
+    const ht = await mod.getSetting('healing-threshold')
+    const healingThreshold = Number(ht) ? Number(ht) : 0;
     for (const dropdown of healTargetDropdowns) {
       const newHealDropdown = dropdown.cloneNode(false);
       for (const opt of Array.from(dropdown.options)) {
+        if (healingThreshold > 0) { // If there's a healing threshold
+          const matchHP = opt.textContent.match(/\((?<currHP>\d+)\/(?<maxHP>\d+) HP\)/);
+          if (matchHP) { // If we can read a target's HP
+            // If the target is missing less health than the threshold
+            // Then skip target from healing dropdown
+            if (Number(matchHP.groups.maxHP) - Number(matchHP.groups.currHP) < healingThreshold) continue;
+          }
+        }
+
         const charId = Number(opt.value);
         if (charPoliticsDict[charId] == 'faction') { if (!noHealFac) newHealDropdown.appendChild(opt); }
         else if (charPoliticsDict[charId] == 'ally') { if (!noHealAlly) newHealDropdown.appendChild(opt); }
@@ -2780,6 +2792,12 @@ promiseList.push((async () => {
     'no-heal-others',
     'Prevent Healing Others',
     ''
+  );
+  await mod.registerSetting(
+    'textfield',
+    'healing-threshold',
+    'Healing Threshold (absolute)',
+    'Healing targets missing less than this much HP won\'t be shown on healing dropdowns.'
   );
 
   await mod.registerMethod(
