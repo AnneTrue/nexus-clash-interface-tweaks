@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.44
+// @version     999.prev.44.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -1907,6 +1907,74 @@ promiseList.push((async () => {
   ];
   let filters = [];
 
+  const loadFilter = async (index) => {
+    const filter = {};
+
+    const loadPromises = [
+      mod.getValue(`filter-${index}-category`)
+        .then(value => {
+          filter.category = value;
+          return true;
+      }),
+      mod.getValue(`filter-${index}-op`)
+        .then(value => {
+          filter.op = value;
+          return true;
+      }),
+      mod.getValue(`filter-${index}-split`)
+        .then(value => {
+          filter.split = value;
+          return true;
+      }),
+      mod.getValue(`filter-${index}-showWeightless`)
+        .then(value => {
+          filter.showWeightless = (value === 'false') ? false : (value ? true : false);
+          return true;
+      }),
+      mod.getValue(`filter-${index}-match`)
+        .then(value => {
+          filter.match = value.split('\n');
+          return true;
+      }),
+    ];
+
+    return Promise.all(loadPromises).then(_ => filter);
+  }
+
+  const storeFilter = async (index, filter) => {
+    const storePromises = [
+      mod.setValue(`filter-${index}-category`, filter.category),
+      mod.setValue(`filter-${index}-op`, filter.op),
+      mod.setValue(`filter-${index}-split`, filter.split),
+      mod.setValue(`filter-${index}-showWeightless`, filter.showWeightless),
+      mod.setValue(`filter-${index}-match`, filter.match.join('\n'))
+    ];
+
+    return Promise.all(storePromises);
+  }
+
+  const deleteFilter = async (index) => {
+    const deletePromises = [
+      mod.deleteValue(`filter-${index}-category`),
+      mod.deleteValue(`filter-${index}-op`),
+      mod.deleteValue(`filter-${index}-split`),
+      mod.deleteValue(`filter-${index}-showWeightless`),
+      mod.deleteValue(`filter-${index}-match`)
+    ];
+
+    return Promise.all(deletePromises);
+  }
+
+  const updateFilterCount = async () => {
+    return mod.setValue('filter-count', filters.length);
+  }
+
+  const defaultFilter = () => {
+    return {
+      category: '', op: 'equals', split: '', showWeightless: false, match: []
+    };
+  }
+
   const inventoryFilterUI = (index) => {
     const filterUI = document.createElement('tbody');
     // category: 'Innate Weapons', op: 'includes', split: 'tail', showWeightless: true, match: []
@@ -1951,24 +2019,17 @@ promiseList.push((async () => {
     remove.onclick = function() {
       const last = filters.length - 1;
       if (index < last) {
-        mod.setValue(`filter-${index}-category`, filters[last].category);
-        mod.setValue(`filter-${index}-op`, filters[last].op);
-        mod.setValue(`filter-${index}-split`, filters[last].split);
-        mod.setValue(`filter-${index}-showWeightless`, filters[last].showWeightless);
-        mod.setValue(`filter-${index}-match`, filters[last].match.join('\n'));
+        storeFilter(index, filters[last]);
         filters[index] = { ...filters[last] };
       }
-      filters.pop()
-      mod.deleteValue(`filter-${last}-category`);
-      mod.deleteValue(`filter-${last}-op`);
-      mod.deleteValue(`filter-${last}-split`);
-      mod.deleteValue(`filter-${last}-showWeightless`);
-      mod.deleteValue(`filter-${last}-match`);
-      mod.setValue('filter-count', last);
+      filters.pop();
+      deleteFilter(last);
+      updateFilterCount();
+      mod.debug(`Removed filter #${Number(index)+1}`);
 
       const table = document.querySelector('table#inventorySort');
       table.querySelectorAll('tbody').forEach(tb => tb.remove());
-      filterSettings(table);
+      filterSettingsTable(table);
     }
 
     const thirdRow = filterUI.appendChild(document.createElement('tr'));
@@ -1982,7 +2043,11 @@ promiseList.push((async () => {
     return filterUI;
   }
 
-  const filterSettings = (table) => {
+  const clearInventorySettingsTable = (table) => {
+    table.querySelectorAll('tbody').forEach(tb => tb.remove());
+  }
+
+  const filterSettingsTable = (table) => {
     for (const index in filters) {
       const filter = filters[index];
       // category: str, op: str select, split: str select, showWeightless: bool, match: str array
@@ -2023,25 +2088,32 @@ promiseList.push((async () => {
 
       table.appendChild(filterUI);
     }
+    const newFilterTD = table.appendChild(document.createElement('tbody')).appendChild(document.createElement('tr')).appendChild(document.createElement('td'));
+    newFilterTD.colSpan = 3;
+    const newFilterButton = newFilterTD.appendChild(document.createElement('input'));
+    newFilterButton.type = 'button';
+    newFilterButton.value = '+';
+    newFilterButton.style.width = '98.5%';
+    newFilterButton.onclick = function() {
+      filters.push(defaultFilter());
+      storeFilter(filters.length - 1, filters[filters.length - 1]);
+      updateFilterCount();
+      clearInventorySettingsTable(table);
+      filterSettingsTable(table);
+      mod.debug('Added new filter');
+    }
   }
 
   const restoreDefaultFilters = () => {
-    mod.debug('Restoring default filters');
     filters = [];
     for (const df of defaultFilters) {
       filters.push({
         category: df.category, op: df.op, split: df.split, showWeightless: df.showWeightless, match: [...df.match]
       });
     }
-    for (const index in filters) {
-      const filter = filters[index];
-      mod.setValue(`filter-${index}-category`, filter.category);
-      mod.setValue(`filter-${index}-op`, filter.op);
-      mod.setValue(`filter-${index}-split`, filter.split);
-      mod.setValue(`filter-${index}-showWeightless`, filter.showWeightless);
-      mod.setValue(`filter-${index}-match`, filter.match.join('\n'));
-    }
-    mod.setValue('filter-count', filters.length);
+    for (const index in filters) storeFilter(index, filters[index]);
+    updateFilterCount();
+    mod.log('Restored default filters');
   }
 
   const sortInventorySettings = (table, button) => {
@@ -2052,41 +2124,30 @@ promiseList.push((async () => {
     defaultButton.style.width = '98.5%';
     defaultButton.onclick = function() {
       restoreDefaultFilters();
-      table.querySelectorAll('tbody').forEach(tb => tb.remove());
-      filterSettings(table);
+      clearInventorySettingsTable(table);
+      filterSettingsTable(table);
     }
-    filterSettings(table);
+    filterSettingsTable(table);
   }
 
   const loadFiltersFromStorage = async () => {
     const filterCount = Number(await mod.getValue('filter-count'));
-    if (!filterCount) {
-      restoreDefaultFilters();
-      return false;
-    }
-    for (let index = 0; index < filterCount; index++) {
-      const filter = {};
-      filter.category = await mod.getValue(`filter-${index}-category`);
-      filter.op = await mod.getValue(`filter-${index}-op`);
-      filter.split = await mod.getValue(`filter-${index}-split`);
-      const wless = await mod.getValue(`filter-${index}-showWeightless`);
-      filter.showWeightless = (wless === 'false') ? false : (wless ? true : false);
-      filter.match = (await mod.getValue(`filter-${index}-match`)).split('\n');
-      filters.push(filter);
-    }
-    return true;
+    if (!filterCount) restoreDefaultFilters();
+    else for (let index = 0; index < filterCount; index++) filters.push(await loadFilter(index));
   }
 
-  const deleteFiltersFromStorage = async() => {
+  const deleteAllFiltersFromStorage = async() => {
     mod.log('deleting filters from storage');
+    const deletionPromises = [];
     for (const identifier of (await GM.listValues()).filter(id => id.match(/nexus-tweaks-\d*-inventorySort-filter-.*/))) {
-      GM.deleteValue(identifier);
+      deletionPromises.push(GM.deleteValue(identifier));
     }
+    return Promise.all(deletionPromises);
   }
 
   const sortInventory = async () => {
     const {table, button} = mod.API.createRightSidePane(mod.name, null, mod.id);
-    // await deleteFiltersFromStorage();
+    // await deleteAllFiltersFromStorage();
     await loadFiltersFromStorage();
     sortInventorySettings(table, button);
 
