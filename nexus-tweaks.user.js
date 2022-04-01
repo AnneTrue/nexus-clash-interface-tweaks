@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.43.1
+// @version     999.prev.43.2
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3182,6 +3182,13 @@ promiseList.push((async () => {
         node.append(...hellSpan);
       }
     }
+  }
+  
+  // Happy April Fools
+  mod.isEnabled = async () => {
+    const date = new Date();
+    if (date.getDate() === 1 && date.getMonth() === 3 && Math.random() > 0.9) return true;
+    return await mod.getSetting('module_enabled');
   }
 
   await mod.registerMethod(
