@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.44.3
+// @version     999.prev.44.4
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3435,13 +3435,13 @@ promiseList.push((async () => {
         node.append(...hellSpan);
       }
     }
+	Array.from(document.getElementsByClassName('content')).forEach(e => {
+      e.style.fontFamily = 'Comic Helvetic';
+      e.style.fontWeight = '300';
+    });
   }
   
   argavyonExTweaks.addGlobalStyle(await GM.getResourceUrl('HELLCSS'));
-  Array.from(document.getElementsByClassName('content')).forEach(e => {
-    e.style.fontFamily = 'Comic Helvetic';
-    e.style.fontWeight = '300';
-  });
 
   await mod.registerMethod(
     'sync',
