@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.44.2
+// @version     999.prev.44.3
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -10,12 +10,14 @@
 // @source      https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview
 // @match       *://nexusclash.com/clash.php*
 // @match       *://www.nexusclash.com/clash.php*
+// @exclude     *?op=map
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_getResourceURL
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       GM.deleteValue
+// @grant       GM.listValues
 // @grant       GM.getResourceUrl
 // @require     scaffolding.js
 // @resource    scaffoldingCSS css/scaffolding.css
@@ -23,6 +25,7 @@
 // @require     https://code.jquery.com/jquery-3.5.1.min.js
 // @require     https://code.jquery.com/ui/1.13.1/jquery-ui.min.js
 // @resource    jqueryCSS https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css
+// @resource    HELLCSS css/HELL.css
 // ==/UserScript==
 
 const nexusTweaks = new NexusTweaksScaffolding(
@@ -3409,6 +3412,7 @@ promiseList.push((async () => {
   }
 
   const HELL = () => {
+	document.body.classList.add('HELL');
     for (const node of document.body.querySelector('#page-body').querySelectorAll('text,div,span,option,a,b,td,th')) {
       if (node.children && node.children.length !== 0) {
         for (const childNode of node.childNodes) {
@@ -3432,6 +3436,12 @@ promiseList.push((async () => {
       }
     }
   }
+  
+  argavyonExTweaks.addGlobalStyle(await GM.getResourceUrl('HELLCSS'));
+  Array.from(document.getElementsByClassName('content')).forEach(e => {
+    e.style.fontFamily = 'Comic Helvetic';
+    e.style.fontWeight = '300';
+  });
 
   await mod.registerMethod(
     'sync',
