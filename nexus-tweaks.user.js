@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.44.4
+// @version     999.prev.45
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2599,13 +2599,21 @@ promiseList.push((async () => {
     speechButton.type = 'button';
     speechButton.classList.add('hidden');
     form.insertBefore(newSpeechButton, speechButton);
-    const isEmote = (str) => (str.substr(0,3) === '/em' | str.substr(0,3) === '/me');
+    const emoteRE = new RegExp('/(?<code>\w*)(?<tail>.*)');
     newSpeechButton.onclick = function() {
-      if (!isEmote(textInput.value)) {
-        textInput.value = zalgofyString(textInput.value, settings);
+      const emoteMatch = textInput.value.match(emoteRE);
+      if (!emoteMatch) textInput.value = zalgofyString(textInput.value, settings);
+      else {
+        const code = emoteMatch.groups.code.toLowerCase();
+        const tail = emoteMatch.groups.tail;
+
+        if (code === 'em' || code === 'me') textInput.value = '/em' + tail;
+        else if (code === 'plain') textInput.value = tail;
+        else if (code === 'zalgo') textInput.value = zalgofyString(tail, settings);
+        else ;
       }
       speechButton.click();
-    };
+    }
   }
 
   const zalgofy = async (mod) => {
