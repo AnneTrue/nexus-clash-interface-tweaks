@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.45
+// @version     999.prev.46
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2148,11 +2148,11 @@ promiseList.push((async () => {
     return Promise.all(deletionPromises);
   }
 
+  // await deleteAllFiltersFromStorage();
+  const filterPromise = loadFiltersFromStorage();
+
   const sortInventory = async () => {
-    const {table, button} = mod.API.createRightSidePane(mod.name, null, mod.id);
-    // await deleteAllFiltersFromStorage();
-    await loadFiltersFromStorage();
-    sortInventorySettings(table, button);
+    await filterPromise;
 
     const inv = document.getElementById('inventory');
     if (!inv) return;
@@ -2194,7 +2194,7 @@ promiseList.push((async () => {
           if (matchItem(item.querySelector('span').textContent, filter)) {
             content[filter.category].push(item);
             categorized = true;
-            continue;
+            break;
           }
         }
         if (!categorized) content.Others.push(item);
@@ -2257,9 +2257,57 @@ promiseList.push((async () => {
     }
   }
 
+  const sortFloorItems = async () => {
+    await filterPromise;
+
+    const pickup = document.querySelector('form[name="pickup"]');
+    if (!pickup) return;
+    const pickselect = pickup.querySelector('select[name="item"]');
+
+    const optGroups = {};
+    for (const filter of filters) {
+      optGroups[filter.category] = document.createElement('optgroup');
+      optGroups[filter.category].label = filter.category;
+    }
+    optGroups.Others = document.createElement('optgroup');
+    optGroups.Others.label = "Others";
+
+    for (const opt of Array.from(pickselect.options)) {
+      let categorized = false;
+      for (const filter of filters) {
+        if (matchItem(opt.textContent, filter)) {
+          optGroups[filter.category].appendChild(opt);
+          categorized = true;
+          break;
+        }
+      }
+      if (!categorized) optGroups.Others.appendChild(opt);
+    }
+    for (const optGroup of Object.values(optGroups)) {
+      if (optGroup.children.length === 0) optGroup.hidden = true;
+      pickselect.options.add(optGroup);
+    }
+  }
+
+  const inventoryFilterPane = async () => {
+	const {table, button} = mod.API.createRightSidePane(mod.name, null, mod.id);
+    await filterPromise;
+    sortInventorySettings(table, button);
+  }
+
+  await mod.registerMethod(
+    'async',
+    inventoryFilterPane
+  );
+
   await mod.registerMethod(
     'async',
     sortInventory
+  );
+
+  await mod.registerMethod(
+    'async',
+    sortFloorItems
   );
 })());
 
