@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.46.2
+// @version     999.prev.46.3
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2923,7 +2923,7 @@ promiseList.push((async () => {
     const charListLinks = charList.querySelectorAll('[onclick^="SelectItem"],[href^="javascript:SelectItem"]');
     const charPoliticsDict = {};
     const charNameToId = {};
-    const SMList = [];
+    const SMDict = {};
     for (const link of charListLinks) {
       const selectItem = link.href ? link.href : link.onclick;
       const charId = Number(selectItem.toString().match(/\d+/)[0]);
@@ -2937,8 +2937,11 @@ promiseList.push((async () => {
         }
       }
       charPoliticsDict[charId] = charPolitics;
-      if (charList.querySelector(`img[title^="${link.textContent.trim()}"][title*="Sorcerers Might"]`)) SMList.push(charId);
-      if (link.parentElement.querySelector(`.status-tag[title^="Sorcerer's Might"`)) SMList.push(charId);
+      const SMitem = charList.querySelector(`img[title^="${link.textContent.trim()}"][title*="Sorcerers Might"]`) || link.parentElement.querySelector(`.status-tag[title^="Sorcerer's Might"`);
+      if (SMitem) {
+        const SMtime = Number(SMitem.title.match(/(\d+) minutes/)[1]);
+        SMDict[charId] = SMtime;
+      }
     }
 
     const newCombatDropdown = combatTargetDropdown.cloneNode(false);
@@ -2959,7 +2962,7 @@ promiseList.push((async () => {
     const petNameToId = {};
     for (const link of petListLinks) {
       const selectItem = link.href;
-      const petId = selectItem.toString().match(/\d+/);
+      const petId = Number(selectItem.toString().match(/\d+/)[0]);
       let petPolitics = link.className;
       petPolitics = petPolitics ? petPolitics : 'other';
       petPoliticsDict[petId] = petPolitics;
@@ -3016,7 +3019,10 @@ promiseList.push((async () => {
             if (Number(matchHP.groups.maxHP) - Number(matchHP.groups.currHP) < healingThreshold) continue;
           }
         }
-        if (noHealSM && SMList.includes(charId)) continue;
+        if (charId in SMDict) {
+          if (noHealSM) continue;
+          opt.textContent += ` (SM ${SMDict[charId]})`;
+        }
 
         if (charPoliticsDict[charId] == 'faction') { if (!noHealFac) newHealDropdown.appendChild(opt); }
         else if (charPoliticsDict[charId] == 'ally') { if (!noHealAlly) newHealDropdown.appendChild(opt); }
