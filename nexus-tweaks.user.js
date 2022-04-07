@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.46
+// @version     999.prev.46.2
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2923,9 +2923,10 @@ promiseList.push((async () => {
     const charListLinks = charList.querySelectorAll('[onclick^="SelectItem"],[href^="javascript:SelectItem"]');
     const charPoliticsDict = {};
     const charNameToId = {};
+    const SMList = [];
     for (const link of charListLinks) {
       const selectItem = link.href ? link.href : link.onclick;
-      const charId = selectItem.toString().match(/\d+/);
+      const charId = Number(selectItem.toString().match(/\d+/)[0]);
       const containsPolitics = (classList, politics) => (classList.contains(politics) || classList.contains(`politics-${politics}`));
       let charPolitics = 'other';
       const possiblePolitics = ['faction', 'ally', 'friendly', 'enemy', 'hostile'];
@@ -2936,6 +2937,8 @@ promiseList.push((async () => {
         }
       }
       charPoliticsDict[charId] = charPolitics;
+      if (charList.querySelector(`img[title^="${link.textContent.trim()}"][title*="Sorcerers Might"]`)) SMList.push(charId);
+      if (link.parentElement.querySelector(`.status-tag[title^="Sorcerer's Might"`)) SMList.push(charId);
     }
 
     const newCombatDropdown = combatTargetDropdown.cloneNode(false);
@@ -2999,9 +3002,12 @@ promiseList.push((async () => {
     const noHealOther = await mod.getSetting('no-heal-others');
     const ht = await mod.getSetting('healing-threshold')
     const healingThreshold = Number(ht) ? Number(ht) : 0;
+    const noHealSM = await mod.getSetting('no-heal-SM');
     for (const dropdown of healTargetDropdowns) {
       const newHealDropdown = dropdown.cloneNode(false);
       for (const opt of Array.from(dropdown.options)) {
+        const charId = Number(opt.value);
+
         if (healingThreshold > 0) { // If there's a healing threshold
           const matchHP = opt.textContent.match(/\((?<currHP>\d+)\/(?<maxHP>\d+) HP\)/);
           if (matchHP) { // If we can read a target's HP
@@ -3010,8 +3016,8 @@ promiseList.push((async () => {
             if (Number(matchHP.groups.maxHP) - Number(matchHP.groups.currHP) < healingThreshold) continue;
           }
         }
+        if (noHealSM && SMList.includes(charId)) continue;
 
-        const charId = Number(opt.value);
         if (charPoliticsDict[charId] == 'faction') { if (!noHealFac) newHealDropdown.appendChild(opt); }
         else if (charPoliticsDict[charId] == 'ally') { if (!noHealAlly) newHealDropdown.appendChild(opt); }
         else if (charPoliticsDict[charId] == 'friendly') { if (!noHealFriend) newHealDropdown.appendChild(opt); }
@@ -3104,8 +3110,14 @@ promiseList.push((async () => {
   await mod.registerSetting(
     'textfield',
     'healing-threshold',
-    'Healing Threshold (absolute)',
-    'Healing targets missing less than this much HP won\'t be shown on healing dropdowns.'
+    'Healing Threshold',
+    'Characters missing less than this much HP won\'t be shown on healing dropdowns.'
+  );
+  await mod.registerSetting(
+    'checkbox',
+    'no-heal-SM',
+    'No SM Healing',
+    'Characters under SM effects won\'t be shown on healing dropdowns.'
   );
 
   await mod.registerMethod(
