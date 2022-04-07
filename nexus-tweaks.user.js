@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.46.3
+// @version     999.prev.46.4
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2647,7 +2647,7 @@ promiseList.push((async () => {
     speechButton.type = 'button';
     speechButton.classList.add('hidden');
     form.insertBefore(newSpeechButton, speechButton);
-    const emoteRE = new RegExp('/(?<code>\w*)(?<tail>.*)');
+    const emoteRE = new RegExp(String.raw`^/(?<code>\w+)(?<tail>.*?)$`);
     newSpeechButton.onclick = function() {
       const emoteMatch = textInput.value.match(emoteRE);
       if (!emoteMatch) textInput.value = zalgofyString(textInput.value, settings);
