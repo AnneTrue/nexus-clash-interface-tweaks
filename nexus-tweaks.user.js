@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.46.4
+// @version     999.dev.47
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2366,6 +2366,7 @@ promiseList.push((async () => {
       rButton.onclick = function() {
         researchComp.value = rComp.value;
         researchPotion.value = recipeName;
+        mod.setValue('alchemy-alarm', 1);
         researchButton.click();
       }
     }
@@ -2576,10 +2577,23 @@ promiseList.push((async () => {
 
   const EnhancedAlchemyPanel = () => {
     'use strict';
+    mod.getValue('alarm').then(async alarm => {
+      if (await mod.getSetting('HP-warning')) {
+        if (alarm && mod.API.charinfo.hp && mod.API.charinfo.hp < 20) alert('Your HP is low from performing alchemy');
+        else mod.setValue('alchemy-alarm', 0);
+      } else mod.setValue('alchemy-alarm', 0);
+    });
     const trackerNode = document.getElementById('recipe-tracker');
     if (trackerNode) EnhancedAlchemyPanelUI(trackerNode);
     else mod.debug('No Recipe Tracker found');
   }
+
+  await mod.registerSetting(
+    'checkbox',
+    'HP-warning',
+    'Low HP warning',
+    'Warns you after performing alchemy and ending with low HP.'
+  );
 
   await mod.registerMethod(
     'sync',
