@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.46.4
+// @version     999.prev.47
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3576,6 +3576,114 @@ promiseList.push((async () => {
   await mod.registerMethod(
     'sync',
     charIconSelectUI
+  );
+})());
+
+
+//##############################################################################
+promiseList.push((async () => {
+  const mod = await argavyonExTweaks.registerModule(
+    'easyUsePane',
+    'Easy Use Pane',
+    'local',
+    'Creates a left-side pane with trigger-able spellgems and consumables from inventory.',
+  );
+
+  const easyUsePane = () => {
+    const before_pane_label = document.querySelector('div.panetitle label[for="pane-targetshoot"]');
+    const before_pane = before_pane_label ? before_pane_label.parentElement.parentElement : null;
+    const easy_use_panetitle = document.querySelector('#main-left').insertBefore(document.createElement('div'), before_pane);
+    easy_use_panetitle.className = 'panetitle';
+    const easy_use_label = easy_use_panetitle.appendChild(document.createElement('label'));
+    easy_use_label.style.width = '100%';
+    easy_use_label.style.display = 'block';
+    easy_use_label.htmlFor = 'custompane-easy_use';
+    const label_inp3 = easy_use_label.appendChild(document.createElement('input'));
+    easy_use_label.appendChild(document.createTextNode('Easy Spellgem and Consumable Use'));
+    label_inp3.type = 'image';
+    label_inp3.src = 'images/g/inf/close.gif';
+    label_inp3.alt = '-';
+    label_inp3.border = '0';
+    easy_use_panetitle.onclick = function() {
+      easy_use_panetitle.classList.toggle('paneclosed');
+      label_inp3.src = easy_use_panetitle.classList.contains('paneclosed') ? 'images/g/inf/open.gif' : 'images/g/inf/close.gif';
+      label_inp3.alt = easy_use_panetitle.classList.contains('paneclosed') ? '+' : '-';
+    }
+
+    const easy_use_panecontent = document.querySelector('#main-left').insertBefore(document.createElement('div'), before_pane);
+    easy_use_panecontent.className = 'panecontent';
+
+    const spellgem_trigger_select = document.querySelector('form[name="spellattack"] select[name="item"]');
+    const inventory_consumables = [...document.querySelectorAll('#inventory form[name="ItemUse"] input[value="useitem"]')].map(e => e.parentNode);
+    const usables = easy_use_panecontent.appendChild(document.createElement('table')).appendChild(document.createElement('tbody'));
+    if (document.querySelector('form[name="spellattack"] select[name="item"]')) {
+      for (const opt of document.querySelector('form[name="spellattack"] select[name="item"]').options) {
+        const tr = usables.appendChild(document.createElement('tr'));
+        const gem_match = opt.textContent.match(/(?<spell>.*) - \((?<cost>.*), (?<charges>.*)\)/);
+        const chargesTd = tr.appendChild(document.createElement('td'));
+        chargesTd.textContent = gem_match.groups.charges;
+        chargesTd.style.width = '10%';
+        const useTd = tr.appendChild(document.createElement('td'));
+        useTd.align = 'center';
+        useTd.style.width = '15%';
+        const useForm = useTd.appendChild(document.createElement('form'));
+        useForm.name = 'ItemUse';
+        useForm.action = '';
+        useForm.method = 'POST';
+        const inp1 = useForm.appendChild(document.createElement('input'));
+        inp1.type = 'hidden';
+        inp1.name = 'op';
+        inp1.value = 'castspell';
+        const inp2 = useForm.appendChild(document.createElement('input'));
+        inp2.type = 'hidden';
+        inp2.name = 'item';
+        inp2.value = opt.value;
+        const inp3 = useForm.appendChild(document.createElement('input'));
+        inp3.class = 'item_use';
+        inp3.type = 'submit';
+        inp3.value = `Trigger (${gem_match.groups.cost})`;
+        inp3.style.width = '100%';
+        tr.appendChild(document.createElement('td')).textContent = gem_match.groups.spell;
+      }
+    }
+    for (const inp of document.querySelectorAll('#inventory form[name="ItemUse"] input[value="useitem"]')) {
+      const invRow = inp.parentNode.parentNode.parentNode;
+      const tr = usables.appendChild(document.createElement('tr'));
+      const countTd = tr.appendChild(document.createElement('td'));
+      countTd.style.width = '10%';
+      countTd.textContent = `${invRow.children[2].textContent} unit(s)`;
+      const inpTd = tr.appendChild(invRow.children[1].cloneNode(true));
+      inpTd.align = 'center';
+      inpTd.style.width = '15%';
+      inpTd.querySelector('input[type="submit"]').style.width = '100%';
+      tr.appendChild(document.createElement('td')).textContent = invRow.children[0].textContent;
+    }
+  }
+
+  await mod.registerMethod(
+    'sync',
+    easyUsePane
+  );
+})());
+
+
+//##############################################################################
+promiseList.push((async () => {
+  const mod = await argavyonExTweaks.registerModule(
+    'maxEnergize',
+    'Energize Defaults to Max',
+    'local',
+    'Energize\'s dropdown selects the maximum amount by default instead of one.',
+  );
+
+  const maxEnergize = () => {
+    const e_amount = document.querySelector('form[name="Energize"] select[name="amount"]');
+    if (e_amount) e_amount.options[e_amount.options.length-1].selected = true;
+  }
+
+  await mod.registerMethod(
+    'sync',
+    maxEnergize
   );
 })());
 
