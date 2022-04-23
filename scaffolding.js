@@ -6,7 +6,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   // Given how GM does apparently ignore the metadata block on @require scripts, it could possibly be removed
   // Leaving it here for backwards-compatibility, in case any scripts need it
   this.version = `${GM.info.script.version}`;
-  this.APIversion = '999.api.23';
+  this.APIversion = '999.api.24';
   this.APIname = 'Nexus Tweaks API & Scaffolding';
   this.APIhomepage = 'https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview';
   // logs to console; can disable if you want
@@ -248,6 +248,42 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
     }
 
     return {table: paneTable, button: paneButton};
+  }
+  
+  
+  this.getPaneByTitle = (title) => {
+    return [...document.querySelectorAll('div.panetitle')].find(p => p.textContent.startsWith(title));
+  }
+  
+  
+  this.getPaneById = (id) => {
+    const paneLabel = document.querySelector(`div.panetitle label[for="${id}"]`);
+    return paneLabel ? paneLabel.parentElement.parentElement : undefined;
+  }
+  
+  
+  this.createPane = (paneName, paneId, nextPane) => {
+    const panetitle = document.querySelector('#main-left').insertBefore(document.createElement('div'), nextPane);
+    panetitle.className = 'panetitle';
+    const panelabel = panetitle.appendChild(document.createElement('label'));
+    panelabel.style.width = '100%';
+    panelabel.style.display = 'block';
+    panelabel.htmlFor = paneId;
+    const label_inp3 = panelabel.appendChild(document.createElement('input'));
+    panelabel.appendChild(document.createTextNode(paneName));
+    label_inp3.type = 'image';
+    label_inp3.src = 'images/g/inf/close.gif';
+    label_inp3.alt = '-';
+    label_inp3.border = '0';
+    panetitle.onclick = function() {
+      panetitle.classList.toggle('paneclosed');
+      label_inp3.src = panetitle.classList.contains('paneclosed') ? 'images/g/inf/open.gif' : 'images/g/inf/close.gif';
+      label_inp3.alt = panetitle.classList.contains('paneclosed') ? '+' : '-';
+    }
+
+    const panecontent = document.querySelector('#main-left').insertBefore(document.createElement('div'), nextPane);
+    panecontent.className = 'panecontent';
+    return {title: panetitle, content: panecontent};
   }
 
 

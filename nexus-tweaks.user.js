@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.dev.48
+// @version     999.dev.48.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3604,32 +3604,12 @@ promiseList.push((async () => {
   );
 
   const easyUsePane = () => {
-    const before_pane_label = document.querySelector('div.panetitle label[for="pane-targetshoot"]');
-    const before_pane = before_pane_label ? before_pane_label.parentElement.parentElement : null;
-    const easy_use_panetitle = document.querySelector('#main-left').insertBefore(document.createElement('div'), before_pane);
-    easy_use_panetitle.className = 'panetitle';
-    const easy_use_label = easy_use_panetitle.appendChild(document.createElement('label'));
-    easy_use_label.style.width = '100%';
-    easy_use_label.style.display = 'block';
-    easy_use_label.htmlFor = 'custompane-easy_use';
-    const label_inp3 = easy_use_label.appendChild(document.createElement('input'));
-    easy_use_label.appendChild(document.createTextNode('Easy Spellgem and Consumable Use'));
-    label_inp3.type = 'image';
-    label_inp3.src = 'images/g/inf/close.gif';
-    label_inp3.alt = '-';
-    label_inp3.border = '0';
-    easy_use_panetitle.onclick = function() {
-      easy_use_panetitle.classList.toggle('paneclosed');
-      label_inp3.src = easy_use_panetitle.classList.contains('paneclosed') ? 'images/g/inf/open.gif' : 'images/g/inf/close.gif';
-      label_inp3.alt = easy_use_panetitle.classList.contains('paneclosed') ? '+' : '-';
-    }
-
-    const easy_use_panecontent = document.querySelector('#main-left').insertBefore(document.createElement('div'), before_pane);
-    easy_use_panecontent.className = 'panecontent';
+    const easy_use_pane = mod.API.createPane('Easy Spellgem and Consumable Use', 'custompane-easy_use', mod.API.getPaneById('pane-targetshoot'));
+    easy_use_pane.content.className = 'panecontent';
 
     const spellgem_trigger_select = document.querySelector('form[name="spellattack"] select[name="item"]');
     const inventory_consumables = [...document.querySelectorAll('#inventory form[name="ItemUse"] input[value="useitem"]')].map(e => e.parentNode);
-    const usables = easy_use_panecontent.appendChild(document.createElement('table')).appendChild(document.createElement('tbody'));
+    const usables = easy_use_pane.content.appendChild(document.createElement('table')).appendChild(document.createElement('tbody'));
     if (document.querySelector('form[name="spellattack"] select[name="item"]')) {
       for (const opt of document.querySelector('form[name="spellattack"] select[name="item"]').options) {
         const tr = usables.appendChild(document.createElement('tr'));
