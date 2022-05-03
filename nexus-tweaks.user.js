@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.49
+// @version     999.prev.50
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3716,6 +3716,29 @@ promiseList.push((async () => {
   await mod.registerMethod(
     'sync',
     mapDoor
+  );
+})());
+
+
+//##############################################################################
+promiseList.push((async () => {
+  const mod = await argavyonExTweaks.registerModule(
+    'mobileEnchants',
+    'Mobile Enchantment Display',
+    'local',
+    'Displays items\' enchantments to mobile users (provided they can see them).',
+  );
+
+  const mobileEnchants = () => {
+    document.querySelectorAll('span span font[color="#881111"]').forEach(ench => {
+      ench.parentNode.appendChild(document.creteElement('br'));
+      ench.parentNode.appendChild(document.createTextNode(ench.parentNode.title));
+    });
+  }
+
+  await mod.registerMethod(
+    'sync',
+    mobileEnchants
   );
 })());
 
