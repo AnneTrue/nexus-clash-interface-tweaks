@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.50
+// @version     999.prev.50.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3007,6 +3007,7 @@ promiseList.push((async () => {
       'form[name="Surgery"] select[name="target_id"]',
       'form[name="Heal Others"] select[name="target_id"]',
       'form[name="Energize"] select[name="target_id"]',
+      'form[name="give"] select[name="target_id"]',
     ];
 	for (const selector of healDropdownSelectors) {
       const dropdown = document.querySelector(selector);
