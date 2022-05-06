@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.52.2
+// @version     999.prev.52.3
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3507,6 +3507,10 @@ promiseList.push((async () => {
   );
 
   const easyUsePane = () => {
+    if (document.querySelector('form[name="connect"] input[value="respawn"]')) {
+      mod.debug('Character is currently dead.');
+      return;
+    }
     const easy_use_pane = mod.API.createPane('Easy Spellgem and Consumable Use', 'custompane-easy_use', mod.API.getPaneById('pane-targetshoot'));
     easy_use_pane.content.className = 'panecontent';
 
