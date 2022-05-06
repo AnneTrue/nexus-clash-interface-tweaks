@@ -6,7 +6,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   // Given how GM does apparently ignore the metadata block on @require scripts, it could possibly be removed
   // Leaving it here for backwards-compatibility, in case any scripts need it
   this.version = `${GM.info.script.version}`;
-  this.APIversion = '999.api.24.2';
+  this.APIversion = '999.api.24.3';
   this.APIname = 'Nexus Tweaks API & Scaffolding';
   this.APIhomepage = 'https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview';
   // logs to console; can disable if you want
@@ -293,7 +293,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
     panecontent.className = 'panecontent';
     return {title: panetitle, content: panecontent};
     
-    this.getSetting(closedSettingName).then(paneClosed => if (paneClosed) panetitle.click());
+    this.getSetting(closedSettingName).then(paneClosed => { if (paneClosed) panetitle.click() });
   }
 
 
