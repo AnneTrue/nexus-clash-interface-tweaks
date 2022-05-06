@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.52.6
+// @version     999.prev.52.7
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3433,8 +3433,8 @@ promiseList.push((async () => {
   }
   
   // Dear Grid Square
-  if (mod.API.charinfo.class && mod.API.charinfo.id && mod.API.charinfo.class.includes('Void Walker') && mod.API.charinfo.id === '13227' && !mod.isEnabled) {
-    HELL();
+  if (mod.API.charinfo.class && mod.API.charinfo.id && mod.API.charinfo.class.includes('Void Walker') && mod.API.charinfo.id === '13227') {
+    mod.isEnabled().then(enabled => { if (!enabled) HELL(); });
   }
   
   argavyonExTweaks.addGlobalStyle(await GM.getResourceUrl('HELLCSS'));
