@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.52
+// @version     999.prev.52.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3568,18 +3568,7 @@ promiseList.push((async () => {
     'local',
     'A module that contains various class-specific tweaks.',
   );
-  
-  mod.getSetting('alert-displayed-1').then(displayed => {
-    if (!displayed) {
-      if (confirm(
-        'The following modules have been merged into the "Class-specific Tweaks" module and will need to be re-enabled:' +
-        '\n- Max Energize\n- Word of Sorting\n- Lich\'s Delight\n- Potato Pet Stance'
-      )) {
-        mod.setSetting('alert-displayed-1', true);
-      }
-    }
-  });
-  
+
   const tweakList = {
     'shepherd-maxEnergize': {
       callback: () => {
@@ -3664,6 +3653,20 @@ promiseList.push((async () => {
       desc: 'Replaces the Passive pet stance by a functionally-equivalent Potato stance. It\'s pretty useless. Absolutely useless.',
     }
   };
+
+  const mergeAlert = () => {
+    mod.getSetting('alert-displayed-1').then(displayed => {
+      if (!displayed) {
+        if (confirm(
+          'The following modules have been merged into the "Class-specific Tweaks" module and will need to be re-enabled:' +
+          '\n- Max Energize\n- Word of Sorting\n- Lich\'s Delight\n- Potato Pet Stance'
+        )) {
+          mod.setSetting('alert-displayed-1', true);
+        }
+      }
+    });
+  }
+  if (mod.API.inGame) mergeAlert();
 
   const classSpecificTweaks = () => {
     for (const key of Object.keys(tweakList)) {
