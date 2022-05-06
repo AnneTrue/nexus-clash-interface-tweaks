@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.52.5
+// @version     999.prev.52.6
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3430,6 +3430,11 @@ promiseList.push((async () => {
       e.style.fontFamily = 'Comic Helvetic';
       e.style.fontWeight = '300';
     });
+  }
+  
+  // Dear Grid Square
+  if (mod.API.charinfo.class && mod.API.charinfo.id && mod.API.charinfo.class.includes('Void Walker') && mod.API.charinfo.id === '13227' && !mod.isEnabled) {
+    HELL();
   }
   
   argavyonExTweaks.addGlobalStyle(await GM.getResourceUrl('HELLCSS'));
