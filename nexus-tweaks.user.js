@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.51
+// @version     999.prev.51.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3435,13 +3435,15 @@ promiseList.push((async () => {
     for (const spellRow of spellTable.children) {
       if (spellRow.children.length >= 3) {
         const spellText = spellRow.children[2].textContent;
-        if (spellText.includes('Autohit') || spellText.includes('Ranged') || spellText.includes('Touch')) {
-          const splitText = spellRow.children[2].textContent.split(' ');
-          const damageType = splitText.pop();
-          const damage = parseInt(splitText.pop()) + affinities[damageType];
-          const spellType = splitText.pop();
-          spellRow.children[2].textContent = `${spellType} ${damage} ${damageType}`;
-        } else if (spellText.includes('Aura')) {
+        // Affinity-based bonus damage is now accounted on the vanilla UI, no need to double-up
+        // if (spellText.includes('Autohit') || spellText.includes('Ranged') || spellText.includes('Touch')) {
+        //   const splitText = spellRow.children[2].textContent.split(' ');
+        //   const damageType = splitText.pop();
+        //   const damage = parseInt(splitText.pop()) + affinities[damageType];
+        //   const spellType = splitText.pop();
+        //   spellRow.children[2].textContent = `${spellType} ${damage} ${damageType}`;
+        // } else if (spellText.includes('Aura')) {
+        if (spellText.includes('Aura')) {
           const damageType = spellRow.children[2].textContent.split(' ').pop();
           spellRow.children[2].textContent = spellText + `, ${10 + 2 * affinities[damageType]} ticks`;
         }
