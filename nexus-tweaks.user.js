@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.52.1
+// @version     999.prev.52.2
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2806,6 +2806,10 @@ promiseList.push((async () => {
     const petTable = document.querySelector('.petTable');
     if (!petTable) {
       mod.debug('No pet pane found.');
+      return;
+    }
+    if (!petTable.querySelector('form[name="petstance"] select[name="stance"]')) {
+      mod.debug('Pet table doesn\'t have stance dropdowns.');
       return;
     }
     const defaultStance = await mod.getSetting('default-stance');
