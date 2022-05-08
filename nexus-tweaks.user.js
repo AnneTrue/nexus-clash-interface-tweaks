@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.52.7
+// @version     999.prev.53
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -727,6 +727,7 @@ promiseList.push((async () => {
         messageElement.style.height = '250px';
       }
       messageElement.style.resize = 'vertical';
+      messageElement.style.overflow = 'auto';
     }
     const messages = messageElement.innerHTML.split('\n').join('').split('<br>');
     const msgPromises = messages.map(singleMessage);
