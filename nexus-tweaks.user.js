@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.53
+// @version     999.prev.54
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3750,6 +3750,34 @@ promiseList.push((async () => {
   await mod.registerMethod(
     'sync',
     mobileEnchants
+  );
+})());
+
+
+//##############################################################################
+promiseList.push((async () => {
+  const mod = await argavyonExTweaks.registerModule(
+    'inPain',
+    'How Hurt Am I?',
+    'local',
+    'Changes background color based on missing HP.',
+  );
+
+  const inPain = () => {
+    const threshold = 0.75;
+    if (mod.API.charinfo && mod.API.charinfo.hp && mod.API.charinfo.hp < mod.API.maxhp*threshold) {
+      const f = 1 - mod.API.charinfo.hp / mod.API.maxhp;
+      const slide = 275;
+      const maxGB = 242;
+      const GB = Math.ceil(Math.max(0, 242 - f*slide));
+      const R = Math.ceil(Math.min(242, 2*242 - f*slide));
+      document.querySelector('.panel').style.backgroundColor = `rgb(${R}, ${GB}, ${GB})`;
+    }
+  }
+
+  await mod.registerMethod(
+    'sync',
+    inPain
   );
 })());
 

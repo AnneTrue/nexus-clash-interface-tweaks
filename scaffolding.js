@@ -6,7 +6,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   // Given how GM does apparently ignore the metadata block on @require scripts, it could possibly be removed
   // Leaving it here for backwards-compatibility, in case any scripts need it
   this.version = `${GM.info.script.version}`;
-  this.APIversion = '999.api.24.5';
+  this.APIversion = '999.api.25';
   this.APIname = 'Nexus Tweaks API & Scaffolding';
   this.APIhomepage = 'https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview';
   // logs to console; can disable if you want
@@ -66,6 +66,8 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
     'ap':null,
     'mp':null,
     'hp':null,
+    'maxmp':null,
+    'maxhp':null,
     'div':null,
   };
 
@@ -397,9 +399,27 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
         return null;
       }
 
+      const maxStatParser = (div, title) => {
+        try {
+          const node = document.evaluate(
+            `//td/a[contains(@title, "${title}")]`,
+            div, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
+          ).snapshotItem(0);
+          let matchResult = node.title.match(new RegExp(`^You have \\d+ of (\\d+) ${title}`));
+          if (matchResult) {
+            return matchResult[1];
+          }
+        } catch (err) {
+          this.log(`Charinfo Parse ${match} error: ${err.message}`);
+        }
+        return null;
+      }
+
       this.charinfo.ap = statParser(this.charinfo.div, 'Action Points');
       this.charinfo.hp = statParser(this.charinfo.div, 'Hit Points');
       this.charinfo.mp = statParser(this.charinfo.div, 'Magic Points');
+      this.charinfo.maxhp = maxStatParser(this.charinfo.div, 'Hit Points');
+      this.charinfo.maxmp = maxStatParser(this.charinfo.div, 'Magic Points');
     } catch (err) {
       this.error(`Error in getCharacterInfo: ${err.message}`);
     }
