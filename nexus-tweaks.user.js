@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.54.2
+// @version     999.prev.54.3
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2373,8 +2373,7 @@ promiseList.push((async () => {
       rButton.onclick = function() {
         researchComp.value = rComp.value;
         researchPotion.value = recipeName;
-        mod.setValue('alchemy-alarm', 1);
-        researchButton.click();
+        mod.setValue('alchemy-alarm', 1).then(researchButton.click());
       }
     }
     else if (grade == 6) { // fully researched
@@ -2584,7 +2583,8 @@ promiseList.push((async () => {
 
   const EnhancedAlchemyPanel = () => {
     'use strict';
-    mod.getValue('alarm').then(async alarm => {
+    mod.getValue('alchemy-alarm').then(async alarm => {
+      // mod.debug(`Alchemy Alarm: ${alarm}`);
       if (await mod.getSetting('HP-warning')) {
         if (alarm && mod.API.charinfo.hp && mod.API.charinfo.hp < 20) alert('Your HP is low from performing alchemy');
         else mod.setValue('alchemy-alarm', 0);
