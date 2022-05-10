@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.54.3
+// @version     999.prev.54.4
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3766,12 +3766,13 @@ promiseList.push((async () => {
 
   const inPain = () => {
     const threshold = 0.75;
+    const slide = 115;
+    const maxGB = 242;
+
     if (mod.API.charinfo && mod.API.charinfo.hp && mod.API.charinfo.hp < mod.API.charinfo.maxhp*threshold) {
       const f = 1 - mod.API.charinfo.hp / mod.API.charinfo.maxhp;
-      const slide = 275;
-      const maxGB = 242;
-      const GB = Math.ceil(Math.max(0, 242 - f*slide));
-      const R = Math.ceil(Math.min(242, 2*242 - f*slide));
+      const GB = Math.ceil(Math.max(0, maxGB - f*slide));
+      const R = Math.ceil(Math.min(255, maxGB+255 - f*slide));
       document.querySelector('.panel').style.backgroundColor = `rgb(${R}, ${GB}, ${GB})`;
     }
   }
