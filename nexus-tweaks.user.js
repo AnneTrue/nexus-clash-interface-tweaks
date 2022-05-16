@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.54.4
+// @version     999.prev.54.5
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -27,6 +27,8 @@
 // @resource    jqueryCSS https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css
 // @resource    HELLCSS css/HELL.css
 // ==/UserScript==
+
+'use strict';
 
 const nexusTweaks = new NexusTweaksScaffolding(
     'nexus-tweaks',
@@ -2125,13 +2127,22 @@ promiseList.push((async () => {
     }
 
     const sortInventorySettings = (table, button) => {
+        // const clearButton = table.appendChild(document.createElement('tr')).appendChild(document.createElement('td')).appendChild(document.createElement('input'));
+        // clearButton.type = 'button';
+        // clearButton.value = 'Clear Inventory Sort Data';
+        // clearButton.parentNode.colSpan = 3;
+        // clearButton.style.width = '98.5%';
+        // clearButton.onclick = async function() {
+        //   await deleteAllFiltersFromStorage();
+        //   clearInventorySettingsTable(table);
+        // }
         const defaultButton = table.appendChild(document.createElement('tr')).appendChild(document.createElement('td')).appendChild(document.createElement('input'));
         defaultButton.type = 'button';
         defaultButton.value = 'Restore Default Filters';
         defaultButton.parentNode.colSpan = 3;
         defaultButton.style.width = '98.5%';
-        defaultButton.onclick = function() {
-            restoreDefaultFilters();
+        defaultButton.onclick = async function() {
+            await restoreDefaultFilters();
             clearInventorySettingsTable(table);
             filterSettingsTable(table);
         }
@@ -3284,14 +3295,14 @@ promiseList.push((async () => {
     await mod.registerSetting(
         'checkbox',
         'collapse-allied-pets',
-        'Collapse faction and allied pets',
+        'Collapse faction/allied',
         ''
     );
     await mod.registerSetting(
         'checkbox',
         'collapse-long-petlists',
-        'Collapse long pet lists (for PMs with >15 pets)',
-        ''
+        'Collapse long pet lists',
+        'Affects PMs with >15 pets'
     );
 
     await mod.registerMethod(
@@ -3760,20 +3771,34 @@ promiseList.push((async () => {
     const mod = await argavyonExTweaks.registerModule(
         'inPain',
         'How Hurt Am I?',
-        'local',
+        'global',
         'Changes background color based on missing HP.',
     );
 
-    const inPain = () => {
-        const threshold = 0.75;
+    const hpToRGB = (hp, maxHP) => {
         const slide = 115;
         const maxGB = 242;
+        const threshold = 0.75;
+        const f = hp / maxHP;
+        if (f > threshold) return [maxGB, maxGB, maxGB];
+        const GB = Math.ceil(Math.max(0, maxGB - (1-f)*slide));
+        const R = Math.ceil(Math.min(255, maxGB - (1-f)*slide + 255));
+        return [R,GB,GB];
+    }
 
-        if (mod.API.charinfo && mod.API.charinfo.hp && mod.API.charinfo.hp < mod.API.charinfo.maxhp*threshold) {
-            const f = 1 - mod.API.charinfo.hp / mod.API.charinfo.maxhp;
-            const GB = Math.ceil(Math.max(0, maxGB - f*slide));
-            const R = Math.ceil(Math.min(255, maxGB+255 - f*slide));
-            document.querySelector('.panel').style.backgroundColor = `rgb(${R}, ${GB}, ${GB})`;
+    const inPain = () => {
+
+        if (mod.API.inGame) {
+            if (mod.API.charinfo && mod.API.charinfo.hp) {
+                const [R,G,B] = hpToRGB(mod.API.charinfo.hp, mod.API.charinfo.maxhp);
+                document.querySelector('.panel').style.backgroundColor = `rgb(${R}, ${G}, ${B})`;
+            }
+        } else {
+            document.querySelectorAll('td.hp.stat-bar').forEach(td => {
+                const match = td.textContent.match(/(\d+)\/(\d+)/);
+                const [R,G,B] = hpToRGB(match[1], match[2]);
+                td.parentElement.style.backgroundColor = `rgb(${R}, ${G}, ${B})`;
+            });
         }
     }
 
