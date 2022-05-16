@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.54.5
+// @version     999.prev.54.6
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -3786,14 +3786,15 @@ promiseList.push((async () => {
         return [R,GB,GB];
     }
 
-    const inPain = () => {
-
+    const inPain = async () => {
         if (mod.API.inGame) {
+            if (!await mod.getSetting('in-game')) return;
             if (mod.API.charinfo && mod.API.charinfo.hp) {
                 const [R,G,B] = hpToRGB(mod.API.charinfo.hp, mod.API.charinfo.maxhp);
                 document.querySelector('.panel').style.backgroundColor = `rgb(${R}, ${G}, ${B})`;
             }
         } else {
+            if (!await mod.getSetting('character-select')) return;
             document.querySelectorAll('td.hp.stat-bar').forEach(td => {
                 const match = td.textContent.match(/(\d+)\/(\d+)/);
                 const [R,G,B] = hpToRGB(match[1], match[2]);
@@ -3802,8 +3803,21 @@ promiseList.push((async () => {
         }
     }
 
+    await mod.registerSetting(
+        'checkbox',
+        'in-game',
+        'Change Background in-game',
+        ''
+    );
+    await mod.registerSetting(
+        'checkbox',
+        'character-select',
+        'Change Background on character select',
+        ''
+    );
+
     await mod.registerMethod(
-        'sync',
+        'async',
         inPain
     );
 })());
