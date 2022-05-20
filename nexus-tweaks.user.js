@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.56
+// @version     999.prev.56.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2406,6 +2406,9 @@ promiseList.push((async () => {
                 tComp.onchange();
 
                 for (const li of node.children[1].children[0].children) {
+                    const style = document.defaultView.getComputedStyle(transTo.options.namedItem(li.lastElementChild.textContent));
+                    li.classList.style.color = style.color;
+                    li.classList.style.backgroundColor = style.backgroundColor;
                     if (li.classList.contains('missing')) {
                         const tButton = li.lastChild.insertBefore(document.createElement('input'), li.lastChild.firstChild);
                         tButton.type = 'button';
