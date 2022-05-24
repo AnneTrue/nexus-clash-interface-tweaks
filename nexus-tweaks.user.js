@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.56.1
+// @version     999.prev.56.2
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2406,9 +2406,6 @@ promiseList.push((async () => {
                 tComp.onchange();
 
                 for (const li of node.children[1].children[0].children) {
-                    const style = document.defaultView.getComputedStyle(transTo.options.namedItem(li.lastElementChild.textContent));
-                    li.classList.style.color = style.color;
-                    li.classList.style.backgroundColor = style.backgroundColor;
                     if (li.classList.contains('missing')) {
                         const tButton = li.lastChild.insertBefore(document.createElement('input'), li.lastChild.firstChild);
                         tButton.type = 'button';
@@ -2468,6 +2465,14 @@ promiseList.push((async () => {
                     forgetButton.click();
                 }
             }
+            for (const li of node.children[1].children[0].children) {
+                if (li.title === 'unknown') break;
+                const style = document.defaultView.getComputedStyle(transTo.options.namedItem(li.lastElementChild.textContent));
+                const liSpan = li.querySelector('span');
+                liSpan.style.color = style.color;
+                liSpan.style.backgroundColor = style.backgroundColor;
+                liSpan.style.width = '100%';
+            }
         }
     }
 
@@ -2494,6 +2499,11 @@ promiseList.push((async () => {
     }
 
     const EnhancedAlchemyPanelUI = (trackerNode) => {
+        let resComps = 0;
+        let resRecipes = 0;
+        let craftRecipes = 0;
+        let totalRecipes = 0;
+
         if (document.getElementById('pane-alchemy')) {
             const alchemyResearch = document.getElementById('main-left').querySelector('form[name="alchemyresearch"]');
             const resButton = alchemyResearch ? alchemyResearch.children[1] : null;
@@ -2575,12 +2585,20 @@ promiseList.push((async () => {
                     brewButton, brewSelect,
                     transButton, transFrom, transTo
                 );
+                resComps += grade;
+                resRecipes += grade === 6;
+                craftRecipes += node.children[1].querySelectorAll('li[title="inventory"').length === 6;
+                totalRecipes += 1;
             }
         } else {
             mod.debug('No Alchemy pane found');
             for (let node = trackerNode.nextSibling; node && node.children[1]; node = node.nextSibling) {
                 const grade = 6 - node.children[1].querySelectorAll('li[title="unknown"').length;
                 SimpleAlchemyNode(node, grade);
+                resComps += grade;
+                resRecipes += grade === 6;
+                craftRecipes += node.children[1].querySelectorAll('li[title="inventory"').length === 6;
+                totalRecipes += 1;
             }
         }
 
@@ -2593,6 +2611,17 @@ promiseList.push((async () => {
         CollapseAllButton.onclick = function() {
             for (const collapseButton of trackerNode.parentNode.querySelectorAll('input[type="Button"][value="-"]')) collapseButton.click();
         }
+
+        const infoDiv = trackerNode.firstChild.appendChild(document.createElement('div'));
+        const trackerRR = infoDiv.appendChild(document.createElement('div'));
+        const trackerCR = infoDiv.appendChild(document.createElement('div'));
+        const trackerRC = infoDiv.appendChild(document.createElement('div'));
+        trackerRR.textContent = `Researched Recipes: ${resRecipes}/${totalRecipes}`;
+        trackerCR.textContent = `Craftable Recipes: ${craftRecipes}/${totalRecipes}`;
+        trackerRC.textContent = `Researched Components: ${resComps}/${totalRecipes*6}`;
+        trackerRR.style.display = 'inline-block';
+        trackerCR.style.display = 'inline-block';
+        trackerCR.style.float = 'right';
     }
 
     const EnhancedAlchemyPanel = () => {
