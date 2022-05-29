@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.56.3
+// @version     999.prev.56.4
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -546,15 +546,15 @@ promiseList.push((async () => {
 
     const pfx = '^[ ]?- (?:\\(\\d+ times\\) )?'; // message prefix
     const globalMatches = [
-        { // fix the a(n) text based on vowels
+        { // Fix the a(n) text based on vowels
             msg: /( a)(\((n)\)( [AEIOUaeiou])|\(n\)( [^AEIOUaeiou]))/g,
             op:'replace', val:'$1$3$4$5'
         },
-        {
+        { // Underline weapon damaged message
             msg: /(Your weapon was damaged during the attack\. It is now less effective!)/,
             op:'replace', val:'<b><u>$1</u></b>'
         },
-        { //replace '' with ' due to a bug in the game
+        { // Replace '' with ' due to a bug in the game
             msg: /(\'\')/g, op:'replace', val:"'"
         },
     ]
@@ -604,8 +604,12 @@ promiseList.push((async () => {
             op:'pad', val:'libPetHit'
         },
         {
-            msg:/((Shambling|Infectious|Rotting) Zombie|.*, belonging to .*,) attacked you and hit for/,
-            op:'pad', val:'libPetHitMe'
+            msg:/<font.*>(((Shambling|Infectious|Rotting) Zombie|.*, belonging to .*,) attacked you and hit for.*)<\/font>/,
+            op:'pad&replace', val:['libPetHitMe', '$1']
+        },
+        {
+            msg:/<font.*>(Reforged .* attacked you and hit for.*)<\/font>/,
+            op:'pad&replace', val:['libPetHitMe', '$1']
         },
         {
             msg:/(Your pet |[^,].*, belonging to).*, killing them!/,
@@ -689,6 +693,8 @@ promiseList.push((async () => {
             return `<div class="${mmObj.val}">${message}</div>`;
         } else if (mmObj.op === 'replace') {
             return message.replace(mmObj.msg, mmObj.val);
+        } else if (mmObj.op === 'pad&replace') {
+            return `<div class="${mmObj.val[0]}">${message.replace(mmObj.msg, mmObj.val[1])}</div>`;
         } else {
             mod.error(`Unrecognised message matcher object operation '${mmObj.op}'`);
         }
