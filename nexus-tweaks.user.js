@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.56.2
+// @version     999.prev.56.3
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -2373,9 +2373,10 @@ promiseList.push((async () => {
             const rComp = span.appendChild(researchComp.cloneNode(true));
             rComp.style.width = '100%';
             rComp.onchange = function() {
-                const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
-                this.style.color = style.color;
-                this.style.backgroundColor = style.backgroundColor;
+                rComp.className = 'alchemy-comp ' + this.options[this.selectedIndex].className;
+                // const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
+                // this.style.color = style.color;
+                // this.style.backgroundColor = style.backgroundColor;
             }
             rComp.onchange();
 
@@ -2399,9 +2400,10 @@ promiseList.push((async () => {
                 tComp.style.width = '63%';
                 tComp.style.display = 'inline-block';
                 tComp.onchange = function() {
-                    const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
-                    this.style.color = style.color;
-                    this.style.backgroundColor = style.backgroundColor;
+                    tComp.className = 'alchemy-comp ' + this.options[this.selectedIndex].className;
+                    // const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
+                    // this.style.color = style.color;
+                    // this.style.backgroundColor = style.backgroundColor;
                 }
                 tComp.onchange();
 
@@ -2467,10 +2469,11 @@ promiseList.push((async () => {
             }
             for (const li of node.children[1].children[0].children) {
                 if (li.title === 'unknown') break;
-                const style = document.defaultView.getComputedStyle(transTo.options.namedItem(li.lastElementChild.textContent));
                 const liSpan = li.querySelector('span');
-                liSpan.style.color = style.color;
-                liSpan.style.backgroundColor = style.backgroundColor;
+                liSpan.className = 'alchemy-comp ' + transTo.options.namedItem(li.lastElementChild.textContent).className;
+                // const style = document.defaultView.getComputedStyle(transTo.options.namedItem(li.lastElementChild.textContent));
+                // liSpan.style.color = style.color;
+                // liSpan.style.backgroundColor = style.backgroundColor;
                 liSpan.style.width = '100%';
             }
         }
@@ -2547,16 +2550,18 @@ promiseList.push((async () => {
                 for (const optGroup of [commons, uncommons, rares, spellgems]) {
                     if (optGroup.children.length === 0) optGroup.hidden = true;
                     else {
-                        const style = document.defaultView.getComputedStyle(optGroup.children[0], '');
-                        optGroup.style.color = style.color;
-                        optGroup.style.backgroundColor = style.backgroundColor;
+                        // const style = document.defaultView.getComputedStyle(optGroup.children[0], '');
+                        // optGroup.style.color = style.color;
+                        // optGroup.style.backgroundColor = style.backgroundColor;
+                        optGroup.className = 'alchemy-comp ' + optGroup.children[0].className;
                     }
                 }
 
                 compList.onchange = function() {
-                    const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
-                    this.style.color = style.color;
-                    this.style.backgroundColor = style.backgroundColor;
+                    // const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
+                    // this.style.color = style.color;
+                    // this.style.backgroundColor = style.backgroundColor;
+                    this.className = 'alchemy-comp ' + this.options[this.selectedIndex].className;
                 }
                 compList.onchange();
             }
@@ -2564,15 +2569,17 @@ promiseList.push((async () => {
             for (const optGroup of transTo.children) {
                 if (optGroup.children.length === 0) optGroup.hidden = true;
                 else {
-                    const style = document.defaultView.getComputedStyle(optGroup.children[0], '');
-                    optGroup.style.color = style.color;
-                    optGroup.style.backgroundColor = style.backgroundColor;
+                    // const style = document.defaultView.getComputedStyle(optGroup.children[0], '');
+                    // optGroup.style.color = style.color;
+                    // optGroup.style.backgroundColor = style.backgroundColor;
+                    optGroup.className = 'alchemy-comp ' + optGroup.children[0].className;
                 }
             }
             transTo.onchange = function() {
-                const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
-                this.style.color = style.color;
-                this.style.backgroundColor = style.backgroundColor;
+                // const style = document.defaultView.getComputedStyle(this.options[this.selectedIndex], '');
+                // this.style.color = style.color;
+                // this.style.backgroundColor = style.backgroundColor;
+                this.className = 'alchemy-comp ' + this.options[this.selectedIndex].className;
             }
             transTo.onchange();
 
