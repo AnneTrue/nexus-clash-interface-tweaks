@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.56.4
+// @version     999.prev.56.5
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -1279,12 +1279,13 @@ promiseList.push((async () => {
         },
         'Exploration' : {
             'Breath 5' : [
-                'A Heaven of Hell', 'According to Their Works', 'Bloodbreaker', 'Cassandras Truth', 'Club Feral', 'Cognitive Dissonance', 'Convenient',
-                'Divine Comedy', 'Earth Was Like a Marble', 'Eternal I Endure', 'Every Mountain Made Low', 'Family Fun', 'Flushed!', 'Forget All That',
-                'Going Up', 'Grandest of Slams', 'Hear Ye!', 'Hell is Other People', 'I Stab at Thee', 'Iron Juggernaut', 'Kenopsia', 'Love Eternal',
-                'Made to Last', 'No Longer Boarding', 'Not Safe', 'Not a Drill', 'Perseverence of the Saints', 'Receded Waters', 'Skipping Stones',
-                'Taste of Dried Leaves', 'The Nether Millstone', 'They Shall Not Pass', 'This Place is Not a Place of Honor', 'Those Lost', 'Trading Places',
-                'True Blue', 'Two Guns', 'Whole Dome', 'Wild in the Woods', 'With Great Power'
+                'A Colder War', 'A Heaven of Hell', 'According to Their Works', 'Bloodbreaker', 'Book of Martyrs', 'Cassandras Truth', 'Club Feral',
+                'Cognitive Dissonance', 'Convenient', 'Divine Comedy', 'Dunes of Dust', 'Earth Was Like a Marble', 'Eternal I Endure', 'Every Mountain Made Low',
+                'Family Fun', 'Flushed!', 'Forget All That', 'Going Up', 'Grandest of Slams', 'Hear Ye!', 'Hell is Other People', 'I Stab at Thee', 'In Memoriam',
+                'Iron Juggernaut', 'Kenopsia', 'Love Eternal', 'Made to Last', 'No Longer Boarding', 'Not Safe', 'Not a Drill', 'Perseverence of the Saints',
+                'Receded Waters', 'Rising Tide', 'Skipping Stones', 'Taste of Dried Leaves', 'The Nether Millstone', 'They Shall Not Pass',
+                'This Place is Not a Place of Honor', 'Those Lost', 'Trading Places', 'True Blue', 'Two Guns', 'Wellspring', 'Whole Dome', 'Wild in the Woods',
+                'With Great Power', 'While The Iron Is Hot'
             ],
             'Breath 4' : [
                 'A New Chapter', 'Academic Probation', 'All In The Family', 'And I Must Scream', 'At All Costs', 'Baraas Ascends', 'Birthing Pool', 'Broken Alliance',
