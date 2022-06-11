@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.56.5
+// @version     999.prev.56.6
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -1283,7 +1283,7 @@ promiseList.push((async () => {
                 'Cognitive Dissonance', 'Convenient', 'Divine Comedy', 'Dunes of Dust', 'Earth Was Like a Marble', 'Eternal I Endure', 'Every Mountain Made Low',
                 'Family Fun', 'Flushed!', 'Forget All That', 'Going Up', 'Grandest of Slams', 'Hear Ye!', 'Hell is Other People', 'I Stab at Thee', 'In Memoriam',
                 'Iron Juggernaut', 'Kenopsia', 'Love Eternal', 'Made to Last', 'No Longer Boarding', 'Not Safe', 'Not a Drill', 'Perseverence of the Saints',
-                'Receded Waters', 'Rising Tide', 'Skipping Stones', 'Taste of Dried Leaves', 'The Nether Millstone', 'They Shall Not Pass',
+                'Receded Waters', 'Rising Tide', 'Shape of Things to Come', 'Skipping Stones', 'Taste of Dried Leaves', 'The Nether Millstone', 'They Shall Not Pass',
                 'This Place is Not a Place of Honor', 'Those Lost', 'Trading Places', 'True Blue', 'Two Guns', 'Wellspring', 'Whole Dome', 'Wild in the Woods',
                 'With Great Power', 'While The Iron Is Hot'
             ],
