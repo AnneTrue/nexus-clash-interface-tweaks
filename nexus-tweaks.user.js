@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.57
+// @version     999.prev.58
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -28,6 +28,7 @@
 // @resource    HELLCSS css/HELL.css
 // @require     modules/alchPanel.js
 // @require     modules/betterPurchaseSkills.js
+// @require     modules/bloodhoundFix.js
 // @require     modules/charIconSelect.js
 // @require     modules/classSpecificTweaks.js
 // @require     modules/collapseReleased.js
@@ -1464,6 +1465,7 @@ promiseList.push((async () => {
 //##############################################################################
 promiseList.push(alchPanel.module());
 promiseList.push(betterPurchaseSkills.module());
+promiseList.push(bloodhoundFix.module());
 promiseList.push(charIconSelect.module());
 promiseList.push(classSpecificTweaks.module());
 promiseList.push(collapseReleased.module());
