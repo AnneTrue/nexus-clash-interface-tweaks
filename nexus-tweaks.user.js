@@ -47,21 +47,6 @@ const argavyonExTweaks = new NexusTweaksScaffolding(
 const myPromise = nexusTweaks.registerPromise(); // script-file promise
 const promiseList = []; // individual module promises
 
-//
-//##############################################################################
-// Generic functions
-
-// returns number of char c in x
-function timesCharExist(x, c){
-    return (x.match(new RegExp(c,'g')) || []).length;
-}
-
-function truncate(input, maxSize) {
-    if (input.length > maxSize) {
-        return input.substring(0, maxSize) + '..';
-    }
-    return input;
-};
 
 //##############################################################################
 promiseList.push((async () => {
@@ -303,6 +288,7 @@ promiseList.push((async () => {
         localStorage.setItem(localStorageHpPrefix + person.id, person.currentHp);
     };
 
+    const truncate = (input, maxSize) => (input.length > maxSize ? input.substring(0, maxSize) + '..' : input);
     const createCharacterHtml = (person) => {
         let hpClass = 'hp-full';
         const percentage = person.currentHp * 100.0 / person.maxHp;
@@ -537,6 +523,7 @@ promiseList.push((async () => {
     );
 })());
 
+
 //##############################################################################
 promiseList.push((async () => {
     const mod = await nexusTweaks.registerModule(
@@ -727,6 +714,7 @@ promiseList.push((async () => {
         return finalStr;
     }
 
+    const timesCharExist = (x, c) => (x.match(new RegExp(c,'g')) || []).length;
     const messagehistory = async (mod) => {
         const messageElement = document.getElementById('Messages');
         if (!messageElement) { return; }
