@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.60
+// @version     999.preview.60.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -142,12 +142,10 @@ promiseList.push(zalgofy.module(flavorTweaks));
 
 
 //##############################################################################
-const myPromise = nexusTweaks.registerPromise(); // script-file promise
 async function main() {
     nexusTweaks.addGlobalStyle(await GM.getResourceUrl('nexusTweaksCSS'));
     
     await Promise.all(promiseList);
-    myPromise.resolve(); // Is this really necessary -- Argavyon
     
     nexusTweaks.runNexusTweaks();
     miscTweaks.runNexusTweaks();
