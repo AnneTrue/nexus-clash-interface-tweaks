@@ -1,6 +1,6 @@
 const mobileEnchants = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'mobileEnchants',
             'Mobile Enchantment Display',
             'local',

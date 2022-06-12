@@ -1,6 +1,6 @@
 const characterList = {
-    module: async () => {
-        const mod = await nexusTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'characterList',
             'Character Interface',
             'local',

@@ -1,6 +1,6 @@
 const sortSafeSpells = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'sortSafeSpells',
             'Safe Spellgem Sorter',
             'local',

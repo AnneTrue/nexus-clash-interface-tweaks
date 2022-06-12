@@ -1,6 +1,6 @@
 const descriptionHighlight = {
-    module: async () => {
-        const mod = await nexusTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'descriptionHighlight',
             'Global Description Highlight',
             'global',

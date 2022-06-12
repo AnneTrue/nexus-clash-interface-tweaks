@@ -1,6 +1,6 @@
 const mapDoor = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'mapDoor',
             'Enter/Exit button on Map',
             'global',

@@ -1,6 +1,6 @@
 const messagePaneResize = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'messagePaneResize',
             'Message Pane Resize',
             'global',

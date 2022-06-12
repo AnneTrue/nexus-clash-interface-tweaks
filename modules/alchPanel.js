@@ -1,6 +1,6 @@
 const alchPanel = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'alchPanel+',
             'Enhanced Alchemy Panel',
             'local',

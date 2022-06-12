@@ -1,6 +1,6 @@
 const colorStatus = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'colorStatus',
             'Colored Status Effects',
             'local',

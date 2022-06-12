@@ -1,6 +1,6 @@
 const classifyBadges = {
-    module: async () => {
-        const mod = await nexusTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'classifyBadges',
             'Badge Classifier',
             'global',

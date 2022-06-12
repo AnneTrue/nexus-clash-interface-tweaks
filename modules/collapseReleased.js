@@ -1,6 +1,6 @@
 const collapseReleased = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'collapseReleased',
             'Collapse Released Characters',
             'global',

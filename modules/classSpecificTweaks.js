@@ -1,6 +1,6 @@
 const classSpecificTweaks = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'classSpecificTweaks',
             'Class-Specific Tweaks',
             'local',

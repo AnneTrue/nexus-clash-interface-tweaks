@@ -1,6 +1,6 @@
 const thinBars = {
-    module: async () => {
-        const mod = await nexusTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'thinbars',
             'Thin HP/MP Bars',
             'local',

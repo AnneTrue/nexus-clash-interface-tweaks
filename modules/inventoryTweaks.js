@@ -1,6 +1,6 @@
 const inventoryTweaks = {
-    module: async () => {
-        const mod = await nexusTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'inventoryTweaks',
             'Inventory Tweaks',
             'local',

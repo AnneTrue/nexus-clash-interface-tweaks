@@ -1,6 +1,6 @@
 const bloodhoundFix = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'bloodhoundFix',
             'Collapsible Bloodhound Pane',
             'local',

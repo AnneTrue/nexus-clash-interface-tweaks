@@ -1,6 +1,6 @@
 const improvePetDisplay = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'improvePetDisplay',
             'Pet Display Improvement',
             'local',

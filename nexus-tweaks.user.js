@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.59
+// @version     999.prev.59.1
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -69,45 +69,45 @@ const nexusTweaks = new NexusTweaksScaffolding(
     `1.7.2.1`
 );
 
-promiseList.push(characterList.module());
-promiseList.push(messageStyle.module());
-promiseList.push(safeSpeech.module());
-promiseList.push(descriptionHighlight.module());
-promiseList.push(inventoryTweaks.module());
-promiseList.push(thinBars.module());
-promiseList.push(classifyBadges.module());
+promiseList.push(characterList.module(nexusTweaks));
+promiseList.push(messageStyle.module(nexusTweaks));
+promiseList.push(safeSpeech.module(nexusTweaks));
+promiseList.push(descriptionHighlight.module(nexusTweaks));
+promiseList.push(inventoryTweaks.module(nexusTweaks));
+promiseList.push(thinBars.module(nexusTweaks));
+promiseList.push(classifyBadges.module(nexusTweaks));
 
 
 //##############################################################################
-const argavyonExTweaks = new NexusTweaksScaffolding(
+const argavyonTweaks = new NexusTweaksScaffolding(
     'nexus-tweaks',
     'Argavyon\'s Somewhat Tested Tweaks',
     `${GM.info.script.homepage}`,
     `${GM.info.script.version}`
 );
 
-promiseList.push(alchPanel.module());
-promiseList.push(betterPurchaseSkills.module());
-promiseList.push(bloodhoundFix.module());
-promiseList.push(charIconSelect.module());
-promiseList.push(classSpecificTweaks.module());
-promiseList.push(collapseReleased.module());
-promiseList.push(colorStatus.module());
-promiseList.push(defaultSetAllPetStance.module());
-promiseList.push(easyUsePane.module());
-promiseList.push(HELL.module());
-promiseList.push(improvePetDisplay.module());
-promiseList.push(inPain.module());
-promiseList.push(inventorySort.module());
-promiseList.push(mapDoor.module());
-promiseList.push(messagePaneResize.module());
-promiseList.push(mobileEnchants.module());
-promiseList.push(noTargetAllies.module());
-promiseList.push(saveLogs.module());
-promiseList.push(sortSafeSpells.module());
-promiseList.push(spellAffinity.module());
-promiseList.push(stigyaAmbiance.module());
-promiseList.push(zalgofy.module());
+promiseList.push(alchPanel.module(argavyonTweaks));
+promiseList.push(betterPurchaseSkills.module(argavyonTweaks));
+promiseList.push(bloodhoundFix.module(argavyonTweaks));
+promiseList.push(charIconSelect.module(argavyonTweaks));
+promiseList.push(classSpecificTweaks.module(argavyonTweaks));
+promiseList.push(collapseReleased.module(argavyonTweaks));
+promiseList.push(colorStatus.module(argavyonTweaks));
+promiseList.push(defaultSetAllPetStance.module(argavyonTweaks));
+promiseList.push(easyUsePane.module(argavyonTweaks));
+promiseList.push(HELL.module(argavyonTweaks));
+promiseList.push(improvePetDisplay.module(argavyonTweaks));
+promiseList.push(inPain.module(argavyonTweaks));
+promiseList.push(inventorySort.module(argavyonTweaks));
+promiseList.push(mapDoor.module(argavyonTweaks));
+promiseList.push(messagePaneResize.module(argavyonTweaks));
+promiseList.push(mobileEnchants.module(argavyonTweaks));
+promiseList.push(noTargetAllies.module(argavyonTweaks));
+promiseList.push(saveLogs.module(argavyonTweaks));
+promiseList.push(sortSafeSpells.module(argavyonTweaks));
+promiseList.push(spellAffinity.module(argavyonTweaks));
+promiseList.push(stigyaAmbiance.module(argavyonTweaks));
+promiseList.push(zalgofy.module(argavyonTweaks));
 
 
 //##############################################################################
@@ -118,7 +118,7 @@ async function main() {
     await Promise.all(promiseList);
     myPromise.resolve(); // Is this really necessary -- Argavyon
     nexusTweaks.runNexusTweaks();
-    argavyonExTweaks.runNexusTweaks();
+    argavyonTweaks.runNexusTweaks();
 }
 
 main();

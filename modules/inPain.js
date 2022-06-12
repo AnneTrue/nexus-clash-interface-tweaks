@@ -1,6 +1,6 @@
 const inPain = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'inPain',
             'How Hurt Am I?',
             'global',

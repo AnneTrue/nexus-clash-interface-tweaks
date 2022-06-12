@@ -1,6 +1,6 @@
 const safeSpeech = {
-    module: async () => {
-        const mod = await nexusTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'safespeech',
             'Global Safe Speech Buttons',
             'global',

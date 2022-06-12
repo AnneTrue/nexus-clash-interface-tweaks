@@ -1,6 +1,6 @@
 const inventorySort = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'inventorySort',
             'Inventory Sorter',
             'local',

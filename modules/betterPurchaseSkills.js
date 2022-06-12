@@ -1,6 +1,6 @@
 const betterPurchaseSkills = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'betterPurchaseSkills',
             'Improved Purchase Skills Page',
             'global',

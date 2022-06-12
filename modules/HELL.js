@@ -1,6 +1,6 @@
 const HELL = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'HELL',
             'HELL',
             'global',
@@ -54,7 +54,7 @@ const HELL = {
             mod.isEnabled().then(enabled => { if (!enabled) HELL(); });
         }
 
-        argavyonExTweaks.addGlobalStyle(await GM.getResourceUrl('HELLCSS'));
+        api.addGlobalStyle(await GM.getResourceUrl('HELLCSS'));
 
         await mod.registerMethod(
             'sync',

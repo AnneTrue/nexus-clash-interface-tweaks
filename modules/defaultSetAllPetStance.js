@@ -1,6 +1,6 @@
 const defaultSetAllPetStance = {
-    module: async () => {
-        const mod = await argavyonExTweaks.registerModule(
+    module: async (api) => {
+        const mod = await api.registerModule(
             'defaultSetAllPetStance',
             'Default Set-All Pet Stance',
             'local',
