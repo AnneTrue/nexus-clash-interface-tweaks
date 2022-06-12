@@ -14,7 +14,7 @@ Install the userscript via GreaseMonkey or TamperMonkey.
 
 Then navigate to "Nexus Tweaks" tab in the multifunction pane.
 
-There are two types of modules: "local" for character-specific settings, and "global" for all characters (for instance, Global Message History).
+There are two types of modules: "local" for character-specific settings, and "global" for all characters (global modules are marked with \[G\]).
 
 You can enable modules by clicking the checkbox beneath the character pad for the relevant module.
 
@@ -22,23 +22,28 @@ Each module may also have optional settings associated with it, which will be di
 
 
 # Features
-## Global Message History
-A global module that stylises the message log (both in-game and in the week log).
 
-This massively improves readability of the game, but is not tested to be colour-blind friendly.
+## Anne True's Nexus Tweaks
+The original Nexus Tweaks.
 
-## Global Safe Speech Buttons
-A global module that prevents you from accidentally sending empty messages via bullhorn/speech.
+### Character Interface
+A local module that reworks the character list in the description section.
 
-It disables the Say/Bullhorn buttons if the associated input field is empty.
+#### Thalanor's Visual Character Interface
+Replaces the textual character list with a two-column table sorted by allegiance and health.
+Shows a proportional health and magic bar when the appropriate skills are available.
 
-## Global Description Highlights
+Characters taking damage since the last refresh will show a corresponding health bar animation to quickly notice combat actions in the area.
+Characters entering or reentering a location will be labeled with a "NEW" status tag to more easily notice them within a highly populated area.
+
+### Classify Badges
+A global module that classifies character badges into a hierarchy on the character info page. The major categories can be collapsed and expanded.
+For career and breath achievement badges, it also displays progress.
+
+### [G] Description Highlights
 A global module that highlights building light status in the description, and displays how many items are available for pickup/target shooting.
 
-## Resizeable Message Pane
-A global module that allows setting a custom size for the message pane.
-
-## Inventory Tweaks
+### Inventory Tweaks
 A local module that improves the inventory interface.
 
 By default, the module adds a contextual use button to the inventory rows.
@@ -48,77 +53,131 @@ By default, the module also hides weightless items in the inventory and adds a t
 
 Items that can be manabitten will be displayed regardless of weight, as will worn clothing items.
 
-## Thin HP/MP Bars
+### [G] Message Style
+A global module that stilyzes the message log (both in-game and in the week log).
+
+This massively improves readability of the game, but is not tested to be colour-blind friendly.
+
+### [G] Safe Speech Buttons
+A global module that prevents you from accidentally sending empty messages via bullhorn/speech.
+
+It disables the Say/Bullhorn buttons if the associated input field is empty.
+
+### Thin HP/MP Bars
 A local module that reduces visual clutter for characters in the area and makes it easier to spot wounded characters.
 
-If a character is at full health (or full magic with Sense Magic), then their resource bar is thinner.
 
-## Character List Tweaks
-A local module that reworks the character list section.
+## Argavyon's misc tweaks
 
-### Thalanor's Visual Character List
-Replaces the textual character list with a two-column table sorted by allegiance and health.
-Shows a proportional health and magic bar when the appropriate skills are available.
+### Class-specific Tweaks
+A module that contains various class-specific tweaks.
 
-Characters taking damage since the last refresh will show a corresponding health bar animation to quickly notice combat actions in the area.
-Characters entering or reentering a location will be labeled with a "NEW" status tag to more easily notice them within a highly populated area.
+#### Shepherd - Energize defaults to Max 
+Energize's dropdown selects the maximum amount by default.
 
-## Badge Classifier
-A global module that classifies character badges into a hierarchy on the character info page. The major categories can be collapsed and expanded.
-For career and breath achievement badges, it also displays progress.
+#### Archon - Word of Sorting
+Sorts Archons' Word powers.
 
-## Lich Pet Summon fix
-A local module that rearranges Necro/FM summoning buttons into a second row under Skeleton/Zombie summoning buttons. No more wide Pet tables.
+#### Lich - Pet Summon fix 
+Fixes the UI for summoning lich pets. Should make the pet list more eye-friendly.
 
-## Default Set-All Pet Stance
-A local module that allows the user to set the default stance on the dropdown by the "Set All" button.
+### Message Log Saver
+Enables saving NC message log into a text file with a single press of a button.
 
-## No Targeting Allies
-A local module that enables removing factionmates/allies/friendlies from the combat targeting list. May not work fast enough if you spam the attack button.
+You'll need to reload before seeing the dowload button."
 
-## Colored Status Effects
-A local module that colors the status effects in the status effect pane, and adds a description on-mouse-hover. No more navigating to the wiki to check what a status is.
 
-## Inventory Sorter
-A local module that sorts items into categories, such as "weapons", ...
+## Argavyon's minor UI 
+These tweaks won't change how you play, but will polish and bugfix the UI here and there.
 
-## Enhanced Alchemy Pane
+### Collapsible Bloodhound Pane
+Makes Bloodhound pane properly collapse.
+
+### [G] Character Icon Selection
+Enables selecting your character icon from a visual dropdown.
+
+### [G] Collapse Released Characters
+Collapse released characters on the character select page.
+
+### Default Set-All Pet Stance
+Allows the user to set the default stance for Set All pets, instead of defaulting to "Passive". Doesn't affect default summoning stance.
+
+### [G] Improved Purchase Skills Page 
+Fixes formatting of the Purchase Skills page.
+
+### [G] Enter/Exit button on Map 
+Adds an Enter/Exit button on the Map layout.
+
+### [G] Message Pane Resize 
+Enables custom resizing of the message pane.
+
+### [G] Improved Purchase Skills Page 
+Displays items' enchantments to mobile users (provided they can see them).
+
+### [G] Display Spell Affinity 
+Display Spell Affinity bonus for known spells in the character page. Currently only adds aura duration.
+
+
+## Argavyon's major UI revamp
+These are major changes to how the UI operates. From rearranging dropdowns, to changing how data is presented, and to creating new panes.
+
+### Enhanced Alchemy Pane
 A local module that adds the following buttons to each recipe in the alchemy pane, so that you don't need to select which potion you want to work with on the potion dropdown:
 * Brew Potion: If the recipe is fully researched.
 * Research Component: If the recipe isn't fully researched.
 * Forget Recipe: If the recipe has at least one component researched.
 * Transmute Component: If the recipe is fully researched and there's components missing from the inventory.
 
-## Word of Sorting
-Sorts Archon's Word powers in the dropdown. (They appear unsorted if the Archon has purchased a skill that grants a new Word power)
+### Colored Status Effects 
+Status effects display colored.
 
-## Collapse Released Characters
-A global module that enables collapsing/expanding the list of released characters on the character select page.
+### Easy Use Pane 
+Creates a left-side pane with trigger-able spellgems and consumables from inventory.
 
-## Zalgo Speech
-A local module that enables zalgofy your speech. Configurable on intensity and direction.
+### Pet Display Improvement 
+Sort pets by petmaster, and according to faction politics. Allows collapsing pet lists by default and manually.
 
-## Improved Purchase Skills Page
-A global module that slightly improves the Buy Skills page.
+### [G] How Hurt Am I? 
+Changes background color based on missing HP.
 
-## Pet Display Improvement
-Classifies the pets on the tile description by petmaster, sorts petmasters by faction politics and enables collapsing a petmaster's pet list.
+### Inventory Sorter
+Sort and Categorize Inventory Items. Filters and categories can be very finely adjusted on the Inventory Sorter tab.
 
-## Display Spell Affinity
-A global module that displays spell affinity bonus for known spells in the character page.
+### No Targeting Allies 
+Allows disabling targeting based on politics stance on the attack selection box. Allows the same treatment for the healing box.
+
+### Safe Spellgem Sorter 
+Sort Spellgem display in the Faction Safe.
+
+
+## Argavyon's Extra Flavor Tweaks
+*Extra flair is never bad. Unless you activate the HELL module.*
+
+### [G] HELL 
+HELL
+
+### Potato Stance 
+Replaces the Passive pet stance by a functionally-equivalent Potato stance. It's pretty useless. Absolutely useless.
+
+### [G] Stigya Ambiance 
+Makes Stygia feel like Stygia by adding music and flair.
+
+### Zalgo Speech 
+Z A L G O   S P E E C H
+
 
 # Contributing
-## Guidelines
-Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=65) with ideas, contact AnneTrue on discord, and more.
+### Guidelines
+Feel free to send pull requests with fixes or new features, open Github issues, comment on the [NexusClash forum thread](https://www.nexusclash.com/viewtopic.php?f=8&t=2081) with ideas, contact Argavyon#1468 on discord, and more.
 
 Expect pull requests to be code reviewed, or taken over and adapted to the codebase.
 
 Refer to the checklist for release to understand current practices for committing code.
 
-## Checklist for Release
-* Script version bumped (and in sync) between both scaffolding.user.js and nexus-tweaks.user.js
+### Checklist for Release
+* Script version bumped for nexus-tweaks.user.js
 
-* Major release bumps e.g. 1.x.x -> 2.x.x for scaffolding changes, minor release bumps for new modules/removed modules, point releases for fixes and tweaks within a module
+* Major release bumps e.g. 1.x.x -> 2.x.x for API (scaffolding.js) changes, minor release bumps for new modules/removed modules, point releases for fixes and tweaks within a module
 
 * README.md updated to include feature details (if applicable)
 

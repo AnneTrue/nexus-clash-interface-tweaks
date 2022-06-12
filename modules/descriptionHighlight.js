@@ -2,7 +2,7 @@ const descriptionHighlight = {
     module: async (api) => {
         const mod = await api.registerModule(
             'descriptionHighlight',
-            'Global Description Highlight',
+            'Description Highlight',
             'global',
             'Highlights building light status in the description, and displays how many items are available for pickup.',
         );

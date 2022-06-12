@@ -2,7 +2,7 @@ const safeSpeech = {
     module: async (api) => {
         const mod = await api.registerModule(
             'safespeech',
-            'Global Safe Speech Buttons',
+            'Safe Speech Buttons',
             'global',
             'Places a safety on speech and bullhorn buttons so that you cannot accidentally send an empty message.',
         );

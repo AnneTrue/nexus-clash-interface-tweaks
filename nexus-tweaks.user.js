@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.preview.60.1
+// @version     2.0.0
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
 // @author      Thalanor
 // @author      Argavyon
 // @homepage    https://www.nexusclash.com/viewtopic.php?f=8&t=2081
-// @source      https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview
-// @downloadURL https://github.com/Argavyon/nexus-clash-interface-tweaks/raw/preview/nexus-tweaks.user.js
-// @updateURL   https://github.com/Argavyon/nexus-clash-interface-tweaks/raw/preview/nexus-tweaks.user.js
+// @source      https://github.com/Argavyon/nexus-clash-interface-tweaks
+// @downloadURL https://github.com/Argavyon/nexus-clash-interface-tweaks/raw/main/nexus-tweaks.user.js
+// @updateURL   https://github.com/Argavyon/nexus-clash-interface-tweaks/raw/main/nexus-tweaks.user.js
 // @match       *://nexusclash.com/clash.php*
 // @match       *://www.nexusclash.com/clash.php*
 // @exclude     *?op=map
@@ -27,7 +27,6 @@
 // @resource    nexusTweaksCSS css/nexus-tweaks.css
 // @resource    HELLCSS css/HELL.css
 // @require     modules/alchPanel.js
-// @require     modules/betterPurchaseSkills.js
 // @require     modules/bloodhoundFix.js
 // @require     modules/characterList.js
 // @require     modules/charIconSelect.js
@@ -39,6 +38,7 @@
 // @require     modules/descriptionHighlight.js
 // @require     modules/easyUsePane.js
 // @require     modules/HELL.js
+// @require     modules/improvedPurchaseSkills.js
 // @require     modules/improvePetDisplay.js
 // @require     modules/inPain.js
 // @require     modules/inventorySort.js
@@ -70,12 +70,12 @@ const nexusTweaks = new NexusTweaksScaffolding(
 );
 
 promiseList.push(characterList.module(nexusTweaks));
-promiseList.push(messageStyle.module(nexusTweaks));
-promiseList.push(safeSpeech.module(nexusTweaks));
+promiseList.push(classifyBadges.module(nexusTweaks));
 promiseList.push(descriptionHighlight.module(nexusTweaks));
 promiseList.push(inventoryTweaks.module(nexusTweaks));
+promiseList.push(messageStyle.module(nexusTweaks));
+promiseList.push(safeSpeech.module(nexusTweaks));
 promiseList.push(thinBars.module(nexusTweaks));
-promiseList.push(classifyBadges.module(nexusTweaks));
 
 
 //##############################################################################
@@ -98,11 +98,11 @@ const minorFixes = new NexusTweaksScaffolding(
     `${GM.info.script.version}`
 );
 
-promiseList.push(betterPurchaseSkills.module(minorFixes));
 promiseList.push(bloodhoundFix.module(minorFixes));
 promiseList.push(charIconSelect.module(minorFixes));
 promiseList.push(collapseReleased.module(minorFixes));
 promiseList.push(defaultSetAllPetStance.module(minorFixes));
+promiseList.push(improvedPurchaseSkills.module(minorFixes));
 promiseList.push(mapDoor.module(minorFixes));
 promiseList.push(messagePaneResize.module(minorFixes));
 promiseList.push(mobileEnchants.module(minorFixes));

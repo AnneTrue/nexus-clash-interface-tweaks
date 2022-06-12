@@ -1,13 +1,13 @@
-const betterPurchaseSkills = {
+const improvedPurchaseSkills = {
     module: async (api) => {
         const mod = await api.registerModule(
-            'betterPurchaseSkills',
+            'improvedPurchaseSkills',
             'Improved Purchase Skills Page',
             'global',
             '',
         );
 
-        const betterPurchaseSkills = () => {
+        const improvedPurchaseSkills = () => {
             const purchaseTableHead = document.querySelector('tr>td>b>u');
             if (!purchaseTableHead || purchaseTableHead.textContent !== 'CHARACTER SKILLS AVAILABLE FOR PURCHASE') {
                 mod.debug('No Purchase Skills table found');
@@ -28,7 +28,7 @@ const betterPurchaseSkills = {
 
         await mod.registerMethod(
             'sync',
-            betterPurchaseSkills
+            improvedPurchaseSkills
         );
     }
 }
