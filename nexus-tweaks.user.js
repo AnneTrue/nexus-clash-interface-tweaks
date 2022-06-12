@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     999.prev.56.6
+// @version     999.prev.57
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -19,13 +19,15 @@
 // @grant       GM.deleteValue
 // @grant       GM.listValues
 // @grant       GM.getResourceUrl
+// @grant       GM.xmlHttpRequest
 // @require     scaffolding.js
-// @resource    scaffoldingCSS css/scaffolding.css
-// @resource    nexusTweaksCSS css/nexus-tweaks.css
 // @require     https://code.jquery.com/jquery-3.5.1.min.js
 // @require     https://code.jquery.com/ui/1.13.1/jquery-ui.min.js
 // @resource    jqueryCSS https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css
+// @resource    scaffoldingCSS css/scaffolding.css
+// @resource    nexusTweaksCSS css/nexus-tweaks.css
 // @resource    HELLCSS css/HELL.css
+// @require     modules/saveLogs.js
 // ==/UserScript==
 
 'use strict';
@@ -3979,6 +3981,9 @@ promiseList.push((async () => {
     );
 })());
 
+
+//##############################################################################
+promiseList.push(saveLogs.module());
 
 //##############################################################################
 // Must be last executed step, as this unlocks nexusTweaks to run
