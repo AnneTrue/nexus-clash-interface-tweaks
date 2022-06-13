@@ -38,6 +38,7 @@ const characterList = {
         const createPerson = (charHtml) => {
             // creates an object of the character's stats from a html string
             const person = {
+                'class': null,
                 'name': null,
                 'politics': null,
                 'level': null,
@@ -56,6 +57,9 @@ const characterList = {
                 'newlyJoined': false,
                 'statusTags': []
             };
+
+        const classMatch = charHtml.match(/title="([\ \w]*)"/)['1'];
+        person.class = classMatch ? classMatch : 'Mortal';
 
             // character ID and name
             const idNameMatch = /href="javascript:SelectItem\('target_id','(\d+)'\)">(.*?)</.exec(charHtml)
@@ -268,6 +272,8 @@ const characterList = {
             const maxBarValue = Math.max(
                 Math.max(person.currentHp, person.maxHp),
                 Math.max(person.currentMp, person.maxMp));
+            // const estimatedAvailableSpace = 160 - estimatedStatusLength;
+            const estimatedAvailableSpace = 71;
             const estimatedAvailableSpace = 160 - estimatedStatusLength;
             let scalingFactor = 1;
             if (maxBarValue > estimatedAvailableSpace) {
@@ -298,6 +304,11 @@ const characterList = {
         <div class="char-div-element level-div">
           <a href="https://nexusclash.com/clash.php?op=character&id=${person.id}"
            target="_blank">${levelOrRank}</a>
+        </div>
+        <div class="class-div"
+        style="float: right";>
+          <a href="https://nexusclash.com/clash.php?op=character&id=${person.id}"
+           target="_blank">${person.class}</a>
         </div>
         <div class="char-div-element name-div politics-${person.politics}"
         onclick="SelectItem(\'target_id\',\'${person.id}\')">
