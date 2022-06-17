@@ -39,6 +39,7 @@ const easyUsePane = {
                     const chargesTd = div.appendChild(document.createElement('div'));
                     chargesTd.textContent = gem_match.groups.charges;
                     chargesTd.style.width = '20%';
+                    chargesTd.style.display = 'inline-block';
                     const useTd = div.appendChild(document.createElement('div'));
                     useTd.align = 'center';
                     useTd.style.width = '30%';
