@@ -18,16 +18,31 @@ const easyUsePane = {
             const spellgem_trigger_select = document.querySelector('form[name="spellattack"] select[name="item"]');
             const inventory_consumables = [...document.querySelectorAll('#inventory form[name="ItemUse"] input[value="useitem"]')].map(e => e.parentNode);
             const usables = easy_use_pane.content.appendChild(document.createElement('table')).appendChild(document.createElement('tbody'));
+            usables.parentNode.style.width = '100%';
+
+            let nextRow = null;
+
             if (document.querySelector('form[name="spellattack"] select[name="item"]')) {
                 for (const opt of document.querySelector('form[name="spellattack"] select[name="item"]').options) {
-                    const tr = usables.appendChild(document.createElement('tr'));
+                    let row = null;
+                    if (!nextRow) {
+                        row = usables.appendChild(document.createElement('tr'));
+                        nextRow = row;
+                    } else {
+                        row = nextRow;
+                        nextRow = null;
+                    }
+                    const div = row.appendChild(document.createElement('td'));
+                    div.style.width = '50%';
+
                     const gem_match = opt.textContent.match(/(?<spell>.*) - \((?<cost>.*), (?<charges>.*)\)/);
-                    const chargesTd = tr.appendChild(document.createElement('td'));
+                    const chargesTd = div.appendChild(document.createElement('div'));
                     chargesTd.textContent = gem_match.groups.charges;
-                    chargesTd.style.width = '10%';
-                    const useTd = tr.appendChild(document.createElement('td'));
+                    chargesTd.style.width = '20%';
+                    const useTd = div.appendChild(document.createElement('div'));
                     useTd.align = 'center';
-                    useTd.style.width = '15%';
+                    useTd.style.width = '30%';
+                    useTd.style.display = 'inline-block';
                     const useForm = useTd.appendChild(document.createElement('form'));
                     useForm.name = 'ItemUse';
                     useForm.action = '';
@@ -45,20 +60,34 @@ const easyUsePane = {
                     inp3.type = 'submit';
                     inp3.value = `Trigger (${gem_match.groups.cost})`;
                     inp3.style.width = '100%';
-                    tr.appendChild(document.createElement('td')).textContent = gem_match.groups.spell;
+                    div.appendChild(document.createElement('div')).textContent = gem_match.groups.spell;
+                    div.lastChild.style.display = 'inline-block';
                 }
             }
             for (const inp of document.querySelectorAll('#inventory form[name="ItemUse"] input[value="useitem"]')) {
+                let row = null;
+                if (!nextRow) {
+                    row = usables.appendChild(document.createElement('tr'));
+                    nextRow = row;
+                } else {
+                    row = nextRow;
+                    nextRow = null;
+                }
+                const div = row.appendChild(document.createElement('td'));
+                div.style.width = '50%';
+
                 const invRow = inp.parentNode.parentNode.parentNode;
-                const tr = usables.appendChild(document.createElement('tr'));
-                const countTd = tr.appendChild(document.createElement('td'));
-                countTd.style.width = '10%';
+                const countTd = div.appendChild(document.createElement('div'));
+                countTd.style.width = '20%';
                 countTd.textContent = `${invRow.children[2].textContent} unit(s)`;
-                const inpTd = tr.appendChild(invRow.children[1].cloneNode(true));
+                countTd.style.display = 'inline-block';
+                const inpTd = div.appendChild(invRow.children[1].cloneNode(true));
                 inpTd.align = 'center';
-                inpTd.style.width = '15%';
+                inpTd.style.width = '30%';
+                inpTd.style.display = 'inline-block';
                 inpTd.querySelector('input[type="submit"]').style.width = '100%';
-                tr.appendChild(document.createElement('td')).textContent = invRow.children[0].textContent;
+                div.appendChild(document.createElement('div')).textContent = invRow.children[0].textContent;
+                div.lastChild.style.display = 'inline-block';
             }
         }
 
