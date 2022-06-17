@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     2.0.4
+// @version     2.0.5
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
@@ -56,6 +56,7 @@
 // @require     modules/stigyaAmbiance.js
 // @require     modules/thinBars.js
 // @require     modules/zalgofy.js
+// @icon        https://github.com/Argavyon/nexus-clash-interface-tweaks/raw/main/nexustweaks.ico
 // ==/UserScript==
 
 'use strict';
