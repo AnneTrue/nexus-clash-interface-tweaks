@@ -101,6 +101,15 @@ const classifyBadges = {
                     'A Colder War', 'A Heaven of Hell', 'According to Their Works', 'Bloodbreaker', 'Book of Martyrs', 'Cassandras Truth', 'Club Feral',
                     'Cognitive Dissonance', 'Convenient', 'Divine Comedy', 'Dunes of Dust', 'Earth Was Like a Marble', 'Eternal I Endure', 'Every Mountain Made Low',
                     'Family Fun', 'Flushed!', 'Forget All That', 'Going Up', 'Grandest of Slams', 'Hear Ye!', 'Hell is Other People', 'I Stab at Thee', 'In Memoriam',
+                    'Iron Juggernaut', 'Kenopsia', 'Love Eternal', 'Made to Last', 'No Longer Boarding', 'Not Safe', 'Not a Drill', 'Out of the Ash',
+                    'Perseverence of the Saints', 'Receded Waters', 'Rising Tide', 'Shape of Things to Come', 'Skipping Stones', 'Taste of Dried Leaves',
+                    'The Nether Millstone', 'They Shall Not Pass', 'This Place is Not a Place of Honor', 'Those Lost', 'Trading Places', 'True Blue', 'Two Guns',
+                    'Wellspring', 'Whole Dome', 'Wild in the Woods', 'With Great Power', 'While The Iron Is Hot'
+                ],
+                'Breath 5' : [
+                    'A Colder War', 'A Heaven of Hell', 'According to Their Works', 'Bloodbreaker', 'Book of Martyrs', 'Cassandras Truth', 'Club Feral',
+                    'Cognitive Dissonance', 'Convenient', 'Divine Comedy', 'Dunes of Dust', 'Earth Was Like a Marble', 'Eternal I Endure', 'Every Mountain Made Low',
+                    'Family Fun', 'Flushed!', 'Forget All That', 'Going Up', 'Grandest of Slams', 'Hear Ye!', 'Hell is Other People', 'I Stab at Thee', 'In Memoriam',
                     'Iron Juggernaut', 'Kenopsia', 'Love Eternal', 'Made to Last', 'No Longer Boarding', 'Not Safe', 'Not a Drill', 'Perseverence of the Saints',
                     'Receded Waters', 'Rising Tide', 'Shape of Things to Come', 'Skipping Stones', 'Taste of Dried Leaves', 'The Nether Millstone', 'They Shall Not Pass',
                     'This Place is Not a Place of Honor', 'Those Lost', 'Trading Places', 'True Blue', 'Two Guns', 'Wellspring', 'Whole Dome', 'Wild in the Woods',
