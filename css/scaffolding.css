@@ -1,4 +1,12 @@
+.argavyon-revamped .nexus-tweaks-settingheader { font-weight: 900; width: 100%; background-color: #ffffff; }
+.argavyon-revamped .nexus-tweaks-settingrow.odd-row { background-color: #eeeeee; }
+.argavyon-revamped .nexus-tweaks-settingrow.even-row { background-color: #ffffff; }
+.argavyon-revamped .nexus-tweaks-settingname { width: 40%; }
+.argavyon-revamped .nexus-tweaks-settinglist { width: 60%; }
+.argavyon-revamped .nexus-tweaks-settingspan { background-color: transparent; border: none; }
+
 .nexus-tweaks-settingtable { width: 100%; }
+.nexus-tweaks-settingheader { background-color: #dddddd; }
 .nexus-tweaks-settingrow { background-color: #dddddd; }
 .nexus-tweaks-settingname { width: 20px; }
 .nexus-tweaks-settinglist { width: 90px; }

@@ -308,3 +308,15 @@
   background-color: #ffffff;
   font-weight : normal;
 }
+
+.alchemy-comp.alchemy-common {
+    background-color: #ccc;
+}
+.alchemy-comp.alchemy-uncommon {
+    background-color: #090;
+    color: #fff;
+}
+.alchemy-comp.alchemy-rare {
+    background-color: #707;
+    color: #fff;
+}
