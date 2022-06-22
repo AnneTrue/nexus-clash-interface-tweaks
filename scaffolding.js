@@ -8,7 +8,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
   this.version = `${GM.info.script.version}`;
   this.APIversion = '2.0.0';
   this.APIname = 'Nexus Tweaks API & Scaffolding';
-  this.APIhomepage = 'https://github.com/Argavyon/nexus-clash-interface-tweaks/tree/preview';
+  this.APIhomepage = 'https://github.com/AnneTrue/nexus-clash-interface-tweaks/tree/preview';
   // logs to console; can disable if you want
   this.logging = true;
   // verbose logging, set true for dev-work
@@ -251,19 +251,19 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
 
     return {table: paneTable, button: paneButton};
   }
-  
-  
+
+
   this.getPaneByTitle = (title) => {
     return [...document.querySelectorAll('div.panetitle')].find(p => p.textContent.startsWith(title));
   }
-  
-  
+
+
   this.getPaneById = (id) => {
     const paneLabel = document.querySelector(`div.panetitle label[for="${id}"]`);
     return paneLabel ? paneLabel.parentElement.parentElement : undefined;
   }
-  
-  
+
+
   this.createPane = (paneName, paneId, nextPane) => {
     const panetitle = document.querySelector('#main-left').insertBefore(document.createElement('div'), nextPane);
     panetitle.className = 'panetitle';
@@ -277,12 +277,12 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
     label_inp3.src = 'images/g/inf/close.gif';
     label_inp3.alt = '-';
     label_inp3.border = '0';
-    
+
     const baseClosedSettingName = `paneclosed-${paneId}`;
     let closedSettingName = '';
     if (this.charinfo.id) closedSettingName = this.getLocalSettingName(baseClosedSettingName);
     else closedSettingName = this.getGlobalSettingName(baseClosedSettingName);
-    
+
     const APIsetSetting = this.setSetting;
     panetitle.onclick = function() {
       panetitle.classList.toggle('paneclosed');
@@ -291,7 +291,7 @@ function NexusTweaksScaffolding(scriptId, scriptName, scriptLink, scriptVersion)
       label_inp3.alt = paneClosed ? '+' : '-';
       if (paneId) APIsetSetting(closedSettingName, paneClosed);
     }
-    
+
     this.getSetting(closedSettingName).then(paneClosed => { if (paneClosed) panetitle.click() });
 
     const panecontent = document.querySelector('#main-left').insertBefore(document.createElement('div'), nextPane);
