@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name        AnneTrue's Nexus Tweaks
-// @version     2.0.7
+// @version     2.0.8
 // @description Tweaks for Nexus Clash's UI
 // @namespace   https://github.com/AnneTrue/
 // @author      Anne True
 // @author      Thalanor
 // @author      Argavyon
 // @homepage    https://www.nexusclash.com/viewtopic.php?f=8&t=2081
-// @source      https://github.com/Argavyon/nexus-clash-interface-tweaks
-// @downloadURL https://github.com/Argavyon/nexus-clash-interface-tweaks/raw/main/nexus-tweaks.user.js
-// @updateURL   https://github.com/Argavyon/nexus-clash-interface-tweaks/raw/main/nexus-tweaks.user.js
+// @source      https://github.com/AnneTrue/nexus-clash-interface-tweaks
+// @downloadURL https://github.com/AnneTrue/nexus-clash-interface-tweaks/raw/main/nexus-tweaks.user.js
+// @updateURL   https://github.com/AnneTrue/nexus-clash-interface-tweaks/raw/main/nexus-tweaks.user.js
 // @match       *://nexusclash.com/clash.php*
 // @match       *://www.nexusclash.com/clash.php*
 // @exclude     *?op=map
@@ -56,7 +56,7 @@
 // @require     modules/stigyaAmbiance.js
 // @require     modules/thinBars.js
 // @require     modules/zalgofy.js
-// @icon        https://github.com/Argavyon/nexus-clash-interface-tweaks/raw/main/nexustweaks.ico
+// @icon        https://github.com/AnneTrue/nexus-clash-interface-tweaks/raw/main/nexustweaks.ico
 // ==/UserScript==
 
 'use strict';
@@ -66,8 +66,8 @@ const promiseList = []; // individual module promises
 const nexusTweaks = new NexusTweaksScaffolding(
     'nexus-tweaks',
     'AnneTrue\'s Nexus Tweaks',
-    'https://github.com/AnneTrue/nexus-clash-interface-tweaks',
-    `1.7.2.1`
+    `${GM.info.script.homepage}`,
+    `${GM.info.script.version}`
 );
 
 promiseList.push(characterList.module(nexusTweaks));
@@ -83,8 +83,8 @@ promiseList.push(thinBars.module(nexusTweaks));
 const miscTweaks = new NexusTweaksScaffolding(
     'nexus-tweaks',
     'Argavyon\'s misc tweaks',
-    `${GM.info.script.homepage}`,
-    `${GM.info.script.version}`
+    'https://github.com/Argavyon/nexus-clash-interface-tweaks',
+    '2.0.7'
 );
 
 promiseList.push(classSpecificTweaks.module(miscTweaks));
@@ -95,8 +95,8 @@ promiseList.push(saveLogs.module(miscTweaks));
 const minorFixes = new NexusTweaksScaffolding(
     'nexus-tweaks',
     'Argavyon\'s minor UI fixes',
-    `${GM.info.script.homepage}`,
-    `${GM.info.script.version}`
+    'https://github.com/Argavyon/nexus-clash-interface-tweaks',
+    '2.0.7'
 );
 
 promiseList.push(bloodhoundFix.module(minorFixes));
@@ -114,8 +114,8 @@ promiseList.push(spellAffinity.module(minorFixes));
 const majorFixes = new NexusTweaksScaffolding(
     'nexus-tweaks',
     'Argavyon\'s major UI revamp',
-    `${GM.info.script.homepage}`,
-    `${GM.info.script.version}`
+    'https://github.com/Argavyon/nexus-clash-interface-tweaks',
+    '2.0.7'
 );
 
 promiseList.push(alchPanel.module(majorFixes));
@@ -132,8 +132,8 @@ promiseList.push(sortSafeSpells.module(majorFixes));
 const flavorTweaks = new NexusTweaksScaffolding(
     'nexus-tweaks',
     'Argavyon\'s Extra Flavor Tweaks',
-    `${GM.info.script.homepage}`,
-    `${GM.info.script.version}`
+    'https://github.com/Argavyon/nexus-clash-interface-tweaks',
+    '2.0.7'
 );
 
 promiseList.push(HELL.module(flavorTweaks));
@@ -145,9 +145,9 @@ promiseList.push(zalgofy.module(flavorTweaks));
 //##############################################################################
 async function main() {
     nexusTweaks.addGlobalStyle(await GM.getResourceUrl('nexusTweaksCSS'));
-    
+
     await Promise.all(promiseList);
-    
+
     nexusTweaks.runNexusTweaks();
     miscTweaks.runNexusTweaks();
     minorFixes.runNexusTweaks();
